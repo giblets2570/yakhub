@@ -91,6 +91,18 @@ var secret = process.env.JWT_SECRET;
                 });
             });
 
+        router.route('/admin/:admin_id')
+
+            .delete(function(req,res){
+                Admin.remove({
+                    _id: req.params.admin_id
+                }, function(err, admin) {
+                    if (err)
+                        res.send(err);
+                    res.send({ message: 'Admin successfully deleted' });
+                });
+            });
+
         router.route('/agent')
 
             // this is to create a new agent
