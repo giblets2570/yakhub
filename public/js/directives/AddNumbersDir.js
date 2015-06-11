@@ -9,6 +9,7 @@ angular.module('AddNumbersDir',[]).
 		return {
 			restrict: 'A',
 			templateUrl: 'views/addNumbers.html',
-			controller: 'AddNumbersController'
+			controller: 'AddNumbersController',
+			controllerAs: 'addNumbers'
 		};
 	});

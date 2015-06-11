@@ -410,12 +410,14 @@ var secret = process.env.JWT_SECRET;
                     res.send(phoneNumbers);
                 })
             })
-            .post(ensureAuthorized,function(req,res){
+            .post(function(req,res){
                 console.log(req.body);
-                var phoneNumbers = req.body.phoneNumbers;
+                var phoneNumbers = req.body.numbers.phoneNumbers;
+                console.log(phoneNumbers);
+                console.log(req.body.number_client_id);
                 for(var i = 0; i < phoneNumbers.length; i++){
                     var phoneNumber = new PhoneNumber();
-                    phoneNumber.client = req.body.client_id;
+                    phoneNumber.client = req.body.number_client_id;
                     phoneNumber.number = phoneNumbers[i].number;
                     phoneNumber.business = phoneNumbers[i].business;
                     phoneNumber.address = phoneNumbers[i].address;
