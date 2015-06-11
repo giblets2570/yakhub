@@ -1,0 +1,71 @@
+<div class='col-xs-12'>
+	<div class='row'>
+		<div class='col-xs-3'>
+			<accordion close-others="true">
+				<accordion-group is-open="true">
+					<accordion-heading>
+						Agent <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+					</accordion-heading>
+					<a href='' ng-click='updates.showCreate("agent")'>Create agent</a> <br/>
+					<a href='' ng-click='updates.assignAgent()'>Asign agent to campaign</a> <br/>
+					<a href='' ng-click='updates.showRemove("agent")'>Remove agent</a>
+				</accordion-group>
+				<accordion-group heading="Client">
+					<accordion-heading>
+						Client <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+					</accordion-heading>
+					<a href='' ng-click='updates.showCreate("client")'>Create client</a> <br/>
+					<a href='' ng-click='updates.showRemove("client")'>Remove client</a>
+				</accordion-group>
+				<accordion-group heading="Admin">
+					<accordion-heading>
+						Admin <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+					</accordion-heading>
+					<a href='' ng-click='updates.showCreate("admin")'>Create admin</a> <br/>
+					<a href='' ng-click='updates.showRemove("admin")'>Remove admin</a>
+				</accordion-group>
+			</accordion>
+		</div>
+		<div class='col-xs-3' ng-show='updates.willRemove'>
+			<h2>Removing {{updates.type}}s</h2>
+			<table class="table table-hover">
+				<tr ng-repeat='person in list[updates.type]'>
+					<td><a href='' ng-click='updates.remove(updates.type,person._id)'>{{person.name}}</a></td>
+				</tr>
+			</table>
+		</div>
+		<div class='col-xs-6' ng-show='updates.willCreate'>
+			<h2>Creating {{updates.type}}</h2>
+            <form ng-submit='updates.create(updates.type)'>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" name="name" ng-model='updates.name' autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" name="password" ng-model='updates.password'>
+                </div>
+                <button type="submit" class="btn btn-warning btn-lg">Create</button>
+            </form>
+		</div>
+		<div class='col-xs-3' ng-show='updates.willAssign'>
+			<h2>Assign agents</h2>
+			<table class="table table-hover">
+				<tr ng-repeat='person in list["agent"]'>
+					<td><a href='' ng-click='updates.chooseAgent(person._id)'>{{person.name}}</a></td>
+				</tr>
+			</table>
+		</div>
+		<div class='col-xs-3' ng-show='updates.willAssign && updates.agentChosen'>
+			<h2>To clients</h2>
+			<table class="table table-hover">
+				<tr ng-repeat='person in list["client"]'>
+					<td><a href='' ng-click='updates.chooseClient(person._id)'>{{person.name}}</a></td>
+				</tr>
+			</table>
+		</div>
+		<div class='col-xs-3' ng-show='updates.willAssign && updates.agentChosen && updates.clientChosen'>
+			<button class="btn btn-success btn-lg" ng-click='updates.submitAssign()'>Assign</button>
+		</div>
+	</div>
+</div>

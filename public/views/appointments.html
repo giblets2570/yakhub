@@ -1,0 +1,53 @@
+<div class='col-xs-6'>
+	<h2>Appointments</h2>
+	<div class='row'>
+		<a href="" ng-click="appointments.startAdding()">
+	        <div class="alert alert-info bold-center" ng-show='!appointments.adding'> Add appointment</div>
+	    </a>
+		<div class="panel panel-default" ng-show='appointments.adding'>
+			<div class='col-xs-4'>
+				Number: <input type='text' ng-model='appointments.number'>
+			</div>
+			<div class='col-xs-4'>
+				Business: <input type='text' ng-model='appointments.business'>
+			</div>
+			<div class='col-xs-4'>
+				Address: <input type='text' ng-model='appointments.address'>
+			</div>
+			<div class="col-xs-4">
+				Time: <timepicker ng-model="appointments.dt" ng-change="appointments.changed()" hour-step="appointments.hstep" minute-step="appointments.mstep" show-meridian="false"> </timepicker>
+	        </div>
+	        <div class="col-xs-4">
+		        Date: <div style="display:inline-block; min-height:290px;">
+			    	<datepicker ng-model="appointments.dt" min-date="appointments.minDate" show-weeks="true" class="well well-sm" custom-class="appointments.getDayClass(date, mode)"></datepicker>
+			    </div>
+			</div>
+			<a href="" ng-click="appointments.addAppointment()">
+		        <div class="alert alert-success col-xs-6 bold-center">Add</div>
+		    </a>
+		    <a href="" ng-click="appointments.stopAdding()">
+		        <div class="alert alert-danger col-xs-6 bold-center">Cancel</div>
+		    </a>
+		</div>
+	</div>
+	
+	<table class="table table-hover" ng-show='!appointments.adding'>
+		<tr>
+			<th>Number</th>
+			<th>Business</th>
+			<th>Address</th>
+			<th>Time</th>
+			<th>Date</th>
+			<th>Take</th>
+		</tr>
+		<tr ng-repeat="appoint in myAppointments | orderBy:'time':false | limitTo: 5">
+			<!-- <td>{{appoint._id}}</td> -->
+			<td>{{appoint.number}}</td>
+			<td>{{appoint.business}}</td>
+			<td>{{appoint.address}}</td>
+			<td>{{appoint.time.toLocaleTimeString()}}</td>
+			<td>{{appoint.time.toLocaleDateString()}}</td>
+			<td><button ng-click='appointments.takeAppointment(appoint._id)'>Take</button></td>
+		</tr>
+	</table>
+</div>
