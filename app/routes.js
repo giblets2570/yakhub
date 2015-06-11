@@ -261,7 +261,7 @@ var secret = process.env.JWT_SECRET;
             });
 
         router.route('/call/agent')
-            .get(ensureAuthorized, function(req,res){
+            .get(function(req,res){
                 Call.find({
                     'agent':req.body.agent_id,
                     'client':req.body.client_id
@@ -278,7 +278,7 @@ var secret = process.env.JWT_SECRET;
                             }
                         }
                     }
-                    res.send({calls:calls,leads:leads,pickups:pickups});
+                    return res.send({calls:calls,leads:leads,pickups:pickups});
                 });
             });
 

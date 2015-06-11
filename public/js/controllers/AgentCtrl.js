@@ -8,9 +8,9 @@ angular.module('AgentCtrl',[]).controller('AgentController',['$scope','$sessionS
 			console.log(data);
 		})
 	};
-// window.onbeforeunload = function() {
-//        return "Data will be lost if you leave the page, are you sure?";
-//    };
+	window.onbeforeunload = function() {
+       return "Data will be lost if you leave the page, are you sure?";
+   	};
 
 	scope.showWarning = function(message){
 		toasty.pop.warning({

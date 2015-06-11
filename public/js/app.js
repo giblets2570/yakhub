@@ -6,17 +6,21 @@ angular.module('agentApp', ['ngRoute','ngStorage','appRoutes','ui.bootstrap','bt
 .run(['$rootScope','$location','$sessionStorage', function (root, location, session){
 	
 	root.$on("$routeChangeStart", function (event, next, current) {
-        var nextUrl = next.$$route.originalPath;
-        if (!session.token) {
-            if (nextUrl != '/login') {
-                location.path('/login');
+        if(next.$$route){
+            var nextUrl = next.$$route.originalPath;
+            if (!session.token) {
+                if (nextUrl != '/login') {
+                    location.path('/login');
+                }
             }
+            // else{
+            //     if (nextUrl == '/login') {
+            //         location.path('/');
+            //     }
+            // }
+        }else{
+            location.path('/login');
         }
-        // else{
-        //     if (nextUrl == '/login') {
-        //         location.path('/profile');
-        //     }
-        // }
     });
 }])
 
@@ -31,7 +35,7 @@ angular.module('agentApp', ['ngRoute','ngStorage','appRoutes','ui.bootstrap','bt
         },
         responseError: function(response) {
             if(response.status === 401 || response.status === 403) {
-                $location.path('/signin');
+                $location.path('/login');
             }
             return $q.reject(response);
         }
