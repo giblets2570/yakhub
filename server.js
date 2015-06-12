@@ -11,11 +11,12 @@ var io             = require('socket.io')(http);
 //////////////////////////////////////
 var Agent 		   = require('./app/models/agent');
 var Appointment    = require('./app/models/appointment');
+var Client         = require('./app/models/client')
 var jwt 		   = require('jsonwebtoken');
 // configuration ===========================================
 
 //JWT Secret
-var secret = 'YAKHUBSECRET';
+var secret = process.env.JWT_SECRET;
     
 // config files
 var db = require('./config/db');
@@ -49,6 +50,27 @@ io.on('connect',function(socket){
 	socket.on('disconnect',function(){
 		console.log("A user has disconnected");
 	});
+
+	socket.on('agent:info',function(data){
+		console.log('Agent info');
+		console.log(data);
+		jwt.verify(data.authorization, secret, function(err, decoded) {
+			Agent.findById(decoded.agent_id, function(err, agent) {
+                if (err)
+                    return err;
+                if(!agent)
+                    return ({'error':'No agent of that id'});
+                Client.findById(agent.client,function(err, client){
+                	if(err)
+                		return;
+                	client_name = "None";
+                	if(client)
+                		client_name = client.name;
+                	io.sockets.connected[socket.client.id].emit('agent:returnInfo',{'name':agent.name,'client':client_name});
+                })
+		    });
+		});
+	})
 
 	socket.on('appointments:getAppointments',function(data){
 		console.log('getAppointments');

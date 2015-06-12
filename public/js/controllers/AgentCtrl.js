@@ -1,13 +1,27 @@
-angular.module('AgentCtrl',[]).controller('AgentController',['$scope','$sessionStorage','toasty','$location','$http',function(scope,session,toasty,location,http){
+angular.module('AgentCtrl',[]).controller('AgentController',['$scope','$sessionStorage','toasty','$location','$http','socket',function(scope,session,toasty,location,http,socket){
+
+	scope.agentStats = {};
 
 	this.test = function(){
 		http({
 			method: 'GET',
-			url: '/api/agents'
+			url: '/api/agent'
 		}).success(function(data){
 			console.log(data);
 		})
 	};
+
+	// this.test();
+	socket.emit('agent:info',{
+		'authorization':session.token
+	});
+
+	socket.on('agent:returnInfo',function(data){
+		scope.agentStats = data;
+		console.log(data);
+		scope.$apply();
+	});
+
 	window.onbeforeunload = function() {
        return "Data will be lost if you leave the page, are you sure?";
    	};
@@ -46,6 +60,7 @@ angular.module('AgentCtrl',[]).controller('AgentController',['$scope','$sessionS
 	}
 
 	this.logout = function(){
+		scope.agentStats = null;
 		session.$reset();
 		location.path('login');
 	}
