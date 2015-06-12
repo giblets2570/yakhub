@@ -51,7 +51,19 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
     }
 
  	this.addNotes = function(){
- 		if(scope.called == true){
+ 		if(this.pickedup = -1){
+ 			scope.showWarning("Did they pick up?");
+ 		}
+ 		else if(this.lead = -1){
+ 			scope.showWarning("Was it a lead?");
+ 		}
+ 		else if(this.enthusiasm = -1){
+ 			scope.showWarning("Were they enthsiastic?");
+ 		}
+ 		else if(this.phoneCallNotes = ""){
+ 			scope.showWarning("Please enter something about the call!");
+ 		}
+ 		else if(scope.called == true){
 	 		http({
 	 			method:'PUT',
 	 			url:'/api/call/notes',
@@ -107,8 +119,8 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 					scope.address = data.numberData.address;
 
 					this.phoneCallNotes = "";
-					this.pickedup = false;
-					this.lead = false;
+					this.pickedup = -1;
+					this.lead = -1;
 					this.enthusiasm = -1;
 				});
 			});
@@ -119,10 +131,11 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 
     //get the next number
  	this.getNextNumber = function(){
+
  		if(scope.called == true && scope.notesSubmitted == true){
  			this.phoneCallNotes = "";
-			this.pickedup = false;
-			this.lead = false;
+			this.pickedup = -1;
+			this.lead = -1;
 			this.enthusiasm = -1;
 	 		http({
 	 			method:'GET',
