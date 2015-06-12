@@ -25,9 +25,9 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 	scope.notesSubmitted = true;
 
 	//initializing the radio buttons
-	this.pickedup = false;
+	this.pickedup = -1;
 	this.enthusiasm = -1;
-	this.lead = false;
+	this.lead = -1;
  
  	//making the phone call
     this.call = function(){
