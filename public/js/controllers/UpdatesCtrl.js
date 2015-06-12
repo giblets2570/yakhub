@@ -16,7 +16,8 @@ angular.module('UpdatesCtrl', [])
 		scope.initialData = function(type){
 			http({
 				method:'GET',
-				url:'api/'+type
+				url:'api/'+type,
+				cache: false
 			}).success(function(data){
 				scope.list[type] = data;
 			});
