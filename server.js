@@ -80,10 +80,17 @@ io.on('connect',function(socket){
             if(err)
                 return err;
             Agent.findById(decoded.agent_id, function(err, agent) {
-                if (err)
+                if (err){
                     return err;
-                if(!agent)
-                    return ({'error':'No agent of that id'});
+                }
+                if(!agent){  
+                	io.sockets.connected[socket.client.id].emit('appointments:error',{'error':'No agent of that id!'});
+                	return;
+                }
+                if(!agent.client){  
+                	io.sockets.connected[socket.client.id].emit('appointments:error',{'error':'Need to be assigned a client to make appointments!'});
+                	return;
+                }
 				var appointment = new Appointment();
 		        appointment.number = data.number;
 		        appointment.business = data.business;

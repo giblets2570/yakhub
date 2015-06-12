@@ -21,6 +21,10 @@ angular.module('AppointmentsCtrl',[]).
 		scope.getAppointments();
 	});
 
+	socket.on('appointments:error',function(data){
+		scope.showWarning(data.error);
+	});
+
 	scope.getAppointments = function(){
 		socket.emit('appointments:getAppointments',{
 			'authorization':session.token
