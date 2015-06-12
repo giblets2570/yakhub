@@ -21,7 +21,7 @@ angular.module('StatsCtrl', [])
 			return (date.getDate() >= scope.today.getDate() - 7);
 		}
 
-		this.updateCalls = function(){
+		scope.updateCalls = function(){
 			scope.today = new Date();
 			http({
 				method:'GET',
@@ -62,6 +62,5 @@ angular.module('StatsCtrl', [])
 				scope.dataWeek = [[callsWeek,pickupsWeek,leadsWeek]];
 			});
 		}
-		this.updateCalls();
-		interval(this.updateCalls, 30000);
+		scope.updateCalls();
 	}]);

@@ -374,6 +374,9 @@ var secret = process.env.JWT_SECRET;
                     PhoneNumber.findById(phone_number_id, function(err1,number){
                         if(err1)
                             return res.send(err1);
+                        if(number == null){
+                            return res.send({message:'No phone number! Problem.'});
+                        }
                         if(number.called == true)
                             return res.send({message:'Complete!'});
                         number.calling = false;

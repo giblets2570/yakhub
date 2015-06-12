@@ -51,16 +51,16 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
     }
 
  	this.addNotes = function(){
- 		if(this.pickedup = -1){
+ 		if(this.pickedup == -1){
  			scope.showWarning("Did they pick up?");
  		}
- 		else if(this.lead = -1){
+ 		else if(this.lead == -1){
  			scope.showWarning("Was it a lead?");
  		}
- 		else if(this.enthusiasm = -1){
+ 		else if(this.enthusiasm == -1){
  			scope.showWarning("Were they enthsiastic?");
  		}
- 		else if(this.phoneCallNotes = ""){
+ 		else if(this.phoneCallNotes == ""){
  			scope.showWarning("Please enter something about the call!");
  		}
  		else if(scope.called == true){
@@ -96,7 +96,20 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 
  	//new business input
 	this.addNewNumber = function(number,business,address){
-		if(scope.called == true && scope.notesSubmitted == true){
+		if(number==null){
+			scope.showWarning("Not a number!");
+		}
+		else if(business==null){
+			scope.showWarning("Not a business name!");
+		}
+		else if(address==null){
+			scope.showWarning("Not an address!");
+		} 
+		else if(scope.called == true && scope.notesSubmitted == true){
+			this.phoneCallNotes = "";
+			this.pickedup = -1;
+			this.lead = -1;
+			this.enthusiasm = -1;
 			http({
 				method:'PUT',
 				url:'api/phoneNumber'
@@ -112,16 +125,12 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 					}
 				}).success(function(data){
 					console.log(data);
+					scope.showInfo(data.message);
 					this.phone_number_id = data.numberData._id;
 
 					scope.number = data.numberData.number;
 					scope.business = data.numberData.business;
 					scope.address = data.numberData.address;
-
-					this.phoneCallNotes = "";
-					this.pickedup = -1;
-					this.lead = -1;
-					this.enthusiasm = -1;
 				});
 			});
 		}else{
@@ -139,7 +148,7 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 			this.enthusiasm = -1;
 	 		http({
 	 			method:'GET',
-	 			url:'/api/phoneNumber',
+	 			url:'/api/phoneNumber', 
 	 			cache: false
 	 		}).success(function(data){
 	 			console.log(data);
@@ -154,6 +163,7 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 				scope.address = data.numberData.address;
 				scope.called = false;
 				scope.showInfo("Got next number!");
+				scope.updateCalls(); //this updates the calls for the stats
 	 		});
 	 	}else{
 	 		scope.showWarning("Please make the call then submit the notes!");
