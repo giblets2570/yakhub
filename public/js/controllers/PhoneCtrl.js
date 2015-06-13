@@ -23,6 +23,7 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 
 	scope.called = true;
 	scope.notesSubmitted = true;
+	scope.firstCall = true;
 
 	//initializing the radio buttons
 	this.pickedup = -1;
@@ -40,6 +41,7 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 	        Twilio.Device.connect(params);
 	        scope.called = true;
 	        scope.notesSubmitted = false;
+	        scope.firstCall = false;
 	    }else{
 	    	scope.showWarning("Press the get next number button!");
 	    }
@@ -63,7 +65,12 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
  		else if(this.phoneCallNotes == ""){
  			scope.showWarning("Please enter something about the call!");
  		}
- 		else if(scope.called == true){
+ 		else if(scope.called == true && scope.firstCall == false){
+ 			if(scope.notesSubmitted == true){
+ 				var r = alert("Overwrite previous call notes?");
+ 				if(r == true)
+ 					return;
+ 			}
 	 		http({
 	 			method:'PUT',
 	 			url:'/api/call/notes',
@@ -77,6 +84,7 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 	 		}).success(function(data){
 	 			console.log(data);
 	 			scope.notesSubmitted = true;
+	 			scope.firstCall = false;
 	 			scope.showInfo("Notes successfully added!");
 	 		});
 	 	}else{
