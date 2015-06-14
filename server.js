@@ -133,6 +133,19 @@ io.on('connect',function(socket){
 		});
 	});
 
+	socket.on('client:getLeads',function(data){
+		jwt.verify(data.authorization, secret, function(err, decoded) {
+			Call.find({
+                'lead':true,
+                'client':decoded.client_id
+            },function(err,calls){
+                if(err)
+                    return res.send(err);
+                io.sockets.connected[socket.client.id].emit('client:leadsData',calls);
+            }); 
+		});
+	});
+
 	socket.on('agent:getCallData',function(data){
 		jwt.verify(data.authorization, secret, function(err, decoded) {
 			Agent.findById(decoded.agent_id, function(err, agent) {
