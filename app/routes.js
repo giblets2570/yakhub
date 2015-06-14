@@ -260,27 +260,27 @@ var secret = process.env.JWT_SECRET;
                 });
             });
 
-        router.route('/call/agent')
-            .get(function(req,res){
-                Call.find({
-                    'agent':req.body.agent_id,
-                    'client':req.body.client_id
-                },function(err,calls){
-                    if(err)
-                        return res.send(err);
-                    var leads = [];
-                    var pickups = [];
-                    for(var i = 0; i < calls.length; i++){
-                        if(calls[i].pickedup){
-                            pickups.push(calls[i]);
-                            if(calls[i].lead){
-                                leads.push(calls[i]);
-                            }
-                        }
-                    }
-                    return res.send({calls:calls,leads:leads,pickups:pickups});
-                });
-            });
+        // router.route('/call/agent')
+        //     .get(function(req,res){
+        //         Call.find({
+        //             'agent':req.body.agent_id,
+        //             'client':req.body.client_id
+        //         },function(err,calls){
+        //             if(err)
+        //                 return res.send(err);
+        //             var leads = [];
+        //             var pickups = [];
+        //             for(var i = 0; i < calls.length; i++){
+        //                 if(calls[i].pickedup){
+        //                     pickups.push(calls[i]);
+        //                     if(calls[i].lead){
+        //                         leads.push(calls[i]);
+        //                     }
+        //                 }
+        //             }
+        //             return res.send({calls:calls,leads:leads,pickups:pickups});
+        //         });
+        //     });
 
         router.route('/call/client')
             .get(ensureAuthorized, function(req,res){
