@@ -15,4 +15,12 @@ angular.module('ClientLeadsCtrl', [])
 			scope.clientLeads = data;
 			console.log(data);
 		});
+
+		scope.showRecording = function(url){
+			if(url==""){
+				console.log("No recording");
+			}else{
+				window.location.href = url;
+			}
+		}
 	}]);

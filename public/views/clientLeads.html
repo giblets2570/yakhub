@@ -1,4 +1,4 @@
-<div class='col-xs-6'>
+<div class='col-xs-8'>
 	<h2>Leads</h2>
 	<table class="table table-hover">
 		<tr>
@@ -6,15 +6,17 @@
 			<th>Address</th>
 			<th>Enthusiasm</th>
 			<th>Number</th>
-			<th>Date</th>
+			<th>Recording</th>
+			<th>Notes</th>
 		</tr>
-		<tr ng-repeat="leads in clientLeads | orderBy:'time':false | limitTo: 5">
-			<!-- <td>{{leads._id}}</td> -->
-			<td>{{leads.business}}</td>
-			<td>{{leads.address}}</td>
-			<td>{{leads.enthusiasm}}</td>
-			<td>{{leads.number}}</td>
-			<td>{{leads.created}}</td>
+		<tr ng-repeat="lead in clientLeads | orderBy:'time':false">
+			<!-- <td>{{lead._id}}</td> -->
+			<td>{{lead.business}}</td>
+			<td>{{lead.address}}</td>
+			<td>{{lead.enthusiasm}}</td>
+			<td>{{lead.number}}</td>
+			<td><a href='' ng-click='showRecording(lead.RecordingUrl)'>recording</a></td>
+			<td>{{lead.notes}}</td>
 		</tr>
 	</table>
 </div>
