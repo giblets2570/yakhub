@@ -12,6 +12,7 @@ var io             = require('socket.io')(http);
 var Agent 		   = require('./app/models/agent');
 var Appointment    = require('./app/models/appointment');
 var Client         = require('./app/models/client')
+var Call         = require('./app/models/call')
 var jwt 		   = require('jsonwebtoken');
 // configuration ===========================================
 
@@ -70,7 +71,96 @@ io.on('connect',function(socket){
                 })
 		    });
 		});
-	})
+	});
+
+	socket.on('client:callUpdate',function(data){
+		console.log('client:callUpdate');
+		jwt.verify(data.authorization, secret, function(err, decoded) {
+			Client.findById(decoded.client_id, function(err, client) {
+                if (err)
+                    return err;
+                if(!client)
+                    return ({'error':'No agent of that id'});
+               	Call.find({
+	                'client':client._id
+	            },function(err,calls){
+	                if(err)
+	                    return res.send(err);
+	                var leads = [];
+	                var pickups = [];
+	                for(var i = 0; i < calls.length; i++){
+	                    if(calls[i].pickedup){
+	                        pickups.push(calls[i]);
+	                        if(calls[i].lead){
+	                            leads.push(calls[i]);
+	                        }
+	                    }
+	                }
+	                io.sockets.connected[socket.client.id].emit('client:callData',{calls:calls,leads:leads,pickups:pickups});
+	            }); 
+		    });
+		});
+	});
+
+	socket.on('call:update',function(data){
+		console.log('callUpdate');
+		jwt.verify(data.authorization, secret, function(err, decoded) {
+			Agent.findById(decoded.agent_id, function(err, agent) {
+                if (err)
+                    return err;
+                if(!agent)
+                    return ({'error':'No agent of that id'});
+               	Call.find({
+	                'agent':agent._id,
+	                'client':agent.client
+	            },function(err,calls){
+	                if(err)
+	                    return res.send(err);
+	                var leads = [];
+	                var pickups = [];
+	                for(var i = 0; i < calls.length; i++){
+	                    if(calls[i].pickedup){
+	                        pickups.push(calls[i]);
+	                        if(calls[i].lead){
+	                            leads.push(calls[i]);
+	                        }
+	                    }
+	                }
+	                io.sockets.connected[socket.client.id].emit('agent:callUpdate',{calls:calls,leads:leads,pickups:pickups});
+	                io.sockets.emit('client:signalUpdateCalls');
+	            }); 
+		    });
+		});
+	});
+
+	socket.on('agent:getCallData',function(data){
+		jwt.verify(data.authorization, secret, function(err, decoded) {
+			Agent.findById(decoded.agent_id, function(err, agent) {
+                if (err)
+                    return err;
+                if(!agent)
+                    return ({'error':'No agent of that id'});
+               	Call.find({
+	                'agent':agent._id,
+	                'client':agent.client
+	            },function(err,calls){
+	                if(err)
+	                    return res.send(err);
+	                var leads = [];
+	                var pickups = [];
+	                for(var i = 0; i < calls.length; i++){
+	                    if(calls[i].pickedup){
+	                        pickups.push(calls[i]);
+	                        if(calls[i].lead){
+	                            leads.push(calls[i]);
+	                        }
+	                    }
+	                }
+	                io.sockets.connected[socket.client.id].emit('agent:callUpdate',{calls:calls,leads:leads,pickups:pickups});
+	            }); 
+		    });
+		});
+	});
 
 	socket.on('appointments:getAppointments',function(data){
 		console.log('getAppointments');

@@ -1,4 +1,4 @@
-angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionStorage','$http',function(scope,session,http){
+angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionStorage','$http','socket',function(scope,session,http,socket){
 
 	scope.log='Setting up...';
 
@@ -86,6 +86,9 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 	 			scope.notesSubmitted = true;
 	 			scope.firstCall = false;
 	 			scope.showInfo("Notes successfully added!");
+	 			socket.emit('call:update',{
+					'authorization':session.token
+				});
 	 		});
 	 	}else{
 	 		scope.showWarning("You need to make a call before submitting notes!");
