@@ -534,12 +534,31 @@ var secret = process.env.JWT_SECRET;
                         
                         call.pickedup = req.body.pickedup;
                         call.enthusiasm = req.body.enthusiasm;
+                        var oldCallLead = call.lead;
                         call.lead = req.body.lead;
                         call.notes = req.body.notes;
                         call.save(function(err2){
                             if(err2)
                                 res.send(err2)
-                            res.json({ message: 'Notes kept safe!',success: true});
+                            if(oldCallLead != true && call.lead == true){
+                                Client.findById(agent.client,function(err,client){
+                                    if(err)
+                                        return res.send(err);
+                                    if(!client)
+                                        return res.send({'error':'Client gone wrong!'});
+                                    var lead = {
+                                        call_id: call._id
+                                    }
+                                    client.leads.push(lead);
+                                    client.save(function(err){
+                                        if(err)
+                                            return res.send(err);
+                                        return res.send({ 'message': 'Notes kept safe!','success': true});
+                                    });
+                                });
+                            }else{
+                                return res.send({ 'message': 'Notes kept safe!','success': true});
+                            }
                         });
                     });
                 });

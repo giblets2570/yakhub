@@ -11,7 +11,11 @@ var clientSchema = mongoose.Schema({
     created: {
     	type: Date,
     	default: Date.now()
-    }
+    },leads:[{
+        call_id: {type: mongoose.Schema.ObjectId, ref: 'Call'},
+        notes: {type : String, default: ''},
+        followed: {type : Boolean, default: false}
+    }]
 });
 
 // methods ======================
