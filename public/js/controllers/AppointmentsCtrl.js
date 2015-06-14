@@ -34,17 +34,25 @@ angular.module('AppointmentsCtrl',[]).
 	scope.getAppointments();
 
 	this.addAppointment = function(){
-		socket.emit('appointments:addAppointment',{
-			'authorization':session.token,
-			'number':this.number,
-			'business':this.business,
-			'address':this.address,
-			'date':this.dt.toString()
-		});
-		this.number = "";
-		this.address = "";
-		this.business = "";
-		this.adding=false;
+		if(this.number == ""){
+			scope.showWarning("Please input a proper number!");
+		}else if(this.address == ""){
+			scope.showWarning("Please input a proper address!");
+		}else if(this.business == ""){
+			scope.showWarning("Please input a proper business name!");
+		}else{
+			socket.emit('appointments:addAppointment',{
+				'authorization':session.token,
+				'number':this.number,
+				'business':this.business,
+				'address':this.address,
+				'date':this.dt.toString()
+			});
+			this.number = "";
+			this.address = "";
+			this.business = "";
+			this.adding=false;
+		}
 	}
 
 	this.adding=false;
