@@ -8,6 +8,7 @@ var clientSchema = mongoose.Schema({
     password: {type : String, default: ''},
     email: {type : String, default: ''},
     website: {type : String, default: ''},
+    scriptURL: {type : String, default: ''},
     created: {
     	type: Date,
     	default: Date.now()

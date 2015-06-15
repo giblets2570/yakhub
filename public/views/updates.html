@@ -15,6 +15,7 @@
 						Client <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
 					</accordion-heading>
 					<a href='' ng-click='updates.showCreate("client")'>Create client</a> <br/>
+					<a href='' ng-click='updates.showAssignURL()'>Add script URL</a> <br/>
 					<a href='' ng-click='updates.showRemove("client")'>Remove client</a>
 				</accordion-group>
 				<accordion-group heading="Admin">
@@ -48,6 +49,20 @@
                 <button type="submit" class="btn btn-warning btn-lg">Create</button>
             </form>
 		</div>
+		
+		<div class='col-xs-3' ng-show='updates.willURL'>
+			<h2>Assign client script URL</h2>
+			<table class="table table-hover">
+				<tr ng-repeat='person in list["client"]'>
+					<td><a href='' ng-click='updates.chooseClient(person._id)'>{{person.name}}</a></td>
+				</tr>
+			</table>
+		</div>
+		<div class='col-xs-6' ng-show='updates.willURL && updates.clientChosen'>
+			<input type='text' ng-model="updates.scriptURL">
+			<button ng-click="updates.submitURL()">Submit</button>
+		</div>
+
 		<div class='col-xs-3' ng-show='updates.willAssign'>
 			<h2>Assign agents</h2>
 			<table class="table table-hover">

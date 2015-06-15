@@ -10,8 +10,10 @@ angular.module('UpdatesCtrl', [])
 		this.willCreate = false;
 		this.willRemove = false;
 		this.willAssign = false;
+		this.willURL = false;
 		this.agentChosen = false;
 		this.clientChosen = false;
+		this.scriptURL = "";
 
 		scope.initialData = function(type){
 			http({
@@ -29,6 +31,7 @@ angular.module('UpdatesCtrl', [])
 		this.showCreate = function(type){
 			this.willCreate = true;
 			this.willRemove = false;
+			this.willURL = false;
 			this.willAssign = false;
 			this.agentChosen = false;
 			this.clientChosen = false;
@@ -38,6 +41,7 @@ angular.module('UpdatesCtrl', [])
 		this.showRemove = function(type){
 			this.willCreate = false;
 			this.willRemove = true;
+			this.willURL = false;
 			this.willAssign = false;
 			this.agentChosen = false;
 			this.clientChosen = false;
@@ -83,6 +87,7 @@ angular.module('UpdatesCtrl', [])
 			this.willCreate = false;
 			this.willRemove = false;
 			this.willAssign = true;
+			this.willURL = false;
 		}
 
 		this.chooseAgent = function(agent_id){
@@ -93,6 +98,27 @@ angular.module('UpdatesCtrl', [])
 		this.chooseClient = function(client_id){
 			this.client_id = client_id;
 			this.clientChosen = true;
+		}
+
+		this.showAssignURL = function(){
+			this.willCreate = false;
+			this.willRemove = false;
+			this.willAssign = false;
+			this.willURL = true;
+		}
+
+		this.submitURL = function(){
+			var url = this.scriptURL;
+			this.scriptURL = "";
+			http({
+				method:'PUT',
+				url:'api/client/'+this.client_id,
+				data:{scriptURL:url},
+				cache:false
+			}).success(function(data){
+				scope.showInfo("Script url added!");
+				console.log(data);
+			});
 		}
 
 		this.submitAssign = function(){

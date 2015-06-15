@@ -18,6 +18,7 @@ angular.module('AgentCtrl',[]).controller('AgentController',['$scope','$sessionS
 
 	socket.on('agent:returnInfo',function(data){
 		scope.agentStats = data;
+		scope.scriptURL = data.scriptURL;
 		console.log(data);
 		scope.$apply();
 	});

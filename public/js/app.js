@@ -42,25 +42,38 @@ angular.module('app', ['ngRoute','ngStorage','appRoutes','ui.bootstrap','btford.
     };
 }])
 
-.directive('iframeSetDimensionsOnload', [function(){
-return {
-    restrict: 'A',
-    link: function(scope, element, attrs){
-        element.on('load', function(){
-            /* Set the dimensions here, 
-               I think that you were trying to do something like this: */
-               var iFrameHeight = element[0].contentWindow.document.body.scrollHeight + 'px';
-               var iFrameWidth = '100%';
-               element.css('width', iFrameWidth);
-               element.css('height', iFrameHeight);
-        })
-    }
-}}])
-
 .factory('socket', ['socketFactory', function(socketFactory){
     return socketFactory();
 }])
 
 .config(['$httpProvider',function($httpProvider) {
 	$httpProvider.interceptors.push('myHttpResponseInterceptor');
-}]);
+}])
+
+.directive('clientScript', ['$window', function (window) {
+        return {
+            restrict: 'E',
+            scope: {
+              url: '='
+            },
+            template:'<div id="container"></div>',
+            link: function (scope, element, attrs) {
+                
+                scope.$watch('url', function(newurl) {
+                    scope.render();
+                }, true);
+
+                scope.render = function(){
+                    var e = element.find('div');
+                    e.html('');
+                    if (!scope.url) {
+                        return;
+                    } else {
+                        var inner = '<iframe src="'+scope.url+'" id="script-frame"></iframe>'
+                        e.html(inner);
+                    }
+                }
+            }
+        };
+    }
+]);

@@ -226,10 +226,30 @@ var secret = process.env.JWT_SECRET;
         router.route('/client/:client_id')
             .get(function(req, res){
                 // use mongoose to get all clients in the database
-                Client.findById(req.params.agent_id, function(err, client) {
+                Client.findById(req.params.client_id, function(err, client) {
                     if (err)
                         res.send(err);
                     res.json(client);
+                });
+            })
+
+            .put(function(req,res){
+                // use our bear model to find the bear we want
+                Client.findById(req.params.client_id, function(err, client) {
+
+                    if (err)
+                        res.send(err);
+
+                    client.scriptURL = req.body.scriptURL;
+                    console.log(req.body);
+                    // save the agent
+                    client.save(function(err) {
+                        if (err)
+                            res.send(err);
+
+                        res.json({ message: 'Client updated!' });
+                    });
+
                 });
             })
 

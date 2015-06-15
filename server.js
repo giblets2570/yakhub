@@ -68,9 +68,12 @@ io.on('connect',function(socket){
                 	if(err)
                 		return;
                 	client_name = "None";
-                	if(client)
+                	scriptURL = "";
+                	if(client){
                 		client_name = client.name;
-                	io.sockets.connected[socket.client.id].emit('agent:returnInfo',{'name':agent.name,'client':client_name});
+                		scriptURL = client.scriptURL;
+                	}
+                	io.sockets.connected[socket.client.id].emit('agent:returnInfo',{'name':agent.name,'client':client_name,'scriptURL':scriptURL});
                 })
 		    });
 		});
