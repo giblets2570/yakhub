@@ -110,6 +110,9 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 		if(number==null){
 			scope.showWarning("Not a number!");
 		}
+		else if(number.substring(0,4) != '0044'){
+			scope.showWarning("Please enter the country code 0044");
+		}
 		else if(business==null){
 			scope.showWarning("Not a business name!");
 		}
