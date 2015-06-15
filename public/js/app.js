@@ -1,7 +1,7 @@
 // public/js/app.js
 angular.module('app', ['ngRoute','ngStorage','appRoutes','ui.bootstrap','btford.socket-io','ngAnimate', 'toasty','nvd3ChartDirectives','chart.js',
-    'AgentCtrl','AuthCtrl','PhoneCtrl','AddNumbersCtrl','AppointmentsCtrl','NuggetCtrl','StatsCtrl','AdminCtrl','UpdatesCtrl','ClientCtrl','ClientLeadsCtrl','ClientStatsCtrl','ClientNuggetsCtrl',
-    'PhoneDir','AddNumbersDir','AppointmentsDir','NuggetDir','StatsDir','UpdatesDir','ClientLeadsDir','ClientStatsDir','ClientNuggetsDir'])
+    'AgentCtrl','AuthCtrl','PhoneCtrl','AddNumbersCtrl','AppointmentsCtrl','NuggetCtrl','StatsCtrl','AdminCtrl','UpdatesCtrl','ClientCtrl','ClientLeadsCtrl','ClientStatsCtrl','ClientNuggetsCtrl','ScriptCtrl',
+    'PhoneDir','AddNumbersDir','AppointmentsDir','NuggetDir','StatsDir','UpdatesDir','ClientLeadsDir','ClientStatsDir','ClientNuggetsDir','ScriptDir'])
 
 .run(['$rootScope','$location','$sessionStorage', function (root, location, session){
 	
@@ -41,6 +41,21 @@ angular.module('app', ['ngRoute','ngStorage','appRoutes','ui.bootstrap','btford.
         }
     };
 }])
+
+.directive('iframeSetDimensionsOnload', [function(){
+return {
+    restrict: 'A',
+    link: function(scope, element, attrs){
+        element.on('load', function(){
+            /* Set the dimensions here, 
+               I think that you were trying to do something like this: */
+               var iFrameHeight = element[0].contentWindow.document.body.scrollHeight + 'px';
+               var iFrameWidth = '100%';
+               element.css('width', iFrameWidth);
+               element.css('height', iFrameHeight);
+        })
+    }
+}}])
 
 .factory('socket', ['socketFactory', function(socketFactory){
     return socketFactory();

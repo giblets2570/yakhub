@@ -69,6 +69,7 @@ angular.module('AgentCtrl',[]).controller('AgentController',['$scope','$sessionS
 		this.appointments = false;
 		this.nuggets = false;
 		this.stats = false;
+		this.script = false;
 	}
 	this.showAppointments = function(){
 		this.empty();
@@ -82,6 +83,10 @@ angular.module('AgentCtrl',[]).controller('AgentController',['$scope','$sessionS
 	this.showNuggets = function(){
 		this.empty();
 		this.nuggets = true;
+	}
+	this.showScript = function(){
+		this.empty();
+		this.script = true;
 	}
 
 }]);
