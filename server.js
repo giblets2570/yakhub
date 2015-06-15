@@ -56,6 +56,8 @@ io.on('connect',function(socket){
 		console.log('Agent info');
 		console.log(data);
 		jwt.verify(data.authorization, secret, function(err, decoded) {
+			if(!decoded)
+				return;
 			Agent.findById(decoded.agent_id, function(err, agent) {
                 if (err)
                     return err;
@@ -76,6 +78,8 @@ io.on('connect',function(socket){
 	socket.on('client:callUpdate',function(data){
 		console.log('client:callUpdate');
 		jwt.verify(data.authorization, secret, function(err, decoded) {
+			if(!decoded)
+				return;
 			Client.findById(decoded.client_id, function(err, client) {
                 if (err)
                     return err;
@@ -105,6 +109,8 @@ io.on('connect',function(socket){
 	socket.on('call:update',function(data){
 		console.log('callUpdate');
 		jwt.verify(data.authorization, secret, function(err, decoded) {
+			if(!decoded)
+				return;
 			Agent.findById(decoded.agent_id, function(err, agent) {
                 if (err)
                     return err;
@@ -135,6 +141,8 @@ io.on('connect',function(socket){
 
 	socket.on('client:getLeads',function(data){
 		jwt.verify(data.authorization, secret, function(err, decoded) {
+			if(!decoded)
+				return;
 			Call.find({
                 'lead':true,
                 'client':decoded.client_id
@@ -148,6 +156,8 @@ io.on('connect',function(socket){
 
 	socket.on('agent:getCallData',function(data){
 		jwt.verify(data.authorization, secret, function(err, decoded) {
+			if(!decoded)
+				return;
 			Agent.findById(decoded.agent_id, function(err, agent) {
                 if (err)
                     return err;
@@ -206,6 +216,8 @@ io.on('connect',function(socket){
 		jwt.verify(data.authorization, secret, function(err, decoded) {
             if(err)
                 return err;
+            if(!decoded)
+				return;
             Agent.findById(decoded.agent_id, function(err, agent) {
                 if (err){
                     return err;
