@@ -178,6 +178,8 @@ io.on('connect',function(socket){
 	socket.on('appointments:getAppointments',function(data){
 		console.log('getAppointments');
 		jwt.verify(data.authorization, secret, function(err, decoded) {
+			if(!decoded)
+				return;
 			Agent.findById(decoded.agent_id, function(err, agent) {
                 if (err)
                     return err;

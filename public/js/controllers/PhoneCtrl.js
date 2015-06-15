@@ -29,6 +29,7 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 	this.pickedup = -1;
 	this.enthusiasm = -1;
 	this.lead = -1;
+	scope.calledPrevious = false;
  
  	//making the phone call
     this.call = function(){
@@ -42,6 +43,7 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 	        scope.called = true;
 	        scope.notesSubmitted = false;
 	        scope.firstCall = false;
+	    	scope.calledPrevious = true;
 	    }else{
 	    	scope.showWarning("Press the get next number button!");
 	    }

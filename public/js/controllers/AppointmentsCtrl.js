@@ -33,6 +33,12 @@ angular.module('AppointmentsCtrl',[]).
 
 	scope.getAppointments();
 
+	this.fillFields = function(){
+		this.number = scope.number;
+		this.business = scope.business;
+		this.address = scope.address;
+	}
+
 	this.addAppointment = function(){
 		if(this.number == ""){
 			scope.showWarning("Please input a proper number!");
@@ -93,7 +99,8 @@ angular.module('AppointmentsCtrl',[]).
 					scope.address = data.numberData.address;
 					scope.called = false;
 					socket.emit('appointments:takeAppointment',{
-						'appointment':appointment
+						'appointment':appointment,
+						'authorization':session.token
 					});
 				});
 			});
