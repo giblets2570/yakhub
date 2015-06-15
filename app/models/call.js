@@ -33,6 +33,7 @@ var callSchema = mongoose.Schema({
 	notes: {type : String, default: ''},
 
 	RecordingUrl: {type : String, default: ''},
+	duration: {type : String, default: '0'},
 
 	created: {
     	type: Date,

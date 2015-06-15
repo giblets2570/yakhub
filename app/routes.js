@@ -576,7 +576,9 @@ var secret = process.env.JWT_SECRET;
                     if(!call)
                         res.send('Error');    
                     
+                    console.log(req.body);
                     call.RecordingUrl = req.body.RecordingUrl;
+                    call.duration = req.body.DialCallDuration;
 
                     call.save(function(err2){
                         if(err2)
