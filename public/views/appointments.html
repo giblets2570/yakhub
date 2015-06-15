@@ -6,7 +6,7 @@
 	    </a>
 		<div class="panel panel-default" ng-show='appointments.adding'>
 			<div class='col-xs-12'>
-				<button ng-click='appointments.fillFields()'>Fill fields</button>
+				<button ng-click='appointments.fillFields()' class="btn btn-default">Fill fields</button>
 			</div>
 			<div class='col-xs-4'>
 				Number: <input type='text' ng-model='appointments.number'>
@@ -24,6 +24,10 @@
 		        Date: <div style="display:inline-block; min-height:290px;">
 			    	<datepicker ng-model="appointments.dt" min-date="appointments.minDate" show-weeks="true" class="well well-sm" custom-class="appointments.getDayClass(date, mode)"></datepicker>
 			    </div>
+			</div>
+			<div class='col-xs-12'>
+				Notes: 
+				<textarea class="form-control" rows="3" id="notes" ng-model="appointments.notes"></textarea>
 			</div>
 			<a href="" ng-click="appointments.addAppointment()">
 		        <div class="alert alert-success col-xs-6 bold-center">Add</div>

@@ -7,6 +7,7 @@ angular.module('AppointmentsCtrl',[]).
 	this.number = "";
 	this.address = "";
 	this.business = "";
+	this.notes = "";
 
 	socket.on('appointments:appointments',function(data){
 		scope.myAppointments = data;
@@ -37,6 +38,7 @@ angular.module('AppointmentsCtrl',[]).
 		this.number = scope.number;
 		this.business = scope.business;
 		this.address = scope.address;
+		this.notes = scope.phoneCallNotes;
 	}
 
 	this.addAppointment = function(){
@@ -52,6 +54,7 @@ angular.module('AppointmentsCtrl',[]).
 				'number':this.number,
 				'business':this.business,
 				'address':this.address,
+				'notes':this.notes,
 				'date':this.dt.toString()
 			});
 			this.number = "";
@@ -75,11 +78,11 @@ angular.module('AppointmentsCtrl',[]).
 				return entry._id === appointment;
 			})[0];
 			var i = scope.myAppointments.indexOf(a);
-
+			console.log(scope.myAppointments[i]);
 			var newNumber = scope.myAppointments[i].number;
 			var newBusiness = scope.myAppointments[i].business;
 			var newAddress = scope.myAppointments[i].address;
-
+			var notes = scope.myAppointments[i].notes;
 			http({
 				method:'PUT',
 				url:'api/phoneNumber'
@@ -98,10 +101,12 @@ angular.module('AppointmentsCtrl',[]).
 					scope.business = data.numberData.business;
 					scope.address = data.numberData.address;
 					scope.called = false;
+					scope.phoneCallNotes = notes;
 					socket.emit('appointments:takeAppointment',{
 						'appointment':appointment,
 						'authorization':session.token
 					});
+					scope.showInfo("Appointment successfully taken!");
 				});
 			});
 		}else{
@@ -154,14 +159,14 @@ angular.module('AppointmentsCtrl',[]).
 	afterTomorrow.setDate(tomorrow.getDate() + 2);
 	this.events =
 	[
-		{
-			date: tomorrow,
-			status: 'full'
-		},
-		{
-			date: afterTomorrow,
-			status: 'partially'
-		}
+		// {
+		// 	date: tomorrow,
+		// 	status: 'full'
+		// },
+		// {
+		// 	date: afterTomorrow,
+		// 	status: 'partially'
+		// }
 	];
 
 	this.getDayClass = function(date, mode) {

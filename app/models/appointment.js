@@ -11,7 +11,8 @@ var appointmentSchema = mongoose.Schema({
     time: Date,
     number: {type: String, default: ''},
     business: {type: String, default: ''},
-    address: {type: String, default: ''}
+    address: {type: String, default: ''},
+    notes: {type: String, default: ''}
 });
 
 module.exports = mongoose.model('Appointment', appointmentSchema);

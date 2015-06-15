@@ -234,6 +234,7 @@ io.on('connect',function(socket){
 		        appointment.number = data.number;
 		        appointment.business = data.business;
 		        appointment.address = data.address;
+		        appointment.notes = data.notes;
 		        appointment.time = new Date(data.date);
 		        appointment.client = agent.client;
 		        appointment.agent = agent._id;

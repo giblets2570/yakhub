@@ -64,7 +64,7 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
  		else if(this.enthusiasm == -1){
  			scope.showWarning("Were they enthsiastic?");
  		}
- 		else if(this.phoneCallNotes == ""){
+ 		else if(scope.phoneCallNotes == ""){
  			scope.showWarning("Please enter something about the call!");
  		}
  		else if(scope.called == true && scope.firstCall == false){
@@ -77,7 +77,7 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 	 			method:'PUT',
 	 			url:'/api/call/notes',
 	 			data: {
-	 				'notes' : this.phoneCallNotes,
+	 				'notes' : scope.phoneCallNotes,
 	 				'pickedup' : this.pickedup,
 	                'enthusiasm' : this.enthusiasm,
 	                'lead' : this.lead
@@ -122,7 +122,7 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 			scope.showWarning("Not an address!");
 		} 
 		else if(scope.called == true && scope.notesSubmitted == true){
-			this.phoneCallNotes = "";
+			scope.phoneCallNotes = "";
 			this.pickedup = -1;
 			this.lead = -1;
 			this.enthusiasm = -1;
@@ -158,7 +158,7 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
  	this.getNextNumber = function(){
 
  		if(scope.called == true && scope.notesSubmitted == true){
- 			this.phoneCallNotes = "";
+ 			scope.phoneCallNotes = "";
 			this.pickedup = -1;
 			this.lead = -1;
 			this.enthusiasm = -1;
