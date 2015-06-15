@@ -177,7 +177,7 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 				scope.address = data.numberData.address;
 				scope.called = false;
 				scope.showInfo("Got next number!");
-				scope.updateCalls(); //this updates the calls for the stats
+				// scope.updateCalls(); //this updates the calls for the stats
 	 		});
 	 	}else{
 	 		scope.showWarning("Please make the call then submit the notes!");

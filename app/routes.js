@@ -160,8 +160,10 @@ var secret = process.env.JWT_SECRET;
                     if (err)
                         res.send(err);
 
-                    if(req.body.client)
+                    if(req.body.client){
                         agent.client = req.body.client;  // update the agents info
+                        agent.calling.phone_number_id = null;
+                    }
 
                     // save the agent
                     agent.save(function(err) {
