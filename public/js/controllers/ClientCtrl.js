@@ -3,6 +3,19 @@ angular.module('ClientCtrl',[])
 
 	.controller('ClientController',['$scope','$sessionStorage','toasty','$location','$http','socket',function(scope,session,toasty,location,http,socket){
 
+	this.leads = true;
+	this.nuggets = false;
+
+
+	this.showLeads = function(){
+		this.leads = true;
+		this.nuggets = false;
+	};
+
+	this.showNuggets = function(){
+		this.leads = false;
+		this.nuggets = true;
+	};
 
 	scope.showWarning = function(message){
 		toasty.pop.warning({
@@ -41,24 +54,4 @@ angular.module('ClientCtrl',[])
 		session.$reset();
 		location.path('login');
 	}
-
-	this.empty = function(){
-		this.appointments = false;
-		this.nuggets = false;
-		this.stats = false;
-	}
-	this.showAppointments = function(){
-		this.empty();
-		this.appointments = true;
-	}
-	this.showAppointments();
-	this.showStats = function(){
-		this.empty();
-		this.stats = true;
-	}
-	this.showNuggets = function(){
-		this.empty();
-		this.nuggets = true;
-	}
-
 }]);

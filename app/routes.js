@@ -462,7 +462,7 @@ var secret = process.env.JWT_SECRET;
                 appointment.save(function(err){
                     if(err)
                         return res.send(err)
-                    emitAllAppointments();
+                    // emitAllAppointments();
                     res.send({'message':'Appointment saved!'});
                 });
             })
@@ -471,7 +471,7 @@ var secret = process.env.JWT_SECRET;
                 Appointment.remove(function(err,appointment){
                     if(err)
                         return res.send(err);
-                    emitAllAppointments();
+                    // emitAllAppointments();
                     res.send({'message':'Appointments deleted!'})
                 });
             });
@@ -484,7 +484,7 @@ var secret = process.env.JWT_SECRET;
                 },function(err,appointment){
                     if(err)
                         return res.send(err);
-                    emitAllAppointments();
+                    // emitAllAppointments();
                     res.send({'message':'Appointment deleted!'})
                 });
             });
@@ -508,6 +508,14 @@ var secret = process.env.JWT_SECRET;
                     if(err1)
                         return res.send(err1);
                     res.send({'message':'Nugget added!'});
+                });
+            })
+
+            .delete(function(req,res){
+                Nugget.remove(function(err,appointment){
+                    if(err)
+                        return res.send(err);
+                    res.send({'message':'Nuggets deleted!'})
                 });
             });
 

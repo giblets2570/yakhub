@@ -11,8 +11,9 @@ var io             = require('socket.io')(http);
 //////////////////////////////////////
 var Agent 		   = require('./app/models/agent');
 var Appointment    = require('./app/models/appointment');
-var Client         = require('./app/models/client')
-var Call         = require('./app/models/call')
+var Client         = require('./app/models/client');
+var Call           = require('./app/models/call');
+var Nugget         = require('./app/models/nugget');
 var jwt 		   = require('jsonwebtoken');
 // configuration ===========================================
 
@@ -92,7 +93,9 @@ io.on('connect',function(socket){
 	                    return res.send(err);
 	                var leads = [];
 	                var pickups = [];
+	                var duration = 0;
 	                for(var i = 0; i < calls.length; i++){
+	                	duration += parseInt(calls[i].duration);
 	                    if(calls[i].pickedup){
 	                        pickups.push(calls[i]);
 	                        if(calls[i].lead){
@@ -100,7 +103,7 @@ io.on('connect',function(socket){
 	                        }
 	                    }
 	                }
-	                io.sockets.connected[socket.client.id].emit('client:callData',{calls:calls,leads:leads,pickups:pickups});
+	                io.sockets.connected[socket.client.id].emit('client:callData',{duration:duration,calls:calls,leads:leads,pickups:pickups});
 	            }); 
 		    });
 		});
@@ -136,6 +139,20 @@ io.on('connect',function(socket){
 	                io.sockets.emit('client:signalUpdateCalls');
 	            }); 
 		    });
+		});
+	});
+
+	socket.on('client:getNuggets',function(data){
+		jwt.verify(data.authorization, secret, function(err, decoded) {
+			if(!decoded)
+				return;
+			Nugget.find({
+                'client':decoded.client_id
+            },function(err,nuggets){
+                if(err)
+                    return res.send(err);
+                io.sockets.connected[socket.client.id].emit('client:nuggetsData',nuggets);
+            }); 
 		});
 	});
 

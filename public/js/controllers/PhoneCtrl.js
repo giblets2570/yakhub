@@ -35,9 +35,10 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
     this.call = function(){
         // get the phone number to connect the call to
         if(scope.calledPrevious){
-        	var r = alert("If you call this number again and don't submit notes on your previous call, the data wont be saved. Continue?");
-        	if(r)
+        	var r = alert("If you call this number again and don't submit notes on your previous call, the data wont be saved. Continue anyway?");
+        	if(r){
         		return;
+        	}
         }
         if(scope.number!=""){
 	        params = {"calledNumber": scope.number,

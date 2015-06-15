@@ -9,11 +9,12 @@ angular.module('NuggetCtrl', []).
 		this.nugget = "";
 
 		this.addNugget = function(){
+			var nugget = this.nugget;
 			this.nugget = "";
 			http({
 				method:'POST',
 				url:'/api/nugget',
-				data:{nugget:this.nugget}
+				data:{nugget:nugget}
 			}).success(function(data){
 				console.log(data);
 				scope.showInfo("Nugget successfully added!");

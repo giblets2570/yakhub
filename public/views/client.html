@@ -14,6 +14,8 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
+        <li><a href="" ng-click='client.showLeads()'>Leads</a></li>
+        <li><a href="" ng-click='client.showNuggets()'>Nuggets</a></li>
         <li><a href="" ng-click='client.logout()'>Logout</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -23,7 +25,8 @@
 
 <div class="container-fluid">
       <div class='row'>
-        <div client-leads-directive></div>
+        <div client-leads-directive ng-show='client.leads'></div>
+        <div client-nuggets-directive ng-show='client.nuggets'></div>
         <div client-stats-directive></div>
       </div>
 </div>
