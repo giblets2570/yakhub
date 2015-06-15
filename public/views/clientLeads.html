@@ -6,7 +6,7 @@
 			<th>Address</th>
 			<th>Enthusiasm</th>
 			<th>Number</th>
-			<th>Recording</th>
+			<!-- <th>Recording</th> -->
 			<th>Notes</th>
 		</tr>
 		<tr ng-repeat="lead in clientLeads | orderBy:'time':false">
@@ -15,7 +15,7 @@
 			<td>{{lead.address}}</td>
 			<td>{{lead.enthusiasm}}</td>
 			<td>{{lead.number}}</td>
-			<td><a href='' ng-click='showRecording(lead.RecordingUrl)'>recording</a></td>
+			<!-- <td><a href='' ng-click='showRecording(lead.RecordingUrl)'>recording</a></td> -->
 			<td>{{lead.notes}}</td>
 		</tr>
 	</table>
