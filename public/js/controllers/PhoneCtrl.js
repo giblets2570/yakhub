@@ -34,6 +34,11 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
  	//making the phone call
     this.call = function(){
         // get the phone number to connect the call to
+        if(scope.calledPrevious){
+        	var r = alert("If you call this number again and don't submit notes on your previous call, the data wont be saved. Continue?");
+        	if(r)
+        		return;
+        }
         if(scope.number!=""){
 	        params = {"calledNumber": scope.number,
 	                "outgoingNumber": scope.outgoingNumber,
@@ -143,7 +148,7 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 					console.log(data);
 					scope.showInfo(data.message);
 					this.phone_number_id = data.numberData._id;
-
+					scope.calledPrevious = false;
 					scope.number = data.numberData.number;
 					scope.business = data.numberData.business;
 					scope.address = data.numberData.address;
@@ -178,6 +183,7 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 				scope.business = data.numberData.business;
 				scope.address = data.numberData.address;
 				scope.called = false;
+				scope.calledPrevious = false;
 				scope.showInfo("Got next number!");
 				// scope.updateCalls(); //this updates the calls for the stats
 	 		});

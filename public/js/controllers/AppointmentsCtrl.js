@@ -106,6 +106,7 @@ angular.module('AppointmentsCtrl',[]).
 						'appointment':appointment,
 						'authorization':session.token
 					});
+					scope.calledPrevious = false;
 					scope.showInfo("Appointment successfully taken!");
 				});
 			});
