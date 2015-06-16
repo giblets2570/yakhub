@@ -216,7 +216,16 @@ io.on('connect',function(socket){
                 if(!agent)
                     return ({'error':'No agent of that id'});
 				Appointment.find({'client':agent.client},function(err,appointments){
-					io.sockets.connected[socket.client.id].emit('appointments:appointments',appointments);
+					mine = []
+					for(i in appointments){
+						if(appointments[i].agent == decoded.agent_id){
+							mine.push(true);
+						}else{
+							mine.push(false);
+						}
+					}
+					console.log(mine);
+					io.sockets.connected[socket.client.id].emit('appointments:appointments',{appointments:appointments,mine:mine});
 				});
 		    });
 		});

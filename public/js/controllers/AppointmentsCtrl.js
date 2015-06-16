@@ -10,13 +10,23 @@ angular.module('AppointmentsCtrl',[]).
 	this.notes = "";
 
 	socket.on('appointments:appointments',function(data){
-		scope.myAppointments = data;
+		scope.myAppointments = data.appointments;
+		
 		for(var i = 0; i < scope.myAppointments.length; i++){
 			console.log(scope.myAppointments[i].time);
 			scope.myAppointments[i].time = new Date(scope.myAppointments[i].time);
+			scope.myAppointments[i].mine = data.mine[i];
 		}
+		console.log(scope.myAppointments);
 		scope.$apply();
 	});
+
+	scope.isMine = function(appointment){
+		if(appointment.mine){
+			return 'success';
+		}
+		return '';
+	}
 
 	socket.on('appointments:update',function(data){
 		scope.getAppointments();

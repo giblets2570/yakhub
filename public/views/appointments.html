@@ -47,7 +47,7 @@
 			<th>Date</th>
 			<th>Take</th>
 		</tr>
-		<tr ng-repeat="appoint in myAppointments | orderBy:'time':false | limitTo: 5">
+		<tr ng-repeat="appoint in myAppointments | orderBy:'time':false | limitTo: 5" class='{{isMine(appoint)}}'>
 			<!-- <td>{{appoint._id}}</td> -->
 			<td>{{appoint.number}}</td>
 			<td>{{appoint.business}}</td>
