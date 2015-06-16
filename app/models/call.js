@@ -24,6 +24,9 @@ var callSchema = mongoose.Schema({
 	business: {type : String, default: ''},
 	address: {type : String, default: ''},
 
+	contactEmail: {type : String, default: ''},
+	additionalNumber: {type : String, default: ''},
+	status : {type : String, default: ''},
 	personTalkedTo: {type: String, default: ''},
 
 	pickedup: {type: Boolean, default: false},

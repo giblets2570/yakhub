@@ -13,6 +13,7 @@ angular.module('ClientStatsCtrl', [])
 
 		scope.isToday = function(date){
 			var date = new Date(date);
+			console.log(date.getDate());
 			return date.getDate() === scope.today.getDate();
 		}
 

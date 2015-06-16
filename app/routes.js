@@ -567,6 +567,8 @@ var secret = process.env.JWT_SECRET;
                         var oldCallLead = call.lead;
                         call.lead = req.body.lead;
                         call.notes = req.body.notes;
+                        call.contactEmail = req.body.contactEmail;
+                        call.additionalNumber = req.body.additionalNumber;
                         call.save(function(err2){
                             if(err2)
                                 res.send(err2)
@@ -608,6 +610,7 @@ var secret = process.env.JWT_SECRET;
                     
                     console.log(req.body);
                     call.RecordingUrl = req.body.RecordingUrl;
+                    call.status = req.body.CallStatus;
                     call.duration = req.body.DialCallDuration;
 
                     call.save(function(err2){
