@@ -9,8 +9,9 @@
 			<!-- <th>Recording</th> -->
 			<th>Notes</th>
 			<th>Date</th>
+			<th>Followed up</th>
 		</tr>
-		<tr ng-repeat="lead in clientLeads | orderBy:'created':true">
+		<tr ng-repeat="lead in clientLeads | orderBy:'created':true" class='{{followedColour(lead)}}'>
 			<!-- <td>{{lead._id}}</td> -->
 			<td>{{lead.business}}</td>
 			<td>{{lead.address}}</td>
@@ -19,6 +20,7 @@
 			<!-- <td><a href='' ng-click='showRecording(lead.RecordingUrl)'>recording</a></td> -->
 			<td>{{lead.notes}}</td>
 			<td>{{lead.created.getDate()}}/{{lead.created.getMonth()}}/{{lead.created.getFullYear()}}</td>
+			<td><input type='checkbox' ng-change='onFollowedUp(lead.leads_id,lead.followed)' ng-model="lead.followed"></td>
 		</tr>
 	</table>
 </div>

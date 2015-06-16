@@ -95,8 +95,6 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 	 			console.log(data);
 	 			scope.notesSubmitted = true;
 	 			scope.firstCall = false;
-	 			scope.contactEmail = "";
-	 			scope.additionalNumber = "";
 	 			scope.showInfo("Notes successfully added!");
 	 			socket.emit('call:update',{
 					'authorization':session.token
@@ -157,6 +155,8 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 					scope.number = data.numberData.number;
 					scope.business = data.numberData.business;
 					scope.address = data.numberData.address;
+					scope.contactEmail = "";
+	 				scope.additionalNumber = "";
 				});
 			});
 		}else{
@@ -190,6 +190,8 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 				scope.called = false;
 				scope.calledPrevious = false;
 				scope.showInfo("Got next number!");
+				scope.contactEmail = "";
+	 			scope.additionalNumber = "";
 				// scope.updateCalls(); //this updates the calls for the stats
 	 		});
 	 	}else{

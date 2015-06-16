@@ -14,9 +14,7 @@ var phoneNumberSchema = mongoose.Schema({
     business: {type: String, default: ''},
     address: {type: String, default: ''},
     calling: {type: Boolean, default: false},
-    called: {type: Boolean, default: false},
-    contactEmail: {type: String, default: ''},
-    additionalNumber: {type: String, default: ''}
+    called: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model('PhoneNumber', phoneNumberSchema);

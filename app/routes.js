@@ -339,24 +339,29 @@ var secret = process.env.JWT_SECRET;
                                 });
                             }
                         }
-                        PhoneNumber.findOne({'calling':false,'called':false,'client':agent.client}, function(err3,number){
-                            if(err3)
-                                res.send(err3);
-                            if(!number)
-                                return res.send({'error': 'No more numbers!'});
-                            number.calling = true;
-                            number.save(function(err4){
-                                if(err4)
-                                    res.send(err4);
+                        prevNumber.calling = false;
+                        prevNumber.save(function(err6){
+                            if(err6)
+                                return res.send(err6);
+                            PhoneNumber.findOne({'calling':false,'called':false,'client':agent.client}, function(err3,number){
+                                if(err3)
+                                    res.send(err3);
+                                if(!number)
+                                    return res.send({'error': 'No more numbers!'});
+                                number.calling = true;
+                                number.save(function(err4){
+                                    if(err4)
+                                        res.send(err4);
 
-                                agent.calling.phone_number_id = number._id;
-                                agent.calling.call_id = null;
-                                agent.save(function(err5){
-                                    if(err5)
-                                        res.send(err5);
-                                    res.send({
-                                        message:"Here's the next number number!",
-                                        numberData: number
+                                    agent.calling.phone_number_id = number._id;
+                                    agent.calling.call_id = null;
+                                    agent.save(function(err5){
+                                        if(err5)
+                                            res.send(err5);
+                                        res.send({
+                                            message:"Here's the next number number!",
+                                            numberData: number
+                                        });
                                     });
                                 });
                             });
@@ -458,6 +463,27 @@ var secret = process.env.JWT_SECRET;
                     if (err)
                         res.send(err);
                     res.json({ message: 'Numbers successfully deleted' });
+                });
+            });
+
+        router.route('/phoneNumbers/client/:client_id')
+
+            .put(function(req,res){
+                Call.find({'client':req.params.client_id,'pickedup':false,'status':{$in: ['completed',null]}},function(err,calls){
+                    if(err)
+                        return err;
+                    var phoneNumbers = [];
+                    for(i in calls){
+                        phoneNumbers.push(calls[i].phoneNumber);
+                    }
+                    var query = {'_id':{$in:phoneNumbers}};
+                    var update = {called: false,calling:false};
+                    var options = { multi: true };
+                    PhoneNumber.update(query,update,options,function(err,numbers){
+                        if(err)
+                            return res.send(err);
+                        res.send(numbers);
+                    })
                 });
             });
 

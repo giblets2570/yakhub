@@ -163,14 +163,37 @@ io.on('connect',function(socket){
 		jwt.verify(data.authorization, secret, function(err, decoded) {
 			if(!decoded)
 				return;
-			Call.find({
-                'lead':true,
-                'client':decoded.client_id
-            },function(err,calls){
-                if(err)
-                    return res.send(err);
-                io.sockets.connected[socket.client.id].emit('client:leadsData',calls);
-            }); 
+			Client.findById(decoded.client_id,function(err,client){
+				if(err)
+					return err;
+				leadCalls = [];
+				for(var i = 0; i < client.leads.length; i++){
+					leadCalls.push(client.leads[i].call_id);
+				};
+				Call.find({'_id':{$in:leadCalls}},function(err,calls){
+	                if(err)
+	                    return res.send(err);
+	                io.sockets.connected[socket.client.id].emit('client:leadsData',{calls:calls,leads:client.leads});
+	            }); 
+			});
+		});
+	});
+
+	socket.on('client:followUp',function(data){
+		jwt.verify(data.authorization, secret, function(err, decoded) {
+			if(!decoded)
+				return;
+			Client.findById(decoded.client_id,function(err,client){
+				if(err)
+					return err;
+				leadCalls = [];
+				var lead = client['leads'].id(data.lead_id);
+				lead.followed = data.lead_followed;
+				client.save(function(err){
+					if(err)
+						return err;
+				});
+			});
 		});
 	});
 
