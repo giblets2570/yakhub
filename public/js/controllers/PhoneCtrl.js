@@ -84,6 +84,8 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 	 			url:'/api/call/notes',
 	 			data: {
 	 				'notes' : scope.phoneCallNotes,
+	 				'contactEmail' : scope.contactEmail,
+	 				'additionalNumber' : scope.additionalNumber,
 	 				'pickedup' : this.pickedup,
 	                'enthusiasm' : this.enthusiasm,
 	                'lead' : this.lead
@@ -93,6 +95,8 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 	 			console.log(data);
 	 			scope.notesSubmitted = true;
 	 			scope.firstCall = false;
+	 			scope.contactEmail = "";
+	 			scope.additionalNumber = "";
 	 			scope.showInfo("Notes successfully added!");
 	 			socket.emit('call:update',{
 					'authorization':session.token

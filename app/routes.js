@@ -658,7 +658,7 @@ var secret = process.env.JWT_SECRET;
                             call.number = calledNumber;
                             call.business = business;
                             call.address = address;
-
+                            call.created = new Date();
                             call.phoneNumber = phoneNumber._id;
 
                             var actionURL = '/api/call/recording/' + agent_id +'/' + call._id;

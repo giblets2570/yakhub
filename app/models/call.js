@@ -36,8 +36,8 @@ var callSchema = mongoose.Schema({
 	duration: {type : String, default: '0'},
 
 	created: {
-    	type: Date,
-    	default: Date.now()
+    	type: Date
+    	// default: Date.now()
     }
 });
 
