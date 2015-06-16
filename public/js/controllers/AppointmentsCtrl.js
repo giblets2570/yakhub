@@ -22,10 +22,17 @@ angular.module('AppointmentsCtrl',[]).
 	});
 
 	scope.isMine = function(appointment){
-		if(appointment.mine){
+		if(appointment.mine)
 			return 'success';
-		}
 		return '';
+	}
+
+	scope.isNear = function(appointment){
+		var minutes = Math.floor((appointment.time - scope.now)/(1000*60));
+		if(minutes < 5){
+			return 'danger';
+		}
+		return scope.isMine(appointment);
 	}
 
 	socket.on('appointments:update',function(data){
@@ -77,6 +84,7 @@ angular.module('AppointmentsCtrl',[]).
 	this.adding=false;
 	this.startAdding = function(){
 		this.adding=true;
+		console.log(this.dt);
 	}
 	this.stopAdding = function(){
 		this.adding=false;
@@ -133,7 +141,15 @@ angular.module('AppointmentsCtrl',[]).
 	};
 
 	this.today();
-	interval(this.today, 30000);
+
+	scope.rightNow = function(){
+		scope.now = new Date();
+	};
+
+	scope.rightNow();
+
+	// interval(this.today, 30000);
+	interval(scope.rightNow,10000);
 	
 	this.clear = function () {
 		this.dt = null;
