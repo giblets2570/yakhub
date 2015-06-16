@@ -52,8 +52,8 @@
 			<td>{{appoint.number}}</td>
 			<td>{{appoint.business}}</td>
 			<td>{{appoint.address}}</td>
-			<td>{{appoint.time.toLocaleTimeString()}}</td>
-			<td>{{appoint.time.toLocaleDateString()}}</td>
+			<td>{{appoint.time.getHours()}}:{{appoint.time.getMinutes()}}</td>
+			<td>{{appoint.time.getDate()}}/{{appoint.time.getMonth()}}/{{appoint.time.getFullYear()}}</td>
 			<td><button ng-click='appointments.takeAppointment(appoint._id)'>Take</button></td>
 		</tr>
 	</table>
