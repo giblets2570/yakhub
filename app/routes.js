@@ -332,14 +332,16 @@ var secret = process.env.JWT_SECRET;
                             res.send(err1);
 
                         if(prevNumber){
+
                             if(!prevNumber.called){
                                 return res.send({
                                     message:"You haven't called the previous number!",
                                     numberData: prevNumber
                                 });
+                            }else{
+                                prevNumber.calling = false;
                             }
                         }
-                        prevNumber.calling = false;
                         prevNumber.save(function(err6){
                             if(err6)
                                 return res.send(err6);
