@@ -319,7 +319,6 @@ var secret = process.env.JWT_SECRET;
                 });
             });
 
-
         router.route('/phoneNumber')
             .get(ensureAuthorized,function(req,res){
                 Agent.findById(req.body.agent_id,function(err,agent){
@@ -332,7 +331,6 @@ var secret = process.env.JWT_SECRET;
                             res.send(err1);
 
                         if(prevNumber){
-
                             if(!prevNumber.called){
                                 return res.send({
                                     message:"You haven't called the previous number!",
@@ -341,10 +339,34 @@ var secret = process.env.JWT_SECRET;
                             }else{
                                 prevNumber.calling = false;
                             }
+                            prevNumber.save(function(err6){
+                                if(err6)
+                                    return res.send(err6);
+                                PhoneNumber.findOne({'calling':false,'called':false,'client':agent.client}, function(err3,number){
+                                    if(err3)
+                                        res.send(err3);
+                                    if(!number)
+                                        return res.send({'error': 'No more numbers!'});
+                                    number.calling = true;
+                                    number.save(function(err4){
+                                        if(err4)
+                                            res.send(err4);
+
+                                        agent.calling.phone_number_id = number._id;
+                                        agent.calling.call_id = null;
+                                        agent.save(function(err5){
+                                            if(err5)
+                                                res.send(err5);
+                                            res.send({
+                                                message:"Here's the next number number!",
+                                                numberData: number
+                                            });
+                                        });
+                                    });
+                                });
+                            });
                         }
-                        prevNumber.save(function(err6){
-                            if(err6)
-                                return res.send(err6);
+                        else{
                             PhoneNumber.findOne({'calling':false,'called':false,'client':agent.client}, function(err3,number){
                                 if(err3)
                                     res.send(err3);
@@ -367,7 +389,7 @@ var secret = process.env.JWT_SECRET;
                                     });
                                 });
                             });
-                        });
+                        }
                     });
                 });
             })
