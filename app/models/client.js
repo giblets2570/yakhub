@@ -14,6 +14,7 @@ var clientSchema = mongoose.Schema({
     	default: Date.now()
     },leads:[{
         call_id: {type: mongoose.Schema.ObjectId, ref: 'Call'},
+        agent_name: {type: String, default: ''},
         notes: {type : String, default: ''},
         followed: {type : Boolean, default: false}
     }]

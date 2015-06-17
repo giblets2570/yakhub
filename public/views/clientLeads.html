@@ -2,6 +2,7 @@
 	<h2>Leads</h2>
 	<table class="table table-hover">
 		<tr>
+			<th>Agent</th>
 			<th>Business</th>
 			<th>Address</th>
 			<th>Enthusiasm</th>
@@ -13,6 +14,7 @@
 		</tr>
 		<tr ng-repeat="lead in clientLeads | orderBy:'created':true" class='{{followedColour(lead)}}'>
 			<!-- <td>{{lead._id}}</td> -->
+			<td>{{lead.agent_name}}</td>
 			<td>{{lead.business}}</td>
 			<td>{{lead.address}}</td>
 			<td>{{lead.enthusiasm}}</td>

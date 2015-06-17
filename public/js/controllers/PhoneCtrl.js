@@ -35,7 +35,7 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
     this.call = function(){
         // get the phone number to connect the call to
         if(scope.calledPrevious){
-        	var r = alert("If you call this number again and don't submit notes on your previous call, the data wont be saved. Continue anyway?");
+        	var r = confirm("If you call this number again and don't submit notes on your previous call, the data wont be saved. Continue anyway?");
         	if(r){
         		return;
         	}
@@ -168,9 +168,11 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
  	this.getNextNumber = function(){
 
  		if(!(scope.called == true && scope.notesSubmitted == true)){
- 			var r = alert("Are you sure you want to skip this number?");
- 			if(r == false)
+ 			var r = confirm("Are you sure you want to skip this number?");
+ 			if(!r){
+ 				scope.showWarning("Please make the call then submit the notes!");
  				return;
+ 			}
  		}
  		// if(scope.called == true && scope.notesSubmitted == true){
 		scope.phoneCallNotes = "";

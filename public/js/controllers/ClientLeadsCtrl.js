@@ -15,6 +15,7 @@ angular.module('ClientLeadsCtrl', [])
 			scope.clientLeads = data.calls;
 			for(var i = 0; i < scope.clientLeads.length; i++){
 				scope.clientLeads[i].created = new Date(scope.clientLeads[i].created);
+				scope.clientLeads[i].agent_name = data.leads[i].agent_name;
 				scope.clientLeads[i].followed = data.leads[i].followed;
 				scope.clientLeads[i].leads_id = data.leads[i]._id;
 			}

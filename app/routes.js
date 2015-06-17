@@ -282,28 +282,6 @@ var secret = process.env.JWT_SECRET;
                 });
             });
 
-        // router.route('/call/agent')
-        //     .get(function(req,res){
-        //         Call.find({
-        //             'agent':req.body.agent_id,
-        //             'client':req.body.client_id
-        //         },function(err,calls){
-        //             if(err)
-        //                 return res.send(err);
-        //             var leads = [];
-        //             var pickups = [];
-        //             for(var i = 0; i < calls.length; i++){
-        //                 if(calls[i].pickedup){
-        //                     pickups.push(calls[i]);
-        //                     if(calls[i].lead){
-        //                         leads.push(calls[i]);
-        //                     }
-        //                 }
-        //             }
-        //             return res.send({calls:calls,leads:leads,pickups:pickups});
-        //         });
-        //     });
-
         router.route('/call/client')
             .get(ensureAuthorized, function(req,res){
                 Call.find({'client':req.body.client_id},function(err,calls){
@@ -608,6 +586,46 @@ var secret = process.env.JWT_SECRET;
         //   These are the big methods
         /////////////////////////////////////////////////////////
 
+        // router.route('/cleanup/:client_id')
+
+        //     .put(function(req,res){
+        //         Client.findById(req.params.client_id,function(err,client){
+        //             console.log(client.leads.length);
+        //             for(var i = 0; i < client.leads.length; i++){
+        //                 Call.findById(client.leads[i].call_id, function(err2,call){
+        //                     if(err2)
+        //                         console.log(err);
+        //                     if(!call)
+        //                         console.log("Why");
+        //                     // console.log(call);
+        //                     Agent.findById(call.agent,function(err,agent){
+        //                         if(err)
+        //                             console.log(err);
+        //                         if(!agent)
+        //                             console.log("No agent");
+        //                         // console.log(agent);
+        //                         lead_id = undefined;
+        //                         for(var k = 0; k < client.leads.length; k++){
+        //                             console.log(client.leads[k].call_id.toString(),call._id,client.leads[k].call_id.toString() === call._id.toString());
+        //                             if(client.leads[k].call_id.toString() == call._id.toString()){
+        //                                 lead_id = client.leads[k]._id;
+        //                                 console.log("p");
+        //                             }
+        //                         }
+        //                         var lead = client['leads'].id(lead_id);
+        //                         lead.agent_name = agent.name;
+        //                         client.save(function(err){
+        //                             if(err)
+        //                                 return err;
+        //                         });
+        //                     });
+        //                 });
+                    
+        //             }
+        //             return res.send({'done':'done'});
+        //         });
+        //     });
+
         router.route('/call/notes')
 
             .get(ensureAuthorized,function(req,res){
@@ -644,7 +662,8 @@ var secret = process.env.JWT_SECRET;
                                     if(!client)
                                         return res.send({'error':'Client gone wrong!'});
                                     var lead = {
-                                        call_id: call._id
+                                        call_id: call._id,
+                                        agent_name: agent.name
                                     }
                                     client.leads.push(lead);
                                     client.save(function(err){
