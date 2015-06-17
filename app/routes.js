@@ -467,20 +467,36 @@ var secret = process.env.JWT_SECRET;
             .post(function(req,res){
                 console.log(req.body);
                 var phoneNumbers = req.body.numbers.phoneNumbers;
-                console.log(phoneNumbers);
-                console.log(req.body.number_client_id);
+                newNumbers = []
                 for(var i = 0; i < phoneNumbers.length; i++){
-                    var phoneNumber = new PhoneNumber();
-                    phoneNumber.client = req.body.number_client_id;
-                    phoneNumber.number = phoneNumbers[i].number;
-                    phoneNumber.business = phoneNumbers[i].business;
-                    phoneNumber.address = phoneNumbers[i].address;
-                    phoneNumber.save(function(err){
-                        if(err)
-                            res.send(err);
-                    });
+                    newNumbers.push(phoneNumbers[i].number);
                 }
-                res.send({message:'Numbers added to database!'});
+                PhoneNumber.find({'number': {$in:newNumbers}},function(err, dupnumbers){
+                    if(err)
+                        return res.send(err);
+                    dn = []
+                    if(dupnumbers){
+                        for (var i = 0; i < dupnumbers.length; i++){
+                            dn.push(dupnumbers[i].number);
+                        }
+                    }
+                    for(var i = 0; i < phoneNumbers.length; i++){
+                        if(dn.indexOf(phoneNumbers[i].number) == -1){
+                            var phoneNumber = new PhoneNumber();
+                            phoneNumber.client = req.body.number_client_id;
+                            phoneNumber.number = phoneNumbers[i].number;
+                            phoneNumber.business = phoneNumbers[i].business;
+                            phoneNumber.address = phoneNumbers[i].address;
+                            phoneNumber.save(function(err){
+                                if(err)
+                                    res.send(err);
+                            });
+                        }else{
+                            console.log('Duplicate number found');
+                        }
+                    }
+                    res.send({message:'Numbers added to database!'});
+                });
             })
             .delete(function(req,res){
                 PhoneNumber.remove(function(err, numbers) {
@@ -493,20 +509,19 @@ var secret = process.env.JWT_SECRET;
         router.route('/phoneNumbers/client/:client_id')
 
             .put(function(req,res){
-                Call.find({'client':req.params.client_id,'pickedup':false,'status':{$in: ['completed',null]}},function(err,calls){
+                Call.find({'client':req.params.client_id,'pickedup':false,'status':{$in: ['completed','no-answer','in-progress',null]}},function(err,calls){
                     if(err)
                         return err;
                     var phoneNumbers = [];
                     for(i in calls){
                         phoneNumbers.push(calls[i].phoneNumber);
-                    }
-                    var query = {'_id':{$in:phoneNumbers}};
-                    var update = {called: false,calling:false};
-                    var options = { multi: true };
-                    PhoneNumber.update(query,update,options,function(err,numbers){
+                    };
+                    
+                    PhoneNumber.update({'_id':{$in:phoneNumbers}},{called:false,calling:false},{multi: true},function(err,numbers){
+                        
                         if(err)
                             return res.send(err);
-                        res.send(numbers);
+                        return res.send({numbers:numbers});
                     })
                 });
             });
@@ -517,7 +532,7 @@ var secret = process.env.JWT_SECRET;
                 Appointment.find(function(err,appointments){
                     if(err)
                         return err;
-                    res.send(appointments);
+                    return res.send(appointments);
                 });
             })
 

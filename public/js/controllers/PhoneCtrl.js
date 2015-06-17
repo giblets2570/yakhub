@@ -215,6 +215,9 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
     Twilio.Device.error(function (error) {
     	scope.log = "Error: " + error.message;
     	scope.$apply();
+    	getToken(function(data){
+			Twilio.Device.setup(data.calltoken);
+		});
     });
  
     Twilio.Device.connect(function (conn) {
