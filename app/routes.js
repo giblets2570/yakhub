@@ -398,6 +398,7 @@ var secret = process.env.JWT_SECRET;
             })
 
             .put(ensureAuthorized,function(req,res){
+
                 Agent.findById(req.body.agent_id,function(err,agent){
                     var phone_number_id = agent.calling.phone_number_id;
                     PhoneNumber.findById(phone_number_id, function(err1,number){
@@ -408,6 +409,10 @@ var secret = process.env.JWT_SECRET;
                         }
                         if(number.called == true)
                             return res.send({message:'Complete!'});
+                        if(req.body.badNumber){
+                            number.called = true;
+                            number.reported = true;
+                        }
                         number.calling = false;
                         number.save(function(err2){
                             if(err2)

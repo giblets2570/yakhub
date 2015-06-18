@@ -167,11 +167,15 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
     //get the next number
  	this.getNextNumber = function(){
 
+ 		var badNumber = false;
+
  		if(!(scope.called == true && scope.notesSubmitted == true)){
  			var r = confirm("Are you sure you want to skip this number?");
  			if(!r){
  				scope.showWarning("Please make the call then submit the notes!");
  				return;
+ 			}else{
+ 				badNumber = true;
  			}
  		}
  		// if(scope.called == true && scope.notesSubmitted == true){
@@ -179,28 +183,34 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 		this.pickedup = -1;
 		this.lead = -1;
 		this.enthusiasm = -1;
- 		http({
- 			method:'GET',
- 			url:'/api/phoneNumber', 
- 			cache: false
- 		}).success(function(data){
- 			console.log(data);
- 			if(data.error){
- 				console.log(data.error);
- 				scope.showWarning(data.error);
- 				return;
- 			}
- 			this.phone_number_id = data.numberData._id;
-			scope.number = data.numberData.number;
-			scope.business = data.numberData.business;
-			scope.address = data.numberData.address;
-			scope.called = false;
-			scope.calledPrevious = false;
-			scope.showInfo("Got next number!");
-			scope.contactEmail = "";
- 			scope.additionalNumber = "";
-			// scope.updateCalls(); //this updates the calls for the stats
- 		});
+		http({
+			method:'PUT',
+			url:'api/phoneNumber',
+			data:{badNumber:badNumber}
+		}).success(function(data){
+			http({
+	 			method:'GET',
+	 			url:'/api/phoneNumber', 
+	 			cache: false
+	 		}).success(function(data){
+	 			console.log(data);
+	 			if(data.error){
+	 				console.log(data.error);
+	 				scope.showWarning(data.error);
+	 				return;
+	 			}
+	 			this.phone_number_id = data.numberData._id;
+				scope.number = data.numberData.number;
+				scope.business = data.numberData.business;
+				scope.address = data.numberData.address;
+				scope.called = false;
+				scope.calledPrevious = false;
+				scope.showInfo("Got next number!");
+				scope.contactEmail = "";
+	 			scope.additionalNumber = "";
+				// scope.updateCalls(); //this updates the calls for the stats
+	 		});
+		});
 	 	// }
 	 	// else{
 	 	// 	scope.showWarning("Please make the call then submit the notes!");
