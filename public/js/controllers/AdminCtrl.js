@@ -8,6 +8,7 @@ angular.module('AdminCtrl',[]).controller('AdminController',['$scope','$sessionS
 	this.empty = function(){
 		this.addNumbers = false;
 		this.updates = false;
+		this.campaignUpdates = false;
 	}
 	
 	this.showAddNumbers= function(){
@@ -18,6 +19,10 @@ angular.module('AdminCtrl',[]).controller('AdminController',['$scope','$sessionS
 	this.showUpdates = function(){
 		this.empty();
 		this.updates = true;
+	}
+	this.showCampaignUpdates = function(){
+		this.empty();
+		this.campaignUpdates = true;
 	}
 	this.showUpdates();
 

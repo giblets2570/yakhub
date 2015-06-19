@@ -1,0 +1,19 @@
+<div class='col-xs-6'>
+	<h2>Campaign Updates</h2>
+	<div class='col-xs-6'>
+		<table class="table table-hover">
+			<tr ng-repeat='person in list["client"]'>
+				<td><a href='' ng-click='adminCampaignUpdates.chooseClient(person._id)'>{{person.name}}</a></td>
+			</tr>
+		</table>
+	</div>
+	<div class='col-xs-6' ng-show='adminCampaignUpdates.clientChosen'>
+	    <form name="json">
+	        <div>
+	            <label for="campaignUpdate">Campaign update:</label>
+	            <textarea class="form-control" rows="10" id="campaignUpdate" ng-model="campaignUpdate"></textarea>
+	        </div>
+	        <button type="button" class="btn btn-primary" ng-click="addUpdate(adminCampaignUpdates.client_id)">Add campaign update</button>
+	    </form>
+	</div>
+</div>

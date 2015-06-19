@@ -14,6 +14,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
+        <li><a href="" ng-click='admin.showCampaignUpdates()'>Campaign Updates</a></li>
         <li><a href="" ng-click='admin.showUpdates()'>Updates</a></li>
         <li><a href="" ng-click='admin.showAddNumbers()'>Add numbers</a></li>
         <li><a href="" ng-click='admin.logout()'>Logout</a></li>
@@ -28,5 +29,6 @@
       <div class='row'>
           <div updates-directive ng-show='admin.updates'></div>
           <div add-numbers-directive ng-show='admin.addNumbers'></div>
+          <div admin-campaign-updates-directive ng-show='admin.campaignUpdates'></div>
       </div>
 </div>

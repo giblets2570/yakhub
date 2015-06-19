@@ -71,16 +71,22 @@ angular.module('AgentCtrl',[]).controller('AgentController',['$scope','$sessionS
 		this.nuggets = false;
 		this.stats = false;
 		this.script = false;
+		this.campaignUpdates = false;
+	}
+	this.showCampaignUpdates = function(){
+		this.empty();
+		this.campaignUpdates = true;
 	}
 	this.showAppointments = function(){
 		this.empty();
 		this.appointments = true;
 	}
-	this.showAppointments();
+	// this.showAppointments();
 	this.showStats = function(){
 		this.empty();
 		this.stats = true;
 	}
+	this.showStats()
 	this.showNuggets = function(){
 		this.empty();
 		this.nuggets = true;

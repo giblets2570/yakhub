@@ -14,6 +14,8 @@ var Appointment    = require('./app/models/appointment');
 var Client         = require('./app/models/client');
 var Call           = require('./app/models/call');
 var Nugget         = require('./app/models/nugget');
+var Update         = require('./app/models/update');
+var Admin          = require('./app/models/admin')
 var jwt 		   = require('jsonwebtoken');
 // configuration ===========================================
 
@@ -194,6 +196,56 @@ io.on('connect',function(socket){
 						return err;
 				});
 			});
+		});
+	});
+
+	socket.on('agent:getCampaignUpdates',function(data){
+		console.log("get campaign updates");
+		jwt.verify(data.authorization, secret, function(err, decoded) {
+			if(!decoded)
+				return;
+			console.log("here");
+			Agent.findById(decoded.agent_id, function(err, agent) {
+                if (err)
+                    return err;
+                if(!agent)
+                    return ({'error':'No agent of that id'});
+                console.log("Emmiting");
+               	Update.find({
+               		client:agent.client
+               	},function(err,updates){
+	            	console.log(updates);
+	                if(err)
+	                    return res.send(err);
+
+	                io.sockets.connected[socket.client.id].emit('agent:campaignUpdates',updates);
+	            }); 
+		    });
+		});
+	});
+
+	socket.on('admin:addCampaignUpdate',function(data){
+		console.log('Admin add campaign update');
+		jwt.verify(data.authorization, secret, function(err, decoded) {
+			if(!decoded)
+				return;
+			Admin.findById(decoded.admin_id, function(err, admin) {
+                if (err)
+                    return err;
+                if(!admin)
+                    return ({'error':'No admin of that id'});
+                console.log("Here");
+               	var update = new Update();
+				update.update = data.update;
+				update.client = data.client;
+				update.admin = true;
+				update.save(function(err){
+					if(err)
+						return err;
+					console.log("Saved");
+					socket.emit('agent:newUpdates');
+				});
+		    });
 		});
 	});
 

@@ -1,7 +1,7 @@
 // public/js/app.js
 angular.module('app', ['ngRoute','ngStorage','appRoutes','ui.bootstrap','btford.socket-io','ngAnimate', 'toasty','nvd3ChartDirectives','chart.js',
-    'AgentCtrl','AuthCtrl','PhoneCtrl','AddNumbersCtrl','AppointmentsCtrl','NuggetCtrl','StatsCtrl','AdminCtrl','UpdatesCtrl','ClientCtrl','ClientLeadsCtrl','ClientStatsCtrl','ClientNuggetsCtrl','ScriptCtrl',
-    'PhoneDir','AddNumbersDir','AppointmentsDir','NuggetDir','StatsDir','UpdatesDir','ClientLeadsDir','ClientStatsDir','ClientNuggetsDir','ScriptDir'])
+    'AgentCtrl','AuthCtrl','PhoneCtrl','AddNumbersCtrl','AppointmentsCtrl','NuggetCtrl','StatsCtrl','AdminCtrl','UpdatesCtrl','ClientCtrl','ClientLeadsCtrl','ClientStatsCtrl','ClientNuggetsCtrl','ScriptCtrl','AgentCampaignUpdatesCtrl','AdminCampaignUpdatesCtrl',
+    'PhoneDir','AddNumbersDir','AppointmentsDir','NuggetDir','StatsDir','UpdatesDir','ClientLeadsDir','ClientStatsDir','ClientNuggetsDir','ScriptDir','AgentCampaignUpdatesDir','AdminCampaignUpdatesDir'])
 
 .run(['$rootScope','$location','$sessionStorage', function (root, location, session){
 	
