@@ -164,6 +164,48 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 	 	}
     };
 
+    this.skipNumber = function(){
+    	var badNumber = false;
+		var r = confirm("Are you sure you want to skip this number?");
+		if(!r){
+			scope.showWarning("Please make the call then submit the notes!");
+			return;
+		}else{
+			badNumber = true;
+		}
+		scope.phoneCallNotes = "";
+		this.pickedup = -1;
+		this.lead = -1;
+		this.enthusiasm = -1;
+		http({
+			method:'PUT',
+			url:'api/phoneNumber',
+			data:{badNumber:badNumber}
+		}).success(function(data){
+			http({
+	 			method:'GET',
+	 			url:'/api/phoneNumber', 
+	 			cache: false
+	 		}).success(function(data){
+	 			console.log(data);
+	 			if(data.error){
+	 				console.log(data.error);
+	 				scope.showWarning(data.error);
+	 				return;
+	 			}
+	 			this.phone_number_id = data.numberData._id;
+				scope.number = data.numberData.number;
+				scope.business = data.numberData.business;
+				scope.address = data.numberData.address;
+				scope.called = false;
+				scope.calledPrevious = false;
+				scope.showInfo("Got next number!");
+				scope.contactEmail = "";
+	 			scope.additionalNumber = "";
+	 		});
+		});
+    }
+
     //get the next number
  	this.getNextNumber = function(){
 
@@ -216,6 +258,8 @@ angular.module('PhoneCtrl',[]).controller('PhoneController',['$scope','$sessionS
 	 	// 	scope.showWarning("Please make the call then submit the notes!");
 	 	// }
  	};
+
+ 	this.getNextNumber();
 
     //Twilio javascript
     Twilio.Device.ready(function (device) {
