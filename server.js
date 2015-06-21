@@ -210,11 +210,11 @@ io.on('connect',function(socket){
                     return err;
                 if(!agent)
                     return ({'error':'No agent of that id'});
-                console.log("Emmiting");
+                // console.log("Emmiting");
                	Update.find({
                		client:agent.client
                	},function(err,updates){
-	            	console.log(updates);
+	            	// console.log(updates);
 	                if(err)
 	                    return res.send(err);
 
@@ -242,8 +242,8 @@ io.on('connect',function(socket){
 				update.save(function(err){
 					if(err)
 						return err;
-					console.log("Saved");
-					socket.emit('agent:newUpdates');
+					// console.log("Saved");
+					io.sockets.emit('agent:newUpdates');
 				});
 		    });
 		});
