@@ -9,6 +9,12 @@ angular.module('AdminCtrl',[]).controller('AdminController',['$scope','$sessionS
 		this.addNumbers = false;
 		this.updates = false;
 		this.campaignUpdates = false;
+		this.scheduler = false;
+	}
+
+	this.showScheduler = function(){
+		this.empty();
+		this.scheduler = true;
 	}
 	
 	this.showAddNumbers= function(){

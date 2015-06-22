@@ -1,0 +1,31 @@
+<div class='col-xs-12'>
+	<h2>Campaign schedule</h2>
+	<!-- <button ng-click="toggleModal()" class="btn btn-default">Open modal</button> -->
+	<div class='row'>
+		<div class='col-xs-3'>
+			<table class="table table-hover">
+				<tr ng-repeat='person in list["client"]'>
+					<td>
+						<a href='' ng-click='adminScheduler.chooseClient(person._id)'>{{person.name}}</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class='col-xs-9' ng-show='adminScheduler.clientChosen'>
+			<div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
+		</div>
+	</div>
+	<modal title="Login form" visible="showModal">
+		<form role="form">
+			<div class="form-group">
+				<label for="email">Email address</label>
+				<input type="email" class="form-control" id="email" placeholder="Enter email" />
+			</div>
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input type="password" class="form-control" id="password" placeholder="Password" />
+			</div>
+		<button type="submit" class="btn btn-default">Submit</button>
+		</form>
+	</modal>
+</div>

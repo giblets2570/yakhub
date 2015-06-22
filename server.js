@@ -224,6 +224,31 @@ io.on('connect',function(socket){
 		});
 	});
 
+	// socket.on('admin:addCampaignUpdate',function(data){
+	// 	console.log('Admin add campaign update');
+	// 	jwt.verify(data.authorization, secret, function(err, decoded) {
+	// 		if(!decoded)
+	// 			return;
+	// 		Admin.findById(decoded.admin_id, function(err, admin) {
+ //                if (err)
+ //                    return err;
+ //                if(!admin)
+ //                    return ({'error':'No admin of that id'});
+ //                console.log("Here");
+ //               	var update = new Update();
+	// 			update.update = data.update;
+	// 			update.client = data.client;
+	// 			update.admin = true;
+	// 			update.save(function(err){
+	// 				if(err)
+	// 					return err;
+	// 				// console.log("Saved");
+	// 				io.sockets.emit('agent:newUpdates');
+	// 			});
+	// 	    });
+	// 	});
+	// });
+
 	socket.on('admin:addCampaignUpdate',function(data){
 		console.log('Admin add campaign update');
 		jwt.verify(data.authorization, secret, function(err, decoded) {

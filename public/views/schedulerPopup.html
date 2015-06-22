@@ -1,0 +1,44 @@
+<div class="container-fluid">
+
+    <div class='row'>
+    	<div class='col-xs-3'>
+			</div>
+			<div class='col-xs-6'>
+				<div class="panel panel-default">
+	        <div class="panel-body" height='300px'>
+	        	<div class='row'>
+	        		<div class='col-xs-6'>
+	        			Name: <input type='text' ng-model='popup.namefilter'/>
+	        			<table class="table table-hover">
+									<tr ng-repeat='person in list["agent"]|filter: popup.namefilter'>
+										<td>
+											<a href='' ng-click=''>{{person.name}}</a>
+										</td>
+									</tr>
+								</table>
+					    </div>
+	        		<div class='col-xs-6'>
+	        			<div class='row'>
+	        				<div class='col-xs-12'>
+	        					<timepicker ng-model="startTime" ng-change="appointments.changed()" hour-step="1" minute-step="60" show-meridian="false"> </timepicker>
+	        				</div>
+	        				<div class='col-xs-12'>
+	        					<timepicker ng-model="endTime" ng-change="appointments.changed()" hour-step="1" minute-step="60" show-meridian="false"> </timepicker>
+	        				</div>
+	        			</div>
+	        			<p>
+	        				Times
+	        			</p>
+	        		</div>
+	        	</div>
+	        </div>
+	        <a href="" ng-click='allocateTime()'>
+	            <div class="panel-footer bold-center">Allocate</div>
+	        </a>
+				</div>
+			</div>
+			<div class='col-xs-3'>
+				
+			</div>
+  </div>
+</div>
