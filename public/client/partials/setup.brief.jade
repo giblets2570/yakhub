@@ -1,0 +1,76 @@
+.container
+	.col-md-offset-1.col-md-10
+		div.row
+			div.col-md-4
+				h4.section-title Campaign name
+			div.col-md-8
+				input.form-control.ng-cloak(placeholder='Your campaign\'s name' type='text' ng-model='campaign.name')
+
+		div.row
+			div.col-md-4
+				h4.section-title Campaign objective
+			div.col-md-8
+				textarea.form-control.ng-cloak(rows='5', placeholder='What\'s your objective? For instance: finding leads with need X, getting an appointment booked etc.' ng-model='campaign.objective')
+
+		div.row
+			div.col-md-4
+				h4.section-title Description/instructions
+			div.col-md-8
+				textarea.form-control.ng-cloak(rows='5', placeholder='Do you have any specific instructions for callers?' ng-model='campaign.description')
+		div.row
+			div.col-md-4
+				h4.section-title Score definition
+				br
+				strong Agents can score leads from 0 to 3 stars. Define what each score means.
+				br
+				|For example:
+				br
+				|0 = Not interested, 3 = Appointment booked
+			div.col-md-8
+				div.input-group.ng-cloak
+					span#zero.input-group-addon 0
+					input.form-control(type='text', placeholder='', aria-describedby='zero' ng-model='campaign.score_definition.zero')
+				div.input-group.ng-cloak
+					span#one.input-group-addon 1
+					input.form-control(type='text', placeholder='', aria-describedby='one' ng-model='campaign.score_definition.one')
+				div.input-group.ng-cloak
+					span#two.input-group-addon 2
+					input.form-control(type='text', placeholder='', aria-describedby='two' ng-model='campaign.score_definition.two')
+				div.input-group.ng-cloak
+					span#three.input-group-addon 3
+					input.form-control(type='text', placeholder='', aria-describedby='three' ng-model='campaign.score_definition.three')
+		div.row
+			div.col-md-4
+				h4.section-title Your contact info
+			div.col-md-8
+				div.row
+					div.col-md-6
+						input.form-control.ng-cloak(type='text',placeholder='Name of in-house contact' ng-model='campaign.contact_info.name')
+					div.col-md-6
+						input.form-control.ng-cloak(type='text',placeholder='Role/Job Title' ng-model='campaign.contact_info.role')
+					div.col-md-6
+						input.form-control.ng-cloak(type='text',placeholder='Phone Number' ng-model='campaign.contact_info.phone')
+					div.col-md-6
+						input.form-control.ng-cloak(type='text',placeholder='Email' ng-model='campaign.contact_info.email')
+		div.row
+			div.col-md-4
+				h4.section-title Dates
+			div.col-md-4
+				input.form-control(type='text', ng-model='campaign.start_date', name='start_date', bs-datepicker, placeholder='Start date')
+			div.col-md-4
+				input.form-control(type='text', ng-model='campaign.end_date', name='end_date', bs-datepicker, placeholder='End date')
+		div.row
+			div.col-md-4
+				h4.section-title Times
+			div.col-md-2
+				input.form-control(type="number" ng-model="campaign.start_time" name="start_time" placeholder='Start time')
+			div.col-md-2
+				select.form-control(ng-model='start_time' ng-change='timePick(start_time,"start")')
+					option AM
+					option PM
+			div.col-md-2
+				input.form-control(type="number" ng-model="campaign.end_time" name="end_time" placeholder='End date')
+			div.col-md-2
+				select.form-control(ng-model='end_time' ng-change='timePick(end_time,"end")')
+					option AM
+					option PM

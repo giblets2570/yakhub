@@ -1,0 +1,14 @@
+<div class="popover" tabindex="-1">
+  <div class="arrow"></div>
+  <h3 class="popover-title">Which campaign?</h3>
+  <div class="popover-content">
+    <form name="popoverForm">
+      <p style="min-width:300px;"></p>
+      <div ng-repeat='campaign in campaigns'>
+        <button class='btn btn-primary' ng-click='assignCampaign(campaign);$hide();'>
+          <strong> {{campaign.name}} </strong>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

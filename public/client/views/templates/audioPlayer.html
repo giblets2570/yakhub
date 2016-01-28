@@ -1,0 +1,33 @@
+<div class='row'>
+  <div class='col-md-6'>
+    <input type="range" min="0.0" max="{{ duration }}" step="0.1" ng-model="ctime" ng-change="changetime()"/>
+  </div>
+  <div class='col-md-2'>
+    <!-- <button class='btn btn-xs btn-success' ng-click="play()" ng-show='!playing'>
+      <span class='glyphicon glyphicon-play'></span>
+    <button class='btn btn-xs btn-warning' ng-click="pause()" ng-show='playing'>
+      <span class='glyphicon glyphicon-pause'></span> -->
+    <a href='' ng-click="play()" ng-show='!playing'>
+      <img src="assets/images/play.png">
+    </a>
+    <a href='' ng-click="pause()" ng-show='playing'>
+      <img src="assets/images/pause.png">
+    </a>
+  </div>
+  <div class='col-md-2'>
+    {{ ctime }} / {{ duration }}
+  </div>
+</div>
+<!--    <div class="volwrap">
+     <img src="/img/vol/0.png" ng-if="vol == 0.0">
+     <img src="/img/vol/33.png" ng-if="vol > 0.0 && vol <= 0.33">
+     <img src="/img/vol/66.png" ng-if="vol > 0.33 && vol <= 0.66">
+     <img src="/img/vol/100.png" ng-if="vol > 0.66">
+     <div class="wrap2">
+       <input type="range" min="0.0" max="1.0" step="0.05" ng-model="vol" ng-change="changevol()">
+     </div>
+   </div>
+  <div class="rangewrap">
+    <input type="range" min="0.0" max="{{ duration }}" step="0.1" ng-model="ctime" ng-change="changetime()">
+  </div>
+ </div> -->

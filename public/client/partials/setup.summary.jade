@@ -1,0 +1,64 @@
+.container
+	h3 Summary
+	.col-md-offset-1.col-md-10
+		div.row
+			div.col-md-4
+				h4.section-title Campaign name
+			div.col-md-8
+				h5 {{campaign.name}}
+
+		div.row
+			div.col-md-4
+				h4.section-title Campaign objective
+			div.col-md-8
+				h5 {{campaign.objective}}
+
+		div.row
+			div.col-md-4
+				h4.section-title Description/instructions
+			div.col-md-8
+				h5 {{ campaign.description }}
+		div.row
+			div.col-md-4
+				h4.section-title Score definition
+			div.col-md-8
+				div.input-group.ng-cloak
+					h5 0: {{ campaign.score_definition.zero }}
+				div.input-group.ng-cloak
+					h5 1: {{ campaign.score_definition.one }}
+				div.input-group.ng-cloak
+					h5 2: {{ campaign.score_definition.two }}
+				div.input-group.ng-cloak
+					h5 3: {{ campaign.score_definition.three }}
+		div.row
+			div.col-md-4
+				h4.section-title Your contact info
+			div.col-md-8
+				div.row
+					div.col-md-6
+						h5 Name {{ campaign.contact_info.name }}
+					div.col-md-6
+						h5 Role: {{ campaign.contact_info.role }}
+					div.col-md-6
+						h5 Phone: {{ campaign.contact_info.phone }}
+					div.col-md-6
+						h5 Email: {{ campaign.contact_info.email }}
+		div.row
+			div.col-md-4
+				h4.section-title Dates
+			div.col-md-4
+				{{campaign.start_date.getDate()}} / {{campaign.start_date.getMonth()+1}} / {{campaign.start_date.getFullYear()}}
+			div.col-md-4
+				{{campaign.end_date.getDate()}} / {{campaign.end_date.getMonth()+1}} / {{campaign.end_date.getFullYear()}}
+		div.row
+			div.col-md-4
+				h4.section-title Times
+			div.col-md-4
+				h5 {{campaign.start_time}} {{start_time}}
+			div.col-md-4
+				h5 {{campaign.end_time}} {{end_time}}
+	hr
+	.row
+		.col-md-12
+			button.btn.btn-success(ng-click='changeLive(true)' ng-show='!campaign.live') Go live!
+			button.btn.btn-danger(ng-click='changeLive(false)' ng-show='campaign.live') Stop the campaign!

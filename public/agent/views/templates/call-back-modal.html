@@ -1,0 +1,56 @@
+<div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="$hide()">&times;</button>
+        <h4 class="modal-title"> Make a call back </h4>
+      </div>
+      <div class="modal-body">
+        <div class='row'>
+          <div class='col-md-6'>
+            <strong>Contact name: </strong>
+            <input class='form-control' rows='3' ng-model='call_back.person.name' placeholder='Name'>
+          </div>
+          <div class='col-md-6'>
+            <strong>Contact role: </strong>
+            <input class='form-control' rows='3' ng-model='call_back.person.role' placeholder='Role'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-6'>
+            <strong>Phone: </strong>
+            <input class='form-control' rows='3' ng-model='call_back.number' placeholder='Phone'>
+          </div>
+          <div class='col-md-6'>
+            <strong>Company: </strong>
+            <input class='form-control' rows='3' ng-model='call_back.company' placeholder='Company'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-6'>
+            <strong>Date: </strong>
+            <div class="form-group">
+              <input type="text" size="10" class="form-control" ng-model="call_back.call_back" data-autoclose="1" placeholder="Date" bs-datepicker>
+            </div>
+          </div>
+          <div class='col-md-6'>
+            <strong>Time: </strong>
+            <div class="form-group">
+              <input type="text" size="8" class="form-control" ng-model="call_back.call_back" data-time-format="hh:mm:a" data-autoclose="1" placeholder="Time" bs-timepicker>
+            </div>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-12'>
+            <strong>Notes: </strong>
+            <textarea class='form-control' rows='3' ng-model='call_back.notes' placeholder='Notes for the call back later'></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="makeCallback();$hide()">Make call back</button>
+        <button type="button" class="btn btn-danger" ng-click="$hide()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

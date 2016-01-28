@@ -1,0 +1,72 @@
+<div class="popover" tabindex="-1">
+  <div class="arrow"></div>
+  <h3 class="popover-title">Modify availability</h3>
+  <div class="popover-content">
+    <form name="popoverForm">
+      <p style="min-width:300px;"></p>
+        <div class='row'>
+          <div class='col-md-3'>
+            <strong>Mon</strong>
+          </div>
+          <div class='col-md-9'>
+            <input type='number' class='form-control' ng-model='agent.availabilities[0]'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-3'>
+            <strong>Tues</strong>
+          </div>
+          <div class='col-md-9'>
+            <input type='number' class='form-control' ng-model='agent.availabilities[1]'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-3'>
+            <strong>Wed</strong>
+          </div>
+          <div class='col-md-9'>
+            <input type='number' class='form-control' ng-model='agent.availabilities[2]'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-3'>
+            <strong>Thurs</strong>
+          </div>
+          <div class='col-md-9'>
+            <input type='number' class='form-control' ng-model='agent.availabilities[3]'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-3'>
+            <strong>Fri</strong>
+          </div>
+          <div class='col-md-9'>
+            <input type='number' class='form-control' ng-model='agent.availabilities[4]'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-3'>
+            <strong>Sat</strong>
+          </div>
+          <div class='col-md-9'>
+            <input type='number' class='form-control' ng-model='agent.availabilities[5]'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-3'>
+            <strong>Sun</strong>
+          </div>
+          <div class='col-md-9'>
+            <input type='number' class='form-control' ng-model='agent.availabilities[6]'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-offset-8 col-md-4'>
+            <button class='btn btn-success' ng-click='updateAvailabilities();$hide()'>Save</button>
+          </div>
+        </div>
+       </div>
+      </pre>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="popover" tabindex="-1">
+  <div class="arrow"></div>
+  <h3 class="popover-title">Custom number</h3>
+  <div class="popover-content">
+    <form name="popoverForm">
+      <p style="min-width:300px;"></p>
+        <strong>Person's name</strong>
+        <div class='row'>
+          <div class='col-md-12'>
+            <input type='text' class='form-control' ng-model='custom.person.name'>
+          </div>
+        </div>
+        <strong>Person's role</strong>
+        <div class='row'>
+          <div class='col-md-12'>
+            <input type='text' class='form-control' ng-model='custom.person.role'>
+          </div>
+        </div>
+        <strong>Company</strong>
+        <div class='row'>
+          <div class='col-md-12'>
+            <input type='text' class='form-control' ng-model='custom.company'>
+          </div>
+        </div>
+        <strong>Number</strong>
+        <div class='row'>
+          <div class='col-md-12'>
+            <input type='tel' class='form-control' ng-model='custom.number'>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-md-offset-8 col-md-4'>
+            <button class='btn btn-success' ng-click='useCustomNumber();$hide()'>Save</button>
+          </div>
+        </div>
+       </div>
+      </pre>
+    </form>
+  </div>
+</div>

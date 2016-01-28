@@ -1,0 +1,56 @@
+include ../header.jade
+link(rel='stylesheet', href='bower_components/textAngular/dist/textAngular.css')
+link(rel='stylesheet', href='bower_components/font-awesome/css/font-awesome.css')
+body.greyish(ng-app='makeCampaignApp' ng-controller='makeCampaignCtrl')
+	div#main.navbar.navbar-default.navbar-static-top
+		div.container
+			div.navbar-header
+				a.navbar-brand(href='') Yak Hub
+
+			div#navbar-main.navbar-collapse.collapse(collapse='isCollapsed')
+				ul.nav.navbar-nav.navbar-right.nav-text
+					li.divider-vertical
+
+					li(style='margin-left:20px;margin-right:20px;margin-top:10px;')
+						button.help-button(ng-click='showHelpModal()') Help
+	.container
+		div.row
+			div.col-md-12
+				h3 Campaign name
+				br
+				input.form-control.ng-cloak(placeholder='Name',type='text' ng-model='campaign.name')
+		hr
+		div.row
+			div.col-md-12
+				h3 Objective
+				br
+				textarea.form-control.ng-cloak(rows='5', placeholder="What's your objective? For instance: finding leads with need X, getting appointments booked for a demo etc." ng-model='campaign.objective')
+		hr
+		div.row
+			div.col-md-12
+				h3 Script
+				br
+				div(text-angular ta-toolbar='toolbar' ng-model="campaign.script")
+		hr
+		div.row
+			div.col-md-12
+				h3 Uploads leads (Optional: you can do this later)
+				ng-csv-import(content="csv.content" header="csv.header"  separator="csv.separator" result="csv.result")
+
+		button.btn.btn-primary(ng-click='save()') Save
+
+	script(src='bower_components/jquery/dist/jquery.min.js')
+	script(src='bower_components/bootstrap/dist/js/bootstrap.min.js')
+	script(src='bower_components/angular/angular.min.js')
+	script(src='bower_components/ng-csv-import/angular-csv-import.js')
+	script(src="bower_components/ng-file-upload-shim/ng-file-upload-shim.min.js")
+	script(src="bower_components/ng-file-upload/ng-file-upload.min.js")
+	script(src='bower_components/angular-sanitize/angular-sanitize.min.js')
+	script(src='bower_components/angular-animate/angular-animate.min.js')
+	script(src='bower_components/angular-strap/dist/angular-strap.min.js')
+	script(src='bower_components/angular-strap/dist/angular-strap.tpl.min.js')
+	script(src='bower_components/textAngular/dist/textAngular-rangy.min.js')
+	script(src='bower_components/textAngular/dist/textAngular-sanitize.min.js')
+	script(src='bower_components/textAngular/dist/textAngular.min.js')
+	script(src='client/js/app.services.js')
+	script(src='client/js/tutorial/make-campaign.js')

@@ -1,0 +1,56 @@
+include header.jade
+body(ng-app='requestApp' ng-controller='requestCtrl')
+  include ./navbars/main.jade
+  .row
+    .container
+      .col-md-2
+        h3 Requests
+      .col-md-2
+        select.form-control(style='margin-top:10px;', ng-model='current_campaign', ng-change='changeCampaign(current_campaign)')
+          option(ng-repeat='campaign in campaigns', value='{{campaign.name}}' ng-bind='campaign.name') Loading...
+  .container
+    .row
+      .col-md-4
+        button.btn(ng-click='changeDate(-1)')
+          span.glyphicon.glyphicon-menu-left
+        strong.ng-cloak {{months[filter.date.start.getMonth()]}} {{filter.date.start.getDate()}} - {{months[dateWeek[6].getMonth()]}} {{dateWeek[6].getDate()}}
+        button.btn(ng-click='changeDate(+1)')
+          span.glyphicon.glyphicon-menu-right
+    .row.ng-cloak(style='margin-top:20px; background: white;')
+      table.table
+        tr
+          div.row.seven-cols
+            td.col-md-1.scheduler-top-left(ng-repeat='day in days')
+              center
+                strong {{day}}
+                br
+                | {{months[dateWeek[$index].getMonth()]}} {{dateWeek[$index].getDate()}}
+        tr
+          div.row.seven-cols
+            td.col-md-1.scheduler-left(ng-repeat='day in days')
+              div.box
+                h5 AM
+                br
+                center
+                  div(compile='shownSlots[$index].AM.html')
+        tr
+          div.row.seven-cols
+            td.col-md-1.scheduler-left(ng-repeat='day in days')
+              div.box
+                h5 PM
+                br
+                center
+                  div(compile='shownSlots[$index].PM.html')
+        tr
+          div.row.seven-cols
+            td.col-md-1.scheduler-left(ng-repeat='day in days')
+              center
+                strong Total
+                br
+                //- | {{getTotal(shownSlots[$index])}} hours
+
+
+  // /container
+
+  include footer.jade
+  script(src='agent/js/request.js')

@@ -1,0 +1,229 @@
+include header.jade
+link(href='bower_components/angular-chart.js/dist/angular-chart.min.css')
+body.greyish(ng-app='dialerApp' ng-controller='dialerCtrl')
+  include ./navbars/main.jade
+  include ./navbars/sub.jade
+
+  #dialer.container
+    .col-md-6
+      .row
+        .col-md-6
+          h3 Company
+          p(ng-bind='lead.company')
+          p(ng-bind='lead.number')
+        .col-md-6
+          h3 Name
+          p(ng-bind='lead.person.name')
+          p(ng-bind='lead.person.role')
+      hr
+      .row
+        .col-md-4
+          a(href='' ng-click='previous()' ng-show='showPrevious')
+            |Previous
+        .col-md-4
+          a(href='' ng-click='skip()')
+            |Skip
+        .col-md-4
+          a(href='' data-content='{{filter.content}}', data-template-url='../../../agent/views/templates/dialer-popover.html', data-animation='am-flip-x', data-auto-close='1', bs-popover)
+            |Use Custom Number
+      .row
+        .col-md-8(style='padding:10px;')
+          a(href='' ng-click='makeCall()')
+            div(style='width:100%; height:60px; border-radius: 5px; padding:1px; background:#009E0F; color: white;' )
+              center
+                h3(ng-bind='call_button_text') Setting up
+        .col-md-4(style='padding:10px;')
+          a(href='' ng-click='hangUp()')
+            div(style='width:100%; height:60px; border-radius: 5px; padding:1px; background:#CF2A27; color: white;')
+              center
+                h3 Hang up
+      .row
+        .col-md-12
+          h3 Call outcome
+          select.form-control(ng-model='call.outcome' ng-change='changeOutcome()')
+            option(value='No answer') No answer
+            option(value='Call later') Call later
+            option(value='Success') Success
+            option(value='Unsuccessful') Unsuccessful
+            option(value='Automated response') Automated response
+            option(value='Number didn\'t work') Number didn't work
+            option(value='Do not call') Do not call
+      hr
+      .row
+        .col-md-2
+          h3 Score
+        .col-md-10
+          span(class='{{star(call.rating, 1)}}' ng-click='rateCall(1)')
+          span(class='{{star(call.rating, 2)}}' ng-click='rateCall(2)')
+          span(class='{{star(call.rating, 3)}}' ng-click='rateCall(3)')
+      hr
+      .row
+        .col-md-12
+          h3 Contact Info Collected
+      .row
+        .col-md-3
+          h4 Name
+        .col-md-9
+          input.form-control(type='text' ng-model='call.contact_info.person.name')
+      .row
+        .col-md-3
+          h4 Role
+        .col-md-9
+          input.form-control(type='text' ng-model='call.contact_info.person.role')
+      .row
+        .col-md-3
+          h4 Company
+        .col-md-9
+          input.form-control(type='text' ng-model='call.contact_info.company')
+      .row
+        .col-md-3
+          h4 Phone
+        .col-md-9
+          input.form-control(type='text' ng-model='call.contact_info.number')
+      .row
+        .col-md-3
+          h4 Email
+        .col-md-9
+          input.form-control(type='text' ng-model='call.contact_info.email')
+      .row(ng-show='call.contact_info.email!=""')
+        .col-md-3
+          h4 Send follow up
+        .col-md-9
+          input.form-control(type='checkbox' ng-model='call.send_follow_up')
+      hr
+      .row
+        .col-md-12
+          h3 Questions
+      .row.ng-cloak(ng-repeat='question in campaign.questions')
+        .col-md-12
+          h4 {{$index+1}}. {{question.question}}
+          textarea.form-control(rows='3' placeholder='{{question.description}}' ng-model='call.answers[$index].answer')
+      hr
+      .row
+        .col-md-12
+          h4 Calling notes
+          textarea.form-control(rows='5' ng-model='call.notes')
+      .row
+        .col-xs-12(style='padding:10px;margin-bottom:20px;')
+          a(href='' ng-click='submitThenNextNumber()')
+            div(style='width:100%; height:60px; border-radius: 5px; padding:1px; background:blue; color: white;')
+              center
+                h3 Submit then Get Next Number
+    .col-md-6
+      .row
+        .col-md-3
+          a(href='' style='{{getPageStyle("info")}}' ng-click='changePage("info")') Info
+        .col-md-3
+          a(href='' style='{{getPageStyle("script")}}' ng-click='changePage("script")') Script
+        .col-md-3
+          a(href='' style='{{getPageStyle("stats")}}' ng-click='changePage("stats")') Stats
+        .col-md-3
+          a(href='' style='{{getPageStyle("faq")}}' ng-click='changePage("faq")') FAQ
+      hr
+      div.ng-cloak(ng-show='page=="info"')
+        .row
+          .col-md-12
+            h4 Company Background
+            p(ng-bind='campaign.background')
+        .row
+          .col-md-12
+            a(ng-href='{{campaign.website}}' ng-bind='campaign.website')
+        hr
+        .row
+          .col-md-12
+            h4 Target Demographic
+            p(ng-bind='campaign.demographic')
+        hr
+        .row
+          .col-md-12
+            h4 Objective
+            p(ng-bind='campaign.objective')
+        hr
+        .row
+          .col-md-12
+            h4 Score definition
+        .row
+          .col-md-4
+            span.glyphicon.glyphicon-star-empty
+          .col-md-8
+            p(ng-bind='campaign.score_definition.zero')
+        .row
+          .col-md-4
+            span.glyphicon.glyphicon-star
+          .col-md-8
+            p(ng-bind='campaign.score_definition.one')
+        .row
+          .col-md-4
+            span.glyphicon.glyphicon-star
+            span.glyphicon.glyphicon-star
+          .col-md-8
+            p(ng-bind='campaign.score_definition.two')
+        .row
+          .col-md-4
+            span.glyphicon.glyphicon-star
+            span.glyphicon.glyphicon-star
+            span.glyphicon.glyphicon-star
+          .col-md-8
+            p(ng-bind='campaign.score_definition.three')
+        .row
+          .col-md-12
+            h4 Pricing Info
+            p(ng-bind='campaign.pricing')
+        .row
+          .col-md-12
+            h4 Contact info
+            p(ng-bind='campaign.contact_info.name + " - " + campaign.contact_info.role')
+            p(ng-bind='campaign.contact_info.phone')
+            p(ng-bind='campaign.contact_info.email')
+      div.ng-cloak(ng-show='page=="script"')
+        .row
+          .col-md-12
+            p(ng-bind-html='campaign.script')
+      div.ng-cloak(ng-show='page=="stats"')
+        .row
+          .col-md-6
+            select.form-control(ng-model='stats.range', ng-change='changeRange()')
+              option(value='86400000') Today
+              option(value='604800000') This week
+              option(value='2592000000') This month
+              option(value='7776000000') Last 3 months
+              option(value='15552000000') Last 6 months
+        .row
+          .col-md-6.analytics-outer-div
+            .analytics-inner-div
+              center
+                strong Hours complete
+                h1 {{hours_complete | number:2}}
+          .col-md-6.analytics-outer-div
+            .analytics-inner-div
+              center
+                strong Hours left
+                h1 {{stats.left | number:2}}
+        .row
+          .col-md-6.analytics-outer-div
+            .analytics-inner-div
+              center
+                strong 3 star calls
+                h1 {{stats.chart.data[0][5]}}
+          .col-md-6.analytics-outer-div
+            .analytics-inner-div
+              center
+                strong Calls/hour
+                h1 {{callsPerHour(number_of_calls,hours_complete) | number : 2}}
+        .row
+          .col-md-12(style='padding: 20px;')
+            canvas#bar.chart.chart-bar(chart-data='stats.chart.data', chart-labels='stats.chart.labels')
+
+      div.ng-cloak(ng-show='page=="faq"')
+        .row(ng-repeat='faq in campaign.faqs')
+          .col-md-12
+            h3 {{faq.question}}
+            | {{faq.answer}}
+
+  // /container
+
+  include footer.jade
+  script(src='//static.twilio.com/libs/twiliojs/1.2/twilio.min.js')
+  script(src='agent/js/dialer.js')
+  script(src='bower_components/Chart.js/Chart.min.js')
+  script(src='bower_components/angular-chart.js/dist/angular-chart.min.js')

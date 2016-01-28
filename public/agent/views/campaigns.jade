@@ -1,0 +1,30 @@
+include header.jade
+body.greyish(ng-app='campaignsApp', ng-controller='campaignsCtrl')
+  include ./navbars/main.jade
+  center
+    h1 Campaigns
+  #campaign.container
+    div(ng-repeat='campaign in campaigns')
+      .row.ng-cloak
+        .col-md-3
+          h2 {{campaign.name}}
+        .col-md-4
+          strong Background:
+          br
+          p {{campaign.background}}
+          strong Objective:
+          br
+          p {{campaign.objective}}
+          strong Website:
+          br
+          p {{campaign.website}}
+        .col-md-2
+          p {{campaign.agents.length}} have worked on this campaign previously.
+        .col-md-3
+          button.view(ng-click='seeCampaign(campaign)') View campaign
+      hr
+
+  // /container
+
+  include footer.jade
+  script(src='agent/js/campaigns.js')

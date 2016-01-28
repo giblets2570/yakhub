@@ -1,0 +1,74 @@
+doctype html(lang='en')
+head
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible', content='IE=edge')
+  meta(name='viewport', content='width=device-width, initial-scale=1')
+  // The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags
+  meta(name='description', content='')
+  meta(name='author', content='')
+  link(rel='icon', href='../favicon.ico')
+  title Yak Hub
+  // Bootstrap core CSS
+  link(href='bower_components/bootstrap/dist/css/bootstrap.css', rel='stylesheet')
+  link(href="http://fonts.googleapis.com/css?family=Dosis:300,400,500" rel="stylesheet" type="text/css")
+
+  // Custom styles for this template
+  link(href='css/style.css', rel='stylesheet')
+
+  // HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
+  //if lt IE 9
+    script(src='https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js')
+    |
+    script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
+body.greyish
+  div#main-signup.navbar.navbar-default.navbar-static-top
+    div.container
+      div.navbar-header
+        a.navbar-brand(href='') Yak Hub
+
+      div#navbar-main.navbar-collapse.collapse(collapse='isCollapsed')
+        ul.nav.navbar-nav.navbar-right.nav-text
+          li
+            a(href='/') Log in
+  div.container.login
+    section.full_height#choose
+      .row
+        .col-md-offset-1.col-md-4
+          center
+            a(href='#client')
+              div.signup-choose
+                h1 Sign up as a client
+                p Want your campaigns done by our agents?
+        .col-md-offset-2.col-md-4
+          center
+            a(href='#agent')
+              div.signup-choose
+                h1 Sign up as an agent
+                p Want to become a Yak Hub agent?
+    section.full_height#client
+      .row
+        .col-md-offset-4.col-md-4
+          center
+            h1 Sign up as a client
+            form.form-signin(action='/auth/client/signup', method='POST')
+              h2.form-signin-heading Sign up
+              label.sr-only(for='inputName') Name
+              input#inputName.form-control(type='text', placeholder='Name', name='username', required='', autofocus='')
+              label.sr-only(for='inputPassword') Password
+              input#inputPassword.form-control(type='password', placeholder='Password', name='password', required='')
+              button.btn.btn-lg.btn-primary.btn-block(type='submit') Enter
+              a(href='/') Have an account?
+    section.full_height#agent
+      .row
+        .col-md-offset-4.col-md-4
+          center
+            h1 Sign up as an agent
+            form.form-signin(action='/auth/agent/signup', method='POST')
+              h2.form-signin-heading Sign up
+              label.sr-only(for='inputName') Name
+              input#inputName.form-control(type='text', placeholder='Name', name='username', required='', autofocus='')
+              label.sr-only(for='inputPassword') Password
+              input#inputPassword.form-control(type='password', placeholder='Password', name='password', required='')
+              button.btn.btn-lg.btn-primary.btn-block(type='submit') Enter
+              a(href='/') Have an account?
+  // /container

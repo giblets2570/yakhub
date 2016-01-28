@@ -1,0 +1,860 @@
+body{
+  font-family: 'Open Sans', sans-serif;
+  width: 100%;
+}
+
+.greyish {
+  background:#F1F1F1;
+}
+
+.white {
+  background:#FFFFFF;
+}
+
+button.help-button{
+  background: #459d81;
+  color: #FFFFFF;
+  border-radius: 50px;
+  border: 1px solid;
+  border-color: #367b65;
+}
+
+.modal-backdrop.am-fade {
+  opacity: .5;
+  transition: opacity .15s linear;
+  &.ng-enter {
+    opacity: 0;
+    &.ng-enter-active {
+      opacity: .5;
+    }
+  }
+  &.ng-leave {
+    opacity: .5;
+    &.ng-leave-active {
+      opacity: 0;
+    }
+  }
+}
+
+/* Set the fixed height of the footer here */
+.footer {
+  width: 100%;
+  height: 50px;
+  background-color: #f5f5f5;
+  position: fixed;
+  bottom: 0px;
+  text-align: center;
+}
+
+.footer a h4.strong{
+  font-weight: 700;
+  color: #000000;
+}
+
+.footer a h4.weak{
+  color: #AAAAAA;
+  font-weight: 400;
+}
+
+/*
+ *
+ *  Login stuff
+ *
+ */
+
+.login.container{
+  font-family: 'dosis';
+}
+
+.login .form-signin{
+  background: white;
+  padding: 30px;
+  margin-top: 50px;
+  border: 1px solid #A1A1A1;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+}
+
+section.full_height{
+  height: 100vh;
+  padding: 100px;
+}
+
+.signup-choose{
+  padding-top:80px;
+  padding-bottom:80px;
+  padding-left:30px;
+  padding-right:30px;
+  background: white;
+  border: 1px solid #A1A1A1;
+  border-radius: 5px;
+  color: black;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+}
+
+/*
+ *
+ * Navbar stuff
+ *
+ */
+
+.navbar {
+  position: static;
+}
+
+.navbar .navbar-brand {
+  font-family: 'dosis';
+  font-size: 24px;
+  color: white;
+}
+
+.nav-text {
+	color: white;
+}
+
+#main.navbar{
+  background: #3d8b72;
+}
+
+#main-signup.navbar{
+  background: #3d8b72;
+  position: fixed;
+  width: 100%;
+}
+
+#main.navbar .glyphicon{
+  color: white;
+}
+
+#navbar-main a{
+  color: white;
+}
+
+#navbar-main .dropdown-menu li a{
+  color: black;
+}
+
+.navbar .divider-vertical {
+	height: 50px;
+	margin: 0 9px;
+	/*border-right: 1px solid #ffffff;*/
+	border-left: 1px solid #367b65;
+}
+
+.navbar #main-campaign-select {
+  background: #459d81;
+  color: #FFFFFF;
+  border-radius: 50px;
+  border: 1px solid;
+  border-color: #367b65;
+  -webkit-appearance: none;
+}
+
+.navbar .glyphicon-menu-down {
+  font-size: 12px;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{
+  background: #367b65;
+}
+
+.navbar-inverse .divider-vertical {
+	border-right-color: #222222;
+	border-left-color: #111111;
+}
+
+@media (max-width: 767px) {
+.navbar-collapse .nav > .divider-vertical {
+    display: none;
+  }
+}
+
+#sub-nav {
+  background:#FFFFFF;
+  margin-top:-20px;
+}
+
+#sub-nav li a{
+  color: grey;
+}
+
+#sub-nav li .chosen{
+  font-weight: bold;
+  color: black;
+}
+
+#sub-nav p.campaign {
+  float:left;
+  margin-right: 10px;
+}
+
+#admin-nav {
+  background:#F1F1F1;
+  margin-top:-20px;
+}
+
+#admin-nav li a{
+  color: grey;
+}
+
+#admin-nav li .chosen{
+  font-weight: bold;
+  color: black;
+}
+
+/*
+ *
+ * Client dashboard
+ *
+ */
+
+#client-dashboard .agent-select{
+  background: #f5f5f5;
+}
+
+#client-dashboard .filter{
+  color: #111111;
+}
+
+#agent-dashboard .agent-select{
+  background: #f5f5f5;
+}
+
+#agent-dashboard .filter{
+  color: #111111;
+}
+
+/*
+ *
+ * Billing page stuff
+ *
+ */
+
+#billing.container{
+  background: white;
+  /*padding: 10px;*/
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+}
+
+/*
+ *
+ * Notifications page stuff
+ *
+ */
+
+#notifications.container{
+  background: white;
+  /*padding: 10px;*/
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+}
+
+#notifications .campaign-separator{
+  border: 1px solid #F1F1F1;
+  border-left: 0px;
+  border-top: 0px;
+  border-right: 0px;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+#notifications .request-button {
+  margin-top: 15px;
+  margin-left: 30px;
+  background: #459d81;
+  border-radius: 30px;
+  border: 1px solid;
+  border-color: #3d8b72;
+}
+
+/*
+ *
+ * Info page
+ *
+ */
+
+#info.container{
+  background: white;
+  /*padding: 10px;*/
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+}
+#info .section-title {
+  font-weight: bold;
+}
+
+#info button{
+  padding:18px;
+  padding-left:30px;
+  padding-right:30px;
+  font-weight: bold;
+  border-radius: 7px;
+  letter-spacing: 1.5px;
+  border: 0px;
+  color: white;
+  margin-right: 30px;
+}
+
+#info button.btn-primary{
+  background: #3498db;
+}
+
+/*
+ *
+ * Agent browse stuff
+ *
+ */
+
+#browse.container{
+  background: white;
+  /*padding: 10px;*/
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+}
+
+#browse .invite{
+  margin-top: 15px;
+  margin-left: 30px;
+  background: #459d81;
+  border-radius: 30px;
+  border: 1px solid;
+  border-color: #3d8b72;
+  color: white;
+  padding: 8px;
+}
+
+#browse .glyphicon-map-marker{
+  margin-right: 10px;
+}
+
+#browse .skill{
+  background: #ececec;
+  padding: 5px;
+  margin-right: 10px;
+  display: inline-block;
+  border-radius: 3px;
+}
+
+/*
+ *
+ * Agent campaign browse stuff
+ *
+ */
+
+#campaign.container{
+  background: white;
+  /*padding: 10px;*/
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+}
+
+#campaign .view{
+  margin-top: 15px;
+  margin-left: 30px;
+  background: #459d81;
+  border-radius: 30px;
+  border: 1px solid;
+  border-color: #3d8b72;
+  color: white;
+  padding: 8px;
+}
+
+/*
+ *
+ * Agent profile stuff
+ *
+ */
+
+#profile .glyphicon-pencil{
+  font-size: 10px;
+  float: left;
+}
+
+#profile .left-side-outer{
+  padding: 10px;
+}
+
+#profile .right-side-outer{
+  padding: 10px;
+}
+
+#profile .left-side-inner{
+  padding: 40px;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  background: white;
+  border-radius: 2px;
+ }
+
+#profile .available-div{
+  background: #dcffd7;
+  border-radius: 5px;
+  color: #7ed389;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 0px;
+}
+
+#profile .skills-div{
+  background: #ececec;
+  border-radius: 5px;
+  color: #c2bfc0;
+  padding: 10px;
+  margin-right: 10px;
+  border: 0px;
+  display: inline-block;
+}
+
+#profile .right-side-inner{
+  padding: 40px;
+  /*margin: 10px;*/
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  background: white;
+  border-radius: 2px;
+}
+
+#profile .glyphicon-remove{
+  font-size: 10px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+#profile .invite{
+  background: #3498db;
+  border: 0px;
+  border-radius: 3px;
+  padding: 10px;
+  color: white;
+}
+
+#profile .invite{
+  background: #3498db;
+  border: 0px;
+  border-radius: 3px;
+  padding: 10px;
+  padding-bottom: 30px;
+  color: white;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+#profile .message{
+  background: #1abc9c;
+  border: 0px;
+  border-radius: 3px;
+  padding: 10px;
+  padding-bottom: 30px;
+  color: white;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+/*
+ *
+ * Script stuff
+ *
+ */
+
+.script{
+  background: white;
+  border: solid 1px;
+  border-radius: 5px;
+  border-color: #D1D1D1;
+  padding: 20px;
+}
+
+/*
+ *
+ * Agent dialer stuff
+ *
+ */
+
+#dialer.container{
+  background: white;
+  /*padding: 10px;*/
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+}
+
+.ng-cloak { display:none; }
+
+.red-dot{
+  height: 10px;
+  width: 10px;
+  border-radius: 5px;
+  background: red;
+  float: right;
+}
+
+[scroll-glue-top],
+[scroll-glue-bottom],
+[scroll-glue]{
+  height: 250px;
+  overflow-y: scroll;
+  border: 0px solid gray;
+}
+[scroll-glue-left],
+[scroll-glue-right]{
+  width: 100px;
+  /*overflow-x: scroll;*/
+  border: 0px solid gray;
+  padding: 10px;
+}
+[scroll-glue-left] span,
+[scroll-glue-right] span{
+  border: 0px solid black;
+}
+
+.glyphicon {
+    font-size: 20px;
+}
+
+.ta-editor {
+    min-height: 300px;
+    height: auto;
+    overflow: auto;
+    font-family: inherit;
+    font-size: 100%;
+    margin:20px 0;
+}
+
+@media (min-width: 768px){
+  .seven-cols .col-md-1,
+  .seven-cols .col-sm-1,
+  .seven-cols .col-lg-1  {
+    width: 100%;
+    *width: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+  .seven-cols .col-md-1,
+  .seven-cols .col-sm-1,
+  .seven-cols .col-lg-1 {
+    width: 14.285714285714285714285714285714%;
+    *width: 14.285714285714285714285714285714%;
+  }
+}
+
+.glyphicon-star {
+  margin-left: 10px;
+}
+
+.glyphicon-star-empty {
+  margin-left: 10px;
+}
+
+.glyphicon-filter {
+  margin-left: 15px;
+}
+
+.glyphicon-calendar {
+  margin-right: 15px;
+}
+
+.glyphicon-user {
+  font-size: 40px;
+}
+
+.agent-box {
+  border:0px;
+  border-bottom:1px;
+  border-style:solid;
+  border-color: #D1D1D1;
+  padding: 20px;
+}
+
+.glyphicon-triangle-bottom {
+  font-size: 10;
+  margin-left: 15px;
+}
+
+/*
+ *
+ * Messages
+ *
+ */
+
+#messages.container {
+  background: white;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  padding-right: 50px;
+}
+
+#messages .chat-id {
+  border: 0px solid;
+  border-bottom: 1px;
+  color: grey;
+}
+
+#messages .chat-name {
+  cursor: pointer; cursor: hand;
+}
+
+#messages .ta-editor {
+  min-height: 100px;
+  height: 100px;
+  /*overflow: auto;*/
+  font-family: inherit;
+  font-size: 100%;
+  margin:0px 0;
+  border: 0px;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+}
+
+#messages .chat-picker {
+  padding: 10px;
+  overflow:scroll;
+  border: 1px solid;
+  border-top: 0px;
+  border-right: 0px;
+  border-left: 0px;
+  border-color: #F1F1F1;
+  /*height:80vh;*/
+}
+
+#messages .message {
+  padding-bottom: 20px;
+}
+
+#messages .glyphicon-paperclip{
+  font-size: 15px;
+  margin-right: 10px;
+}
+
+/*
+ *
+ * Analytics page stuff
+ *
+ */
+
+.analytics-row {
+  background:#FFFFFF;
+  margin-top:-20px;
+  padding:10px;
+}
+
+
+.analytics-outer-div {
+  padding: 20px;
+}
+
+.analytics-inner-div {
+  /*border: solid 1px;*/
+  border-radius:1px;
+  padding: 10px;
+  padding-top: 30px;
+  height: 150px;
+  background: white;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+}
+
+.analytics-canvas-box {
+  background:white;
+  padding: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.analytics-row {
+  background:#FFFFFF;
+  margin-top:-20px;
+  padding:10px;
+}
+
+/*
+ *
+ * Client schedule stuff
+ *
+ */
+
+#client-schedule select{
+  background: transparent;
+  border: 0px;
+  -webkit-box-shadow: 0px 0px 0px 0px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 0px 0px rgba(153,153,153,1);
+  box-shadow: 0px 0px 0px 0px rgba(153,153,153,1);
+}
+
+#client-schedule .complete {
+  background: #dcffd7;
+  color: #3d9a41;
+}
+
+#client-schedule .uncomplete {
+  background: #ff9f95;
+  color: #8a1b1b;
+}
+
+.date-change{
+  color: grey;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.date-change:hover{
+  color: grey;
+}
+.date-change:active{
+  color: grey;
+}
+
+.page-change {
+  color: grey;
+  float: left;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.schedule-body{
+  margin-top:20px;
+  background: white;
+  padding: 40px;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+}
+
+.scheduler-top-left {
+  border:0px;
+  border-right:1px;
+  border-color: #D1D1D1;
+  border-style: solid;
+}
+
+.scheduler-top-right {
+  border:0px;
+}
+
+.scheduler-left {
+  border:0px;
+  border-right:1px;
+  border-top:1px;
+  border-color: #D1D1D1;
+  border-style: solid;
+}
+
+.scheduler-right {
+  border:0px;
+  border-top:1px;
+  border-color: #D1D1D1;
+  border-style: solid;
+}
+
+#dateDropdown {
+  background: transparent;
+  border: 0px;
+  margin-top: -7px;
+}
+
+.dashboard-lead {
+  border-radius:3px;
+  padding: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background: white;
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
+};
+
+.dashboard-lead-left {
+  border: 0px;
+  border-right: 1px;
+  border-style:solid;
+}
+
+.dashboard-question {
+  margin-bottom: 10px;
+};
+
+div.input-group.info-spacer {
+  margin-top: 5px;
+}
+
+label {
+  margin-right: 20px;
+}
+
+.pager {
+  float: left;
+}
+div.box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  color: #000;
+}
+
+div.box:hover {
+  cursor: hand;
+  cursor: pointer;
+  opacity: .9;
+}
+
+a.divLink {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  text-decoration: none;
+  z-index: 10;
+  background-color: white;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+button.agent-schedule{
+  background: #459d81;
+  color: #FFFFFF;
+  border-radius: 50px;
+  border: 1px solid;
+  border-color: #367b65;
+}
+
+.badge-notify{
+   background:red;
+   position:relative;
+   top: -20px;
+   left: -15px;
+}

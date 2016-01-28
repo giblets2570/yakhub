@@ -1,0 +1,14 @@
+div#sub-nav.navbar.navbar-default.navbar-static-top(ng-controller='navbarSubCtrl')
+  div.container
+    div.navbar-collapse.collapse(collapse='isCollapsed')
+      ul.nav.navbar-nav.nav-text
+        li
+          if type == "messages"
+            a.chosen(href='', ng-click='go("messages")') Messages
+          else
+            a(href='', ng-click='go("messages")') Messages
+        li
+          if type == "notifications"
+            a.chosen(href='', ng-click='go("notifications")') Notifications
+          else
+            a(href='', ng-click='go("notifications")') Notifications

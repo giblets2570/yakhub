@@ -1,0 +1,31 @@
+div(ng-show='current_screen=="brief"')
+	include setup.brief.jade
+div(ng-show='current_screen=="script"')
+	include setup.script.jade
+div(ng-show='current_screen=="faq"')
+	include setup.faq.jade
+div(ng-show='current_screen=="list"')
+	include setup.list.jade
+div(ng-show='current_screen=="confirm"')
+	include setup.summary.jade
+
+div(style='margin-bottom: 80px;')
+footer.footer
+	.container
+		.row
+			.col-xs-offset-1.col-xs-2
+				a(href='' ng-click='changeScreen("brief")')
+					h4(class='{{isCurrentScreen("brief")}}') Brief
+			.col-xs-2
+				a(href='' ng-click='changeScreen("script")')
+					h4(class='{{isCurrentScreen("script")}}') Script
+			.col-xs-2
+				a(href='' ng-click='changeScreen("faq")')
+					h4(class='{{isCurrentScreen("faq")}}') FAQ
+			.col-xs-2
+				a(href='' ng-click='changeScreen("list")')
+					h4(class='{{isCurrentScreen("list")}}') List
+			.col-xs-2
+				a(href='' ng-click='changeScreen("confirm")')
+					h4(class='{{isCurrentScreen("confirm")}}') Confirm
+			.col-xs-1

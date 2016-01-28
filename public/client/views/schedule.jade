@@ -1,0 +1,300 @@
+include header.jade
+body#client-schedule.greyish(ng-app='scheduleApp' ng-controller='scheduleCtrl')
+	include ./navbars/main.jade
+	include ./navbars/sub.jade
+	include ./navbars/admin.jade
+
+	.container
+		div.row
+			div.col-md-2
+				select.form-control(ng-model='snapshot.range', ng-change='setRange()')
+					option(value='86400000') Today
+					option(value='604800000') This week
+					option(value='2592000000') This month
+					option(value='7776000000') Last 3 months
+					option(value='15552000000') Last 6 months
+			div.col-md-4
+				//- a(href='' ng-show='notifications' ng-click='') 3 new agent offers
+		div.row
+			div.col-md-3.analytics-outer-div
+				div.analytics-inner-div
+					center
+						strong Hours Planned
+						h2.ng-cloak {{snapshot.available}}
+			div.col-md-3.analytics-outer-div
+				div.analytics-inner-div
+					center
+						strong Hours Allocated
+						h2.ng-cloak {{snapshot.allocated}}
+						span.ng-cloak {{snapshot.allocated*100/snapshot.available|number:2}}%
+			div.col-md-3.analytics-outer-div
+				div.analytics-inner-div.complete
+					center
+						strong Allocated Hours Complete
+						h2.ng-cloak {{snapshot.complete}}
+			div.col-md-3.analytics-outer-div
+				div.analytics-inner-div.uncomplete
+					center
+						strong Allocated Hours Left
+						h2.ng-cloak {{snapshot.allocated - snapshot.complete}}
+		div.row
+			div.col-md-2
+				select.form-control(ng-model='filter.agent', ng-change='changeAgent()')
+					option(value='') All agents
+					option(ng-repeat='agent in agents', value='{{agent.name}}') {{agent.name}}
+			div.col-md-6
+			div.col-md-4
+				a.date-change(href='' ng-click='changeDate(-1)')
+					span Prev
+				strong(ng-bind='months[filter.date.start.getMonth()]+" "+filter.date.start.getDate()+" - "+months[dateWeek[6].getMonth()]+" "+dateWeek[6].getDate()') Loading dates...
+				a.date-change(href='' ng-click='changeDate(+1)')
+					span Next
+
+		div.row.schedule-body.ng-cloak
+			table.table
+				tr
+					div.row.seven-cols
+						td.col-md-1.scheduler-top-left
+							center
+								strong Mon
+								br
+								span.ng-cloak {{months[dateWeek[0].getMonth()]}} {{dateWeek[0].getDate()}}
+						td.col-md-1.scheduler-top-left
+							center
+								strong Tues
+								br
+								span.ng-cloak {{months[dateWeek[1].getMonth()]}} {{dateWeek[1].getDate()}}
+						td.col-md-1.scheduler-top-left
+							center
+								strong Wed
+								br
+								span.ng-cloak {{months[dateWeek[2].getMonth()]}} {{dateWeek[2].getDate()}}
+						td.col-md-1.scheduler-top-left
+							center
+								strong Thurs
+								br
+								span.ng-cloak {{months[dateWeek[3].getMonth()]}} {{dateWeek[3].getDate()}}
+						td.col-md-1.scheduler-top-left
+							center
+								strong Fri
+								br
+								span.ng-cloak {{months[dateWeek[4].getMonth()]}} {{dateWeek[4].getDate()}}
+						td.col-md-1.scheduler-top-left
+							center
+								strong Sat
+								br
+								span.ng-cloak {{months[dateWeek[5].getMonth()]}} {{dateWeek[5].getDate()}}
+						td.col-md-1.scheduler-top-right
+							center
+								strong Sun
+								br
+								span.ng-cloak {{months[dateWeek[6].getMonth()]}} {{dateWeek[6].getDate()}}
+				tr
+					div.row.seven-cols
+						td.col-md-1.scheduler-left
+						td.col-md-1.scheduler-left
+						td.col-md-1.scheduler-left
+						td.col-md-1.scheduler-left
+						td.col-md-1.scheduler-left
+						td.col-md-1.scheduler-left
+						td.col-md-1.scheduler-right
+				tr
+					div.row.seven-cols
+						td.col-md-1.scheduler-left
+							div.box
+								a.divLink(href='' ng-click='showScheduleModal(0)')
+								h5 AM
+								br
+								center
+									div(ng-repeat='(name,amount) in shownSlots[0].AM')
+										strong {{name}}
+										br
+										span.ng-cloak {{getAmount(amount)}} hours
+										br
+						td.col-md-1.scheduler-left
+							div.box
+								a.divLink(href='' ng-click='showScheduleModal(1)')
+								h5
+								br
+								center
+									div(ng-repeat='(name,amount) in shownSlots[1].AM')
+										strong {{name}}
+										br
+										span.ng-cloak {{getAmount(amount)}} hours
+										br
+						td.col-md-1.scheduler-left
+							div.box
+								a.divLink(href='' ng-click='showScheduleModal(2)')
+								h5
+								br
+								center
+									div(ng-repeat='(name,amount) in shownSlots[2].AM')
+										strong {{name}}
+										br
+										span.ng-cloak {{getAmount(amount)}} hours
+										br
+						td.col-md-1.scheduler-left
+							div.box
+								a.divLink(href='' ng-click='showScheduleModal(3)')
+								h5
+								br
+								center
+									div(ng-repeat='(name,amount) in shownSlots[3].AM')
+										strong {{name}}
+										br
+										span.ng-cloak {{getAmount(amount)}} hours
+										br
+						td.col-md-1.scheduler-left
+							div.box
+								a.divLink(href='' ng-click='showScheduleModal(4)')
+								h5
+								br
+								center
+									div(ng-repeat='(name,amount) in shownSlots[4].AM')
+										strong {{name}}
+										br
+										span.ng-cloak {{getAmount(amount)}} hours
+										br
+						td.col-md-1.scheduler-left
+							div.box
+								a.divLink(href='' ng-click='showScheduleModal(5)')
+								h5
+								br
+								center
+									div(ng-repeat='(name,amount) in shownSlots[5].AM')
+										strong {{name}}
+										br
+										span.ng-cloak {{getAmount(amount)}} hours
+										br
+						td.col-md-1.scheduler-right
+							div.box
+								a.divLink(href='' ng-click='showScheduleModal(6)')
+								h5
+								br
+								center
+									div(ng-repeat='(name,amount) in shownSlots[6].AM')
+										strong {{name}}
+										br
+										span.ng-cloak {{getAmount(amount)}} hours
+										br
+				tr
+					div.row.seven-cols
+						td.col-md-1.scheduler-left
+							div.box
+								a.divLink(href='' ng-click='showScheduleModal(0)')
+								h5 PM
+								br
+								center
+									div(ng-repeat='(name,amount) in shownSlots[0].PM')
+										strong {{name}}
+										br
+										span.ng-cloak {{getAmount(amount)}} hours
+										br
+						td.col-md-1.scheduler-left
+							div.box
+								a.divLink(href='' ng-click='showScheduleModal(1)')
+								h5
+								br
+								center
+									div(ng-repeat='(name,amount) in shownSlots[1].PM')
+										strong {{name}}
+										br
+										span.ng-cloak {{getAmount(amount)}} hours
+										br
+						td.col-md-1.scheduler-left
+							div.box
+								a.divLink(href='' ng-click='showScheduleModal(2)')
+								h5
+								br
+								center
+									div(ng-repeat='(name,amount) in shownSlots[2].PM')
+										strong {{name}}
+										br
+										span.ng-cloak {{getAmount(amount)}} hours
+										br
+						td.col-md-1.scheduler-left
+							div.box
+								a.divLink(href='' ng-click='showScheduleModal(3)')
+								h5
+								br
+								center
+									div(ng-repeat='(name,amount) in shownSlots[3].PM')
+										strong {{name}}
+										br
+										span.ng-cloak {{getAmount(amount)}} hours
+										br
+						td.col-md-1.scheduler-left
+							div.box
+								a.divLink(href='' ng-click='showScheduleModal(4)')
+								h5
+								br
+								center
+									div(ng-repeat='(name,amount) in shownSlots[4].PM')
+										strong {{name}}
+										br
+										span.ng-cloak {{getAmount(amount)}} hours
+										br
+						td.col-md-1.scheduler-left
+							div.box
+								a.divLink(href='' ng-click='showScheduleModal(5)')
+								h5
+								br
+								center
+									div(ng-repeat='(name,amount) in shownSlots[5].PM')
+										strong {{name}}
+										br
+										span.ng-cloak {{getAmount(amount)}} hours
+										br
+						td.col-md-1.scheduler-right
+							div.box
+								a.divLink(href='' ng-click='showScheduleModal(6)')
+								h5
+								br
+								center
+									div(ng-repeat='(name,amount) in shownSlots[6].PM')
+										strong {{name}}
+										br
+										span.ng-cloak {{getAmount(amount)}} hours
+										br
+				tr
+					div.row.seven-cols
+						td.col-md-1.scheduler-left
+							center
+								strong Total
+								br
+								span.ng-cloak {{getTotal(shownSlots[0])}}
+						td.col-md-1.scheduler-left
+							center
+								strong Total
+								br
+								span.ng-cloak {{getTotal(shownSlots[1])}}
+						td.col-md-1.scheduler-left
+							center
+								strong Total
+								br
+								span.ng-cloak {{getTotal(shownSlots[2])}}
+						td.col-md-1.scheduler-left
+							center
+								strong Total
+								br
+								span.ng-cloak {{getTotal(shownSlots[3])}}
+						td.col-md-1.scheduler-left
+							center
+								strong Total
+								br
+								span.ng-cloak {{getTotal(shownSlots[4])}}
+						td.col-md-1.scheduler-left
+							center
+								strong Total
+								br
+								span.ng-cloak {{getTotal(shownSlots[5])}}
+						td.col-md-1.scheduler-right
+							center
+								strong Total
+								br
+								span.ng-cloak {{getTotal(shownSlots[6])}}
+
+	// /container
+
+	include footer.jade
+	script(src='client/js/schedule.js')

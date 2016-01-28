@@ -1,0 +1,47 @@
+div#main.navbar.navbar-default.navbar-static-top(ng-controller='navbarCtrl')
+  div.container
+    div.navbar-header
+      button.navbar-toggle(type='button', ng-click='isCollapsed = !isCollapsed')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand.nav-text(href='' ng-click='home()' style='color: white;') Yak Hub
+
+    div#navbar-main.navbar-collapse.collapse(collapse='isCollapsed')
+      ul.nav.navbar-nav.nav-text
+        li
+          a(href='' style='color: white;' ng-click='browse()') Browse Agents
+        li
+          a(href='' style='color: white;' ng-click='browseCampaigns()') Browse Campaigns
+      ul.nav.navbar-nav.navbar-right.nav-text
+        li.divider-vertical
+
+        li(style='margin-left:20px;margin-right:20px;margin-top:10px;')
+          button.btn.agent-schedule(ng-click='go("schedule")') Schedule
+
+        li
+          a(href='', ng-click='go("messages")')
+            if (message)
+              span.glyphicon.glyphicon-inbox
+              span.badge.badge-notify !
+            else
+              span.glyphicon.glyphicon-inbox
+              //- span(style='margin-top: 18px;margin-left:20px;margin-right:20px;').glyphicon.glyphicon-inbox
+        li
+          a(href='', ng-click='go("notifications")')
+            if (notified)
+              span.glyphicon.glyphicon-bell
+            else
+              span.glyphicon.glyphicon-bell
+              span.badge.badge-notify !
+
+        li.dropdown
+          a#drop.dropdown-toggle(href='#', data-toggle='dropdown',style='color: white;') #{name}
+            span(style='margin-left: 10px;').glyphicon.glyphicon-menu-down
+            ul.dropdown-menu(aria-labelledby='drop',style='z-index:1;')
+              li
+                a(href='' ng-click='profile()') Profile
+              li.divider(role='separator')
+              li
+                a(href='' ng-click='logout()') Logout

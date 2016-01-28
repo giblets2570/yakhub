@@ -1,0 +1,53 @@
+include header.jade
+body.greyish(ng-app='notificationsApp' ng-controller='notificationsCtrl')
+	include ./navbars/main.jade
+	include ./navbars/messages-notifications.jade
+	#notifications.container
+		.ng-cloak(ng-hide='anyNotifications()')
+			.row
+				.col-md-offset-2.col-md-10
+					h3 No current notifications
+
+		div.ng-cloak(ng-repeat='(agent_name, obj) in notifications')
+			.row
+				.col-md-offset-2.col-md-10
+					h3 Requests from {{agent_name}}
+			.row
+				.col-md-offset-2.col-md-2
+					button.btn.btn-success(ng-click='approveAll(agent_name)') Approve all
+				.col-md-2
+					button.btn(ng-click='declineAll(agent_name)') Decline all
+			br
+			div(ng-repeat='(day, slots) in obj')
+				.row
+					.col-md-offset-2.col-md-10
+						h4 {{getDay(day)}}
+				.row(ng-repeat='slot in slots')
+					.col-md-offset-1.col-md-1
+						div(class='{{seenBefore(slot)}}')
+					.col-md-2
+						p {{slot.time.getHours()}}:00 - {{(slot.time.getHours()+1)%24}}:00
+					.col-md-2(ng-hide='slot.status')
+						a(href='' ng-click='approve(agent_name, slot.time)') Approve
+					.col-md-6(ng-hide='slot.status')
+						a(href='' ng-click='decline(agent_name, slot.time)') Decline
+					.col-md-2(ng-show='slot.status')
+						p {{slot.status}}
+					.col-md-2(ng-show='slot.status')
+						a(href='' ng-click='undo(agent_name, slot.time)') Undo
+		div.ng-cloak(ng-show='applications.length>0')
+			.row
+				.col-md-offset-2.col-md-10
+					h3 Applications to this campaign
+			.row(ng-repeat='application in applications')
+				.col-md-offset-2.col-md-2
+					a(href='' ng-click='agentProfile(application.agent_name)')
+						strong {{application.agent_name}}
+				.col-md-2
+					p Seen
+				.col-md-2
+					input(type='checkbox' ng-model='application.seen' ng-change='markApplication(application,$index)')
+	// /container
+
+	include footer.jade
+	script(src='client/js/notifications.js')

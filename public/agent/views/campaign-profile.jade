@@ -1,0 +1,109 @@
+include header.jade
+body.greyish(ng-app='campaignProfileApp' ng-controller='campaignProfileCtrl')
+	include ./navbars/main.jade
+
+	#info.container
+		.col-md-offset-1.col-md-10
+			div.row
+				div.col-md-6
+					h1(ng-bind='campaign.name') Loading campaign name...
+				if applied == false
+					.col-md-6.ng-cloak(ng-show='!applied')
+						button.btn.btn-primary(style='float: right;' ng-click='apply()') APPLY TO CAMPAIGN
+					.col-md-6.ng-cloak(ng-show='applied')
+						strong Thanks! The campaign owner will get back to you soon
+
+
+				else
+					.col-md-6
+						strong You've applied to this campaign
+			hr
+			div.row
+				div.col-md-12
+					h3 Company Background
+					br
+					pre
+						p(ng-bind='campaign.background') Loading background...
+					pre
+						p(ng-bind='campaign.website') Loading website...
+
+			hr
+			div.row
+				div.col-md-12
+					h3 Target demographic
+					br
+					pre
+						p(ng-bind='campaign.demographic') Loading demographic...
+			hr
+			div.row
+				div.col-md-12
+					h3 Objective
+					br
+					pre
+						p(ng-bind='campaign.objective') Loading objective...
+			hr
+			div.row
+				div.col-md-12
+					h3 Score definition
+					br
+					strong Agents can score leads from 0 to 3 stars. Define what each score means.
+					br
+					|For example:
+					br
+					|0 = Not interested, 3 = Appointment booked
+					hr
+					pre
+						p(ng-bind='"0. "+campaign.score_definition.zero') Loading...
+					pre
+						p(ng-bind='"1. "+campaign.score_definition.one') Loading...
+					pre
+						p(ng-bind='"2. "+campaign.score_definition.two') Loading...
+					pre
+						p(ng-bind='"3. "+campaign.score_definition.three') Loading...
+			hr
+			div.row
+				div.col-md-12
+					h3 Pricing Info
+					br
+					pre
+						p(ng-bind='campaign.pricing') Loading pricing info...
+			hr
+			div.row
+				div.col-md-12
+					h3 Lead qualification questions
+					br
+					strong List questions that you want the agents to get answered here e.g. "Do you anticipate needing X in the next 3 months?"
+					br
+					|You can add up to six questions.
+					br
+			div.row.ng-cloak(ng-repeat='question in campaign.questions')
+				div.col-md-12
+					h4 {{$index+1}}
+					strong Question
+					pre
+						p {{question.question}}
+					strong Description
+					pre
+						p {{question.description}}
+			hr
+			div.row
+				div.col-md-12
+					h3 FAQ
+					br
+					strong Create a FAQ for calling agents
+					br
+			div.row.ng-cloak(ng-repeat='faq in campaign.faqs')
+				div.col-md-12
+					h4 {{$index+1}}
+					|Question
+					pre
+						p {{faq.question}}
+					|Answer
+					pre
+						p {{faq.answer}}
+			hr
+
+	// /container
+
+	include footer.jade
+	script(src='agent/js/campaign-profile.js')

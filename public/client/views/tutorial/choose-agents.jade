@@ -1,0 +1,56 @@
+include ../header.jade
+body.greyish(ng-app='chooseAgentsApp' ng-controller='chooseAgentsCtrl')
+	div#main.navbar.navbar-default.navbar-static-top
+		div.container
+			div.navbar-header
+				a.navbar-brand(href='') Yak Hub
+
+			div#navbar-main.navbar-collapse.collapse(collapse='isCollapsed')
+				ul.nav.navbar-nav.navbar-right.nav-text
+					li.divider-vertical
+
+					li(style='margin-left:20px;margin-right:20px;margin-top:10px;')
+						button.help-button(ng-click='showHelpModal()') Help
+	#browse.container
+		div(ng-repeat='agent in agents')
+			.row.ng-cloak
+				.col-md-3
+					span.glyphicon.glyphicon-user
+				.col-md-4
+					strong {{agent.name}}
+					br
+					span(ng-bind='"Worked on " + agent.campaigns.length + " Campaigns"')
+					br
+					span.glyphicon.glyphicon-map-marker
+					span {{agent.location}}
+					br
+					strong About me:
+					br
+					p {{agent.about_me}}
+					strong Skills:
+					br
+					div.skill(ng-repeat='skill in agent.skills')
+						span {{skill}}
+				.col-md-2
+					strong £{{agent.price}}/hour
+					br
+					br
+					span Number of reviews: {{agent.number_reviews}}
+					br
+					span Average rating: {{agent.rating}}
+				.col-md-3
+					button.invite(ng-click='seeProfile(agent)') View profile
+			hr
+
+
+	script(src='bower_components/jquery/dist/jquery.min.js')
+	script(src='bower_components/bootstrap/dist/js/bootstrap.min.js')
+	script(src='bower_components/angular/angular.min.js')
+	script(src="bower_components/ng-file-upload-shim/ng-file-upload-shim.min.js")
+	script(src="bower_components/ng-file-upload/ng-file-upload.min.js")
+	script(src='bower_components/angular-sanitize/angular-sanitize.min.js')
+	script(src='bower_components/angular-animate/angular-animate.min.js')
+	script(src='bower_components/angular-strap/dist/angular-strap.min.js')
+	script(src='bower_components/angular-strap/dist/angular-strap.tpl.min.js')
+	script(src='client/js/app.services.js')
+	script(src='client/js/tutorial/choose-agents.js')
