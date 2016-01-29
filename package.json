@@ -11,7 +11,7 @@
   "license": "ISC",
   "cacheDirectories": [
     "node_modules",
-    "public/bower_components"
+    "public/libs"
   ],
   "dependencies": {
     "angular-animate": "^1.4.9",
