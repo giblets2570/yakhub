@@ -26,9 +26,9 @@ var outgoingNumber = require('../../config/twilio').outgoingNumber;
 
 // Get list of calls
 exports.index = function(req, res) {
-  if(req.query.campaign=='true'){
+  if(req.query.campaign_id){
     if(req.user.type=='agent'){
-      Call.find({campaign: req.session.campaign_id, agent: req.user._id}, req.query.fields, function (err, calls) {
+      Call.find({campaign: req.query.campaign_id, agent: req.user._id}, req.query.fields, function (err, calls) {
         if(err) { return handleError(res, err); }
         if(req.query.sorted == 'true'){
           calls.sort(function(a, b){
@@ -38,7 +38,7 @@ exports.index = function(req, res) {
         return res.status(200).json(calls);
       });
     }else{
-      Call.find({campaign: req.session.campaign_id}, req.query.fields, function (err, calls) {
+      Call.find({}, req.query.fields, function (err, calls) {
         if(err) { return handleError(res, err); }
         if(req.query.sorted == 'true'){
           calls.sort(function(a, b){

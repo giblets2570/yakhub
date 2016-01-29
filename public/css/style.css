@@ -34,6 +34,10 @@ button.help-button{
   margin: 10px;
 }
 
+.caretspan {
+  height: 10px;
+}
+
 .button{
   height: 50px;
   width: 150px;
@@ -83,6 +87,7 @@ button.help-button{
   width: 100%;
   height: 50px;
   background-color: #f5f5f5;
+  z-index: 999;
   position: fixed;
   bottom: 0px;
   text-align: center;
@@ -187,13 +192,23 @@ section.full_height{
 	border-left: 1px solid #367b65;
 }
 
-.navbar #main-campaign-select {
+.navbar #make-new-campaign {
   background: #459d81;
   color: #FFFFFF;
   border-radius: 50px;
   border: 1px solid;
   border-color: #367b65;
   -webkit-appearance: none;
+}
+
+#main-campaign-select {
+  background: #367b65;
+  color: #FFFFFF;
+  border-radius: 50px;
+}
+
+span.glyphicon.glyphicon-menu-down{
+  color: #FFFFFF;
 }
 
 .navbar .glyphicon-menu-down {
@@ -216,8 +231,8 @@ section.full_height{
 }
 
 #sub-nav {
-  background:#FFFFFF;
-  margin-top:-20px;
+  background:#f5f5f5;
+  margin-top:-21px;
 }
 
 #sub-nav li a{
@@ -254,16 +269,17 @@ section.full_height{
  *
  */
 
-#client-dashboard .agent-select{
+#client-results .agent-select{
   background: #f5f5f5;
 }
 
-#client-dashboard .filter{
+#client-results .filter{
   color: #111111;
 }
 
-#agent-dashboard .agent-select{
-  background: #f5f5f5;
+#client-results img{
+  height: 15px;
+  margin-left: 10px;
 }
 
 #agent-dashboard .filter{

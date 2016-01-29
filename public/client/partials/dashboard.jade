@@ -2,9 +2,12 @@
 	.container
 		.navbar-collapse.collapse(collapse='isCollapsed')
 			ul.nav.navbar-nav.nav-text
-				select#main-campaign-select.form-control(style='margin-top:10px;', ng-model='current_campaign', ng-change='changeCampaign(current_campaign)')
-					option(ng-repeat='campaign in campaigns', value='{{campaign._id}}') {{campaign.name}}
-					span.glyphicon.glyphicon-menu-down
+				li
+					select#main-campaign-select.form-control(style='margin-top:10px;', ng-model='current_campaign', ng-change='changeCampaign(current_campaign)')
+						option(ng-repeat='campaign in campaigns', value='{{campaign._id}}') {{campaign.name}}
+						//- span.glyphicon.glyphicon-menu-down
+
+
 			ul.nav.navbar-nav.navbar-right.nav-text
 				li
 					a(class='{{chosenTab("setup")}}' href='' ng-click='changeTab("setup")') Setup

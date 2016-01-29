@@ -37,6 +37,7 @@ html
     //- // MAIN CONTENT
     <div id='MainView' ui-view></div>
   script(src='/libs/jquery/dist/jquery.min.js')
+  script(src='/libs/bootstrap/dist/js/bootstrap.min.js')
   script(src="https://js.pusher.com/3.0/pusher.min.js")
   script(src='/libs/angular/angular.min.js')
   script(src='/libs/angular-ui-router/release/angular-ui-router.min.js')
@@ -49,10 +50,13 @@ html
   script(src='/libs/textAngular/dist/textAngular.min.js')
   script(src='/libs/ng-csv-import/angular-csv-import.js')
   script(src='js/app.js')
+  // Services
   script(src='js/services/client.js')
   script(src='js/services/alert.js')
   script(src='js/services/campaign.js')
   script(src='js/services/lead.js')
+  script(src='js/services/call.js')
+  // Controller
   script(src='js/controllers/login.js')
   script(src='js/controllers/home.js')
   script(src='js/controllers/dashboard.js')
