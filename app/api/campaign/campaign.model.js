@@ -19,49 +19,19 @@ var campaignSchema = mongoose.Schema({
     type: Boolean,
     default: false
   },
+  start_time: {type: Number, default: 0},
+  end_time: {type: Number, default: 0},
   start_date: Date,
   end_date: Date,
-  // These are the applications for joining a campaign
-  applications: [{
-    agent: {type: mongoose.Schema.ObjectId, ref: 'Agent' },
-    agent_name: {type: String, default: '' },
-    created: Date,
-    seen: {type: Boolean, default: false}
-  }],
-
-  // The slots that are available for a given campaign
-  available_slots: [{
-    time: Date,
-    num_agents: Number
-  }],
-  allocated_slots: [{
-    agent: {type: mongoose.Schema.ObjectId, ref: 'Agent' },
-    agent_name: {type: String, default: '' },
-    time: Date,
-    created: Date
-  }],
-  requested_slots: [{
-    agent: {type: mongoose.Schema.ObjectId, ref: 'Agent' },
-    agent_name: {type: String, default: '' },
-    time: Date,
-    status: {type: String, default: '' },
-    created: Date
-  }],
-
-  // Extra files and materials that the client may think is useful for this campaign
-  extra_materials:[{
-    filename: {type: String, default: ''},
-    file_url: {type: String, default: ''}
-  }],
-
-
-  from_email: {
-    email: {type : String, default: ''},
-    password: {type : String, default: ''}
+  days:{
+    mon: {type: Boolean, default: true},
+    tues: {type: Boolean, default: true},
+    wed: {type: Boolean, default: true},
+    thurs: {type: Boolean, default: true},
+    fri: {type: Boolean, default: true},
+    sat: {type: Boolean, default: true},
+    sun: {type: Boolean, default: true},
   },
-
-  follow_up_email: {type: String, default: ''},
-
 
   // The agents that are actively on this campaign
   agents: [{
@@ -76,9 +46,6 @@ var campaignSchema = mongoose.Schema({
 
 
   // These are the fields relating to the admin info panel
-  background: {type : String, default: ''},
-  website: {type : String, default: ''},
-  demographic: {type : String, default: ''},
   objective: {type : String, default: ''},
   description: {type : String, default: ''},
 

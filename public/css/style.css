@@ -7,6 +7,16 @@ body{
   background:#F1F1F1;
 }
 
+.setup-spacer {
+  margin-top: 40px;
+  /*margin-bottom: 40px;*/
+}
+
+.live-button {
+  float: right;
+  margin-top: -40px;
+}
+
 .white {
   background:#FFFFFF;
 }

@@ -5,14 +5,10 @@
 	div.row.ng-cloak(ng-repeat='question in campaign.questions')
 		div.col-md-12
 			h4 {{$index+1}}
-			button.close(ng-click='deleteQuestion($index)' ng-show='edit_all') REMOVE QUESTION
+			button.close(ng-click='deleteQuestion($index)') REMOVE QUESTION
 			strong Question
-			pre(ng-show='!edit_all')
-				p {{question.question}}
 			textarea.form-control(rows='2' ng-model='question.question' placeholder='What is your question?')
 			strong Description
-			pre(ng-show='!edit_all')
-				p {{question.description}}
 			textarea.form-control(rows='2' ng-model='question.description' placeholder='Why do you want this information?')
 	div.row.ng-cloak(ng-show='campaign.questions.length < 6')
 		div.col-md-12

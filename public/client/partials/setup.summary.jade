@@ -1,24 +1,26 @@
 .container
 	h3 Summary
+	button.btn.btn-success.live-button(ng-click='changeLive(true)' ng-show='!campaign.live') Go live!
+	button.btn.btn-danger.live-button(ng-click='changeLive(false)' ng-show='campaign.live') Stop the campaign!
 	.col-md-offset-1.col-md-10
-		div.row
+		div.row.setup-spacer
 			div.col-md-4
 				h4.section-title Campaign name
 			div.col-md-8
 				h5 {{campaign.name}}
 
-		div.row
+		div.row.setup-spacer
 			div.col-md-4
 				h4.section-title Campaign objective
 			div.col-md-8
 				h5 {{campaign.objective}}
 
-		div.row
+		div.row.setup-spacer
 			div.col-md-4
 				h4.section-title Description/instructions
 			div.col-md-8
 				h5 {{ campaign.description }}
-		div.row
+		div.row.setup-spacer
 			div.col-md-4
 				h4.section-title Score definition
 			div.col-md-8
@@ -30,7 +32,7 @@
 					h5 2: {{ campaign.score_definition.two }}
 				div.input-group.ng-cloak
 					h5 3: {{ campaign.score_definition.three }}
-		div.row
+		div.row.setup-spacer
 			div.col-md-4
 				h4.section-title Your contact info
 			div.col-md-8
@@ -43,22 +45,22 @@
 						h5 Phone: {{ campaign.contact_info.phone }}
 					div.col-md-6
 						h5 Email: {{ campaign.contact_info.email }}
-		div.row
+		div.row.setup-spacer
 			div.col-md-4
 				h4.section-title Dates
 			div.col-md-4
-				{{campaign.start_date.getDate()}} / {{campaign.start_date.getMonth()+1}} / {{campaign.start_date.getFullYear()}}
+				p Start: {{campaign.start_date | formatDate}}
 			div.col-md-4
-				{{campaign.end_date.getDate()}} / {{campaign.end_date.getMonth()+1}} / {{campaign.end_date.getFullYear()}}
-		div.row
+				p End: {{campaign.end_date | formatDate}}
+		div.row.setup-spacer
 			div.col-md-4
 				h4.section-title Times
 			div.col-md-4
-				h5 {{campaign.start_time}} {{start_time}}
+				h5 {{start_time}} {{start_time_period}}
 			div.col-md-4
-				h5 {{campaign.end_time}} {{end_time}}
+				h5 {{end_time}} {{end_time_period}}
 	hr
 	.row
 		.col-md-12
-			button.btn.btn-success(ng-click='changeLive(true)' ng-show='!campaign.live') Go live!
-			button.btn.btn-danger(ng-click='changeLive(false)' ng-show='campaign.live') Stop the campaign!
+			button.btn.btn-success.setup-spacer(ng-click='changeLive(true)' ng-show='!campaign.live') Go live!
+			button.btn.btn-danger.setup-spacer(ng-click='changeLive(false)' ng-show='campaign.live') Stop the campaign!

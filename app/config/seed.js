@@ -16,9 +16,9 @@ Message.find({}).remove(function() {
   console.log('Messages removed')
 })
 
-// Lead.find({}).remove(function() {
-//   console.log('Leads removed')
-// })
+Lead.find({}).remove(function() {
+  console.log('Leads removed')
+})
 
 // Agent.find({}).remove(function() {
 //   var hour = 3600000;
@@ -60,33 +60,34 @@ Message.find({}).remove(function() {
 //   })
 // });
 
-// Client.find({}).remove(function() {
-//   var client = new Client();
-//   client._id = "56405a8d099e1364ad748e88";
-//   client.name = "Test client";
-//   client.url_name = client.urlSafeName(client.name);
-//   client.password = client.generateHash("Test");
-//   client.campaigns = [{
-//     campaign: "5640c95b7449cf4cbf024b1f",
-//     campaign_name: "Test campaign 1"
-//   },{
-//     campaign: "5640c95b7449cf4cbf024b2b",
-//     campaign_name: "Test campaign 2"
-//   }];
-//   client.notifications = [{
-//     campaign: "5640c95b7449cf4cbf024b1f",
-//     seen_all: false,
-//     last_checked : new Date()
-//   },{
-//     campaign: "5640c95b7449cf4cbf024b2b",
-//     seen_all: false,
-//     last_checked : new Date()
-//   }]
-//   client.save(function(err){
-//     console.log('finished populating clients');
-//   })
-// });
+Client.find({}).remove(function() {
+  var client = new Client();
+  // client._id = "56405a8d099e1364ad748e88";
+  client.name = "Test";
+  client.url_name = client.urlSafeName(client.name);
+  client.password = client.generateHash("Test");
+  // client.campaigns = [{
+  //   campaign: "5640c95b7449cf4cbf024b1f",
+  //   campaign_name: "Test campaign 1"
+  // },{
+  //   campaign: "5640c95b7449cf4cbf024b2b",
+  //   campaign_name: "Test campaign 2"
+  // }];
+  // client.notifications = [{
+  //   campaign: "5640c95b7449cf4cbf024b1f",
+  //   seen_all: false,
+  //   last_checked : new Date()
+  // },{
+  //   campaign: "5640c95b7449cf4cbf024b2b",
+  //   seen_all: false,
+  //   last_checked : new Date()
+  // }]
+  client.save(function(err){
+    console.log('finished populating clients');
+  })
+});
 
+Campaign.find({}).remove();
 // Campaign.find({}).remove(function() {
 //   var campaign = new Campaign();
 //   var hour = 3600000;

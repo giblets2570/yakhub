@@ -1,23 +1,23 @@
 .container
 	.col-md-offset-1.col-md-10
-		div.row
+		div.row.setup-spacer
 			div.col-md-4
 				h4.section-title Campaign name
 			div.col-md-8
 				input.form-control.ng-cloak(placeholder='Your campaign\'s name' type='text' ng-model='campaign.name')
 
-		div.row
+		div.row.setup-spacer
 			div.col-md-4
 				h4.section-title Campaign objective
 			div.col-md-8
 				textarea.form-control.ng-cloak(rows='5', placeholder='What\'s your objective? For instance: finding leads with need X, getting an appointment booked etc.' ng-model='campaign.objective')
 
-		div.row
+		div.row.setup-spacer
 			div.col-md-4
 				h4.section-title Description/instructions
 			div.col-md-8
 				textarea.form-control.ng-cloak(rows='5', placeholder='Do you have any specific instructions for callers?' ng-model='campaign.description')
-		div.row
+		div.row.setup-spacer
 			div.col-md-4
 				h4.section-title Score definition
 				br
@@ -26,7 +26,7 @@
 				|For example:
 				br
 				|0 = Not interested, 3 = Appointment booked
-			div.col-md-8
+			div.col-md-8.setup-spacer
 				div.input-group.ng-cloak
 					span#zero.input-group-addon 0
 					input.form-control(type='text', placeholder='', aria-describedby='zero' ng-model='campaign.score_definition.zero')
@@ -39,7 +39,7 @@
 				div.input-group.ng-cloak
 					span#three.input-group-addon 3
 					input.form-control(type='text', placeholder='', aria-describedby='three' ng-model='campaign.score_definition.three')
-		div.row
+		div.row.setup-spacer
 			div.col-md-4
 				h4.section-title Your contact info
 			div.col-md-8
@@ -52,25 +52,36 @@
 						input.form-control.ng-cloak(type='text',placeholder='Phone Number' ng-model='campaign.contact_info.phone')
 					div.col-md-6
 						input.form-control.ng-cloak(type='text',placeholder='Email' ng-model='campaign.contact_info.email')
-		div.row
+		div.row.setup-spacer
 			div.col-md-4
 				h4.section-title Dates
 			div.col-md-4
 				input.form-control(type='text', ng-model='campaign.start_date', name='start_date', bs-datepicker, placeholder='Start date')
 			div.col-md-4
 				input.form-control(type='text', ng-model='campaign.end_date', name='end_date', bs-datepicker, placeholder='End date')
-		div.row
+		div.row.setup-spacer
+			div.col-md-4
+				h4.section-title Days
+			div.col-md-8
+				button.btn(class='{{dayChosen("mon")}}' ng-click='chooseDay("mon")') Monday
+				button.btn(class='{{dayChosen("tues")}}' ng-click='chooseDay("tues")') Tuesday
+				button.btn(class='{{dayChosen("wed")}}' ng-click='chooseDay("wed")') Wednesday
+				button.btn(class='{{dayChosen("thurs")}}' ng-click='chooseDay("thurs")') Thursday
+				button.btn(class='{{dayChosen("fri")}}' ng-click='chooseDay("fri")') Friday
+				button.btn(class='{{dayChosen("sat")}}' ng-click='chooseDay("sat")') Saturday
+				button.btn(class='{{dayChosen("sun")}}' ng-click='chooseDay("sun")') Sunday
+		div.row.setup-spacer
 			div.col-md-4
 				h4.section-title Times
 			div.col-md-2
-				input.form-control(type="number" ng-model="campaign.start_time" name="start_time" placeholder='Start time')
+				input.form-control(type="number" ng-model="start_time" name="start_time" placeholder='Start time' ng-change='changeTime("start")')
 			div.col-md-2
-				select.form-control(ng-model='start_time' ng-change='timePick(start_time,"start")')
+				select.form-control(ng-model='start_time_period' ng-change='timePick(start_time_period,"start")')
 					option AM
 					option PM
 			div.col-md-2
-				input.form-control(type="number" ng-model="campaign.end_time" name="end_time" placeholder='End date')
+				input.form-control(type="number" ng-model="end_time" name="end_time" placeholder='End time' ng-change='changeTime("end")')
 			div.col-md-2
-				select.form-control(ng-model='end_time' ng-change='timePick(end_time,"end")')
+				select.form-control(ng-model='end_time_period' ng-change='timePick(end_time_period,"end")')
 					option AM
 					option PM

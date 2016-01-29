@@ -114,33 +114,9 @@ exports.create = function(req, res) {
 // Updates an existing campaign in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
-  if(req.body.available_slots) {
-    for (var i = req.body.available_slots.length - 1; i >= 0; i--) {
-      req.body.available_slots[i].time = new Date(req.body.available_slots[i].time);
-    };
-  }
-  if(req.body.allocated_slots) {
-    for (var i = req.body.allocated_slots.length - 1; i >= 0; i--) {
-      req.body.allocated_slots[i].time = new Date(req.body.allocated_slots[i].time);
-    };
-  }
-  if(req.body.requested_slots) {
-    for (var i = req.body.requested_slots.length - 1; i >= 0; i--) {
-      req.body.requested_slots[i].time = new Date(req.body.requested_slots[i].time);
-    };
-  }
-  if(req.body.applications) {
-    for (var i = req.body.applications.length - 1; i >= 0; i--) {
-      req.body.applications[i].created = new Date(req.body.applications[i].created);
-    };
-  }
   if(req.params.id=='mine'){req.params.id=req.session.campaign_id}
   Campaign.findById(req.params.id, function (err, campaign) {
-    if (err) {
-      console.log('1')
-      console.log(err);
-      return handleError(res, err);
-    }
+    if (err) { return handleError(res, err); }
     if(!campaign) { return res.status(404).send('Not Found'); }
     var updated = _.merge(campaign, req.body);
     if(req.body.questions)
@@ -151,7 +127,6 @@ exports.update = function(req, res) {
       updated.faqs = req.body.faqs;
     updated.save(function (err) {
       if (err) {
-        console.log('2')
         console.log(err);
         return handleError(res, err);
       }

@@ -8,8 +8,8 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	$scope.current_screen = 'brief';
 	$scope.pageEntries = 20;
 	$scope.leads_loaded = false;
-	$scope.start_time = "AM";
-	$scope.end_time = "AM";
+	$scope.start_time_period = "AM";
+	$scope.end_time_period = "AM";
 	$scope.applyFilter = function(called){
 		$scope.filtered = $filter('callFilter')($scope.leads, called);
 		if($scope.filtered){
@@ -19,8 +19,10 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		}
 	}
 	$scope.changeLive = function(bool){
-		// console.log(bool);
-		$scope.campaign.live = bool;
+		var q;
+		if(bool) {q = "Are you sure you want to start your campaign?"}
+		else {q = "Are you sure you want to end your campaign?"}
+		if(confirm(q)) $scope.campaign.live = bool;
 	}
 	$scope.getLeads = function(){
 		Lead.get({campaign_id: $scope.campaign._id},'').then(function(data){
@@ -39,12 +41,35 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	}
 	$scope.$watch('campaign', function(c){
 		if(c && c._id){
+			$scope.start_time = c.start_time;
+			if($scope.start_time/12>=1){
+				$scope.start_time_period = "PM";
+				$scope.start_time = $scope.start_time % 12;
+			}
+			$scope.end_time = c.end_time;
+			if($scope.end_time/12>=1){
+				$scope.end_time_period = "PM";
+				$scope.end_time = $scope.end_time % 12;
+			}
 			if($scope.current_screen=='list'){
 				$scope.leads_loaded = true;
 				$scope.getLeads();
 			}
 		}
-	})
+	});
+	$scope.changeTime = function(when){
+		if(when=="start"){
+			$scope.start_time = $scope.start_time % 12;
+			if($scope.start_time<0)
+				$scope.start_time = 0;
+			$scope.campaign.start_time = $scope.start_time
+		}else if(when=="end"){
+			$scope.end_time = $scope.end_time % 12;
+			if($scope.end_time<0)
+				$scope.end_time = 0;
+			$scope.campaign.end_time = $scope.end_time
+		}
+	}
 	$scope.timePick = function(time,when){
 		if(when=='start'){
 			$scope.campaign.start_time = $scope.campaign.start_time % 12
@@ -108,6 +133,12 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 			$scope.leads_loaded = true;
 			$scope.getLeads();
 		}
+	}
+	$scope.dayChosen = function(day){
+		return $scope.campaign && $scope.campaign.days[day] ? 'btn-success' : 'btn-danger'
+	}
+	$scope.chooseDay = function(day){
+		$scope.campaign.days[day] = !$scope.campaign.days[day];
 	}
 	$scope.toolbar = [
       ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'quote'],
@@ -214,6 +245,13 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		return lead.called ? "Yes" : "No";
 	}
 }])
+
+.filter('formatDate', function(){
+	return function(input){
+		if(!input) return "";
+		return input.getDate() + "/" + input.getMonth()+1 + "/" + input.getFullYear()
+	}
+})
 
 .filter('callFilter',function(){
 	return function(input, called, uncalled){
