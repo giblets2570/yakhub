@@ -228,6 +228,7 @@ exports.addCallData = function(req, res) {
           if(err) { return handleError(res, err); }
           if(lead){
             lead.outcome = call.outcome;
+            lead.rating = call.rating;
             lead.save(function(err){
               if(err) { return handleError(res, err); }
               return res.status(200).json({'message':'Complete, with lead','call':call})

@@ -10,6 +10,7 @@ var clientSchema = mongoose.Schema({
   email: {type : String, default: ''},
   phone: {type : String, default: ''},
   type: {type : String, default: 'client'},
+  company_name: {type : String, default: ''},
 
   website: {type : String, default: ''},
   created: {

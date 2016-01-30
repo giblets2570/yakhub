@@ -17,6 +17,10 @@ body{
   margin-top: -40px;
 }
 
+.middle{
+  text-align: center;
+}
+
 .white {
   background:#FFFFFF;
 }
@@ -27,6 +31,10 @@ button.help-button{
   border-radius: 50px;
   border: 1px solid;
   border-color: #367b65;
+}
+
+span.large{
+  font-size: 30px;
 }
 
 .enter{
@@ -929,4 +937,8 @@ button.agent-schedule{
   position: fixed;
   top: 10px;
   left: 10px;
+}
+
+#intercom-container {
+  z-index: 9999;
 }

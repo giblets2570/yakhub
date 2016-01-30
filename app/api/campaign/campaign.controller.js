@@ -31,20 +31,26 @@ exports.index = function(req, res) {
       return res.status(200).json(campaigns);
     });
   }else if(req.user.type=='agent'){
-    if(req.query.browse=='true'){
-      Campaign.find({},req.query.fields, function (err, campaigns){
-        if(err) { return handleError(res, err); }
-        return res.json(campaigns);
-      })
-    }else{
-      Campaign.find({agents: {$elemMatch: {agent: req.user._id, active: true}}},req.query.fields, function (err, campaigns) {
-        if(err) { return handleError(res, err); }
-        console.log(req.query.current, req.query.current != undefined)
-        if(req.query.current != undefined)
-          return res.status(200).json({campaigns:campaigns,campaign:req.session.campaign_id});
-        return res.status(200).json(campaigns);
-      });
-    }
+    Campaign.find({},req.query.fields, function (err, campaigns) {
+      if(err) { return handleError(res, err); }
+      if(req.query.current != undefined)
+        return res.status(200).json({campaigns:campaigns,campaign:req.session.campaign_id});
+      return res.status(200).json(campaigns);
+    });
+    // if(req.query.browse=='true'){
+    //   Campaign.find({},req.query.fields, function (err, campaigns){
+    //     if(err) { return handleError(res, err); }
+    //     return res.json(campaigns);
+    //   })
+    // }else{
+    //   Campaign.find({agents: {$elemMatch: {agent: req.user._id, active: true}}},req.query.fields, function (err, campaigns) {
+    //     if(err) { return handleError(res, err); }
+    //     console.log(req.query.current, req.query.current != undefined)
+    //     if(req.query.current != undefined)
+    //       return res.status(200).json({campaigns:campaigns,campaign:req.session.campaign_id});
+    //     return res.status(200).json(campaigns);
+    //   });
+    // }
   }else{
     return res.status(403).send("Unauthorized");
   }

@@ -48,10 +48,20 @@ module.exports = function(app) {
       res.render(config.root + '/public/client/index');
     });
 
-  // app.route('/client/*')
-  //   .get(function(req, res) {
-  //     res.render(config.root + '/public/client/index');
-  //   });
+  app.route('/agent')
+    .get(function(req, res) {
+      res.render(config.root + '/public/agent/index');
+    });
+
+  app.route('/agent/dashboard')
+    .get(function(req, res) {
+      res.render(config.root + '/public/agent/index');
+    });
+
+  app.route('/agent/dashboard/*')
+    .get(function(req, res) {
+      res.render(config.root + '/public/agent/index');
+    });
 
   // The index page of the page
   app.route('/')

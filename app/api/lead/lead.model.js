@@ -28,9 +28,11 @@ var leadSchema = mongoose.Schema({
     address: {type: String, default: ''},
     email: {type: String, default: ''},
     outcome: {type: String, default: ''},
+    outcome: {type: String, default: ''},
     notes: {type: String, default: ''},
     called: {type: Boolean, default: false},
     call_timestamp: Date,
+    rating: Number,
     call_back: Date,
     created: {
         type: Date,

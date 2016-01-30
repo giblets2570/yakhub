@@ -50,12 +50,18 @@ module.exports = function(passport) {
 
   //==================================================================
   // Define the strategy to be used by PassportJS
-  passport.use('agent-login', new LocalStrategy(
+  passport.use('agent-login', new LocalStrategy({
+      passReqToCallback: true
+    },
     function(req, username, password, done) {
       Agent.findOne({'name':username},function(err,agent){
-        if(err){return done(null, false, { message: 'Error in request.' })}
-        if(!agent){return done(null, false, { message: 'Incorrect username.' })}
-        if(!agent.validPassword(password)){return done(null, false, { message: 'Incorrect password.' })}
+        console.log(agent);
+        if(err)
+          return done(null, false, { message: 'Error in request.' })
+        if(!agent)
+          return done(null, false, { message: 'Incorrect username.' })
+        if(!agent.validPassword(password))
+          return done(null, false, { message: 'Incorrect password.' })
         return done(null, agent);
       })
     }

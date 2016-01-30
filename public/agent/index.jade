@@ -6,7 +6,7 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     // The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags
     // CSS (load bootstrap)
-    base(href='/client/')
+    base(href='/agent/')
 
     meta(name='description', content='Yak Hub instant call center')
     meta(name='author', content='Tom Murray')
@@ -38,6 +38,7 @@ html
     <div id='MainView' ui-view></div>
   script(src='/libs/jquery/dist/jquery.min.js')
   script(src='/libs/bootstrap/dist/js/bootstrap.min.js')
+  script(src='//static.twilio.com/libs/twiliojs/1.2/twilio.min.js')
   script(src="https://js.pusher.com/3.0/pusher.min.js")
   script(src='/libs/angular/angular.min.js')
   script(src='/libs/angular-intercom-mini/intercom.js')
@@ -46,10 +47,6 @@ html
   script(src='/libs/angular-animate/angular-animate.min.js')
   script(src="/libs/angular-strap/dist/angular-strap.min.js")
   script(src="/libs/angular-strap/dist/angular-strap.tpl.min.js")
-  script(src='/libs/textAngular/dist/textAngular-rangy.min.js')
-  script(src='/libs/textAngular/dist/textAngular-sanitize.min.js')
-  script(src='/libs/textAngular/dist/textAngular.min.js')
-  script(src='/libs/ng-csv-import/angular-csv-import.js')
   script(src='js/app.js')
   // Services
   script(src='js/services/client.js')
@@ -57,11 +54,9 @@ html
   script(src='js/services/campaign.js')
   script(src='js/services/lead.js')
   script(src='js/services/call.js')
+  script(src='js/services/agent.js')
   // Controller
   script(src='js/controllers/login.js')
   script(src='js/controllers/home.js')
-  script(src='js/controllers/dashboard.js')
-  script(src='js/controllers/setup.js')
-  script(src='js/controllers/results.js')
-  script(src='js/controllers/stats.js')
-  script(src='js/controllers/updates.js')
+  script(src='js/controllers/campaigns.js')
+  script(src='js/controllers/dialer.js')

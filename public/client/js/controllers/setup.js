@@ -180,6 +180,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		'email':['email','email address'],
 		'notes':['note','notes'],
 		'outcome':['outcome'],
+		'rating':['rating','score','star','stars'],
 		'called':['called','done']
 	}
 	var CSVModal = $modal({scope: $scope, templateUrl: '../../../client/views/templates/add-numbers-modal.html', show: false});
@@ -197,6 +198,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		if(confirm("Are you sure you wish to remove your list of contacts?")){
 			Lead.remove({campaign_id: $scope.campaign._id}).then(function(data){
 				console.log(data);
+				$scope.leads = [];
 			});
 		}
 	}

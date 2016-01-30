@@ -129,21 +129,23 @@ exports.twilio = function(req, res){
     Campaign.findById(req.query.campaign,function(err,campaign){
       if(err) { return handleError(res, err); }
       if(!campaign) { return res.status(404).json({'message': 'No campaign'}); }
-      var found;
-      for (var i = campaign.allocated_slots.length - 1; i >= 0; i--) {
-        if(campaign.allocated_slots[i].agent.toString() == req.user._id.toString() && 
-        campaign.allocated_slots[i].time.valueOf() - fifteenMinutes <= now &&
-        campaign.allocated_slots[i].time.valueOf() + 4*fifteenMinutes > now){
-          found = true;
-          break;
-        }
-      }
-      if(found){
-        var token = capability.generate();
-        return res.status(201).json({token: token, agent_id: req.user._id});
-      }else{
-        return res.status(406).json({message: 'You are not authorized to make phone calls at this time!', agent_id: req.user._id});
-      }
+      // var found;
+      // for (var i = campaign.allocated_slots.length - 1; i >= 0; i--) {
+      //   if(campaign.allocated_slots[i].agent.toString() == req.user._id.toString() && 
+      //   campaign.allocated_slots[i].time.valueOf() - fifteenMinutes <= now &&
+      //   campaign.allocated_slots[i].time.valueOf() + 4*fifteenMinutes > now){
+      //     found = true;
+      //     break;
+      //   }
+      // }
+      // if(found){
+      //   var token = capability.generate();
+      //   return res.status(201).json({token: token, agent_id: req.user._id});
+      // }else{
+      //   return res.status(406).json({message: 'You are not authorized to make phone calls at this time!', agent_id: req.user._id});
+      // }
+      var token = capability.generate();
+      return res.status(201).json({token: token, agent_id: req.user._id});
     })
   });
 }

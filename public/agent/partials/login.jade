@@ -1,10 +1,10 @@
 .container
 	.col-md-offset-4.col-md-4(ng-show='!not_login')
 		center
-			form.form-signin(ng-submit='login()')
-				input.form-control.enter(placeholder='Username or email' type='text' ng-model='user_login.username')
-				input.form-control.enter(placeholder='Password' type='password' ng-model='user_login.password')
-				button.btn.button(type='submit') LOG IN
+		form.form-signin(ng-submit='login()')
+			input.form-control.enter(placeholder='Username or email' type='text' ng-model='user_login.username')
+			input.form-control.enter(placeholder='Password' type='password' ng-model='user_login.password')
+			button.btn.button(type='submit') LOG IN
 		a(href='' ng-click='not_login=!not_login')
 			p.change-enter Need to sign up?
 	.col-md-offset-4.col-md-4(ng-show='not_login')
@@ -13,7 +13,6 @@
 				input.form-control.enter(placeholder='Name' type='text' ng-model='user_signup.username.name')
 				input.form-control.enter(placeholder='Email' type='text' ng-model='user_signup.username.email')
 				input.form-control.enter(placeholder='Password' type='password' ng-model='user_signup.password')
-				input.form-control.enter(placeholder='Company name (optional)' type='text' ng-model='user_signup.username.company_name')
 				button.btn.button.done(type='submit') SIGN UP
 		a(href='' ng-click='not_login=!not_login')
 			p.change-enter Already signed up?

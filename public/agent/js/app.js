@@ -3,7 +3,7 @@
 // *
 // * Description
 // */
-var app = angular.module('app', ['intercom','ui.router','ngAnimate','mgcrea.ngStrap','textAngular','ngCsvImport','ngSanitize'])
+var app = angular.module('app', ['intercom','ui.router','ngAnimate','mgcrea.ngStrap'])
 
 .config(function($stateProvider, $urlRouterProvider, $locationProvider,$httpProvider) {
     //================================================
@@ -15,7 +15,7 @@ var app = angular.module('app', ['intercom','ui.router','ngAnimate','mgcrea.ngSt
       // Make an AJAX call to check if the user is logged in
       $http({
         method:'GET',
-        url:'/auth/client/loggedin',
+        url:'/auth/agent/loggedin',
         cache: false
       }).success(function(data){
         // Authenticated
@@ -44,7 +44,7 @@ var app = angular.module('app', ['intercom','ui.router','ngAnimate','mgcrea.ngSt
       // Make an AJAX call to check if the user is logged in
       $http({
         method:'GET',
-        url:'/auth/client/loggedin',
+        url:'/auth/agent/loggedin',
         cache: false
       }).success(function(data){
         // Authenticated
@@ -55,11 +55,7 @@ var app = angular.module('app', ['intercom','ui.router','ngAnimate','mgcrea.ngSt
             _id: data.user._id
           }
           deferred.reject();
-          if(data.campaign_id){
-            $state.go('home.dashboard.setup',{'campaign_id':data.campaign_id});
-          }else{
-            $state.go('home');
-          }
+          $state.go('home.campaigns');
         // Not Authenticated
         }else {
           $timeout(function(){
@@ -105,6 +101,7 @@ var app = angular.module('app', ['intercom','ui.router','ngAnimate','mgcrea.ngSt
 
       .state('home', {
         url: '/dashboard/',
+        abstract: true,
         templateUrl: 'partials/home',
         controller: 'homeCtrl',
         resolve: {
@@ -112,61 +109,40 @@ var app = angular.module('app', ['intercom','ui.router','ngAnimate','mgcrea.ngSt
         }
       })
 
-      .state('home.dashboard', {
-        url: ':campaign_id/',
-        templateUrl: 'partials/dashboard',
-        controller: 'dashboardCtrl',
-        resolve: {
-          isLoggedIn: checkLoggedin
-        }
+      .state('home.campaigns', {
+        url: 'campaigns',
+        templateUrl: 'partials/campaigns',
+        controller: 'campaignsCtrl',
       })
 
-      .state('home.dashboard.setup', {
-        url: 'setup',
-        templateUrl: 'partials/setup',
-        controller: 'setupCtrl'
-      })
-
-      .state('home.dashboard.results', {
-        url: 'results',
-        templateUrl: 'partials/results',
-        controller: 'resultsCtrl'
-      })
-
-      .state('home.dashboard.stats', {
-        url: 'stats',
-        templateUrl: 'partials/stats',
-        controller: 'statsCtrl'
-      })
-
-      .state('home.dashboard.updates', {
-        url: 'updates',
-        templateUrl: 'partials/updates',
-        controller: 'updatesCtrl'
+      .state('home.dialer', {
+        url: ':campaign_id',
+        templateUrl: 'partials/dialer',
+        controller: 'dialerCtrl',
       });
 })
 
-.config(['IntercomProvider', function(IntercomProvider) {
-  IntercomProvider.init('m28yn4x9');
-}])
+// .config(['IntercomProvider', function(IntercomProvider) {
+//   IntercomProvider.init('m28yn4x9');
+// }])
 
-.directive("intercom", ['Intercom', function(Intercom) {
-  return {
-    link: function(scope, element, attrs) {
-      scope.$watch('user', function(user) {
-        if(user){
-          Intercom.boot({
-            // loaded user object should contain those attributes
-            // this is hardcoded for testing purposes :)
-            name: 'hello',
-            email: 'world@world.com',
-            created_at: 1234567890
-            // created_at should be a unix timestamp
-            // you can get a unix timestamp using
-            // Math.round(+new Date(user.created_at)/1000)
-          });
-        }
-      });
-    }
-  };
-}]);
+// .directive("intercom", ['Intercom', function(Intercom) {
+//   return {
+//     link: function(scope, element, attrs) {
+//       scope.$watch('user', function(user) {
+//         if(user){
+//           Intercom.boot({
+//             // loaded user object should contain those attributes
+//             // this is hardcoded for testing purposes :)
+//             name: 'hello',
+//             email: 'world@world.com',
+//             created_at: 1234567890
+//             // created_at should be a unix timestamp
+//             // you can get a unix timestamp using
+//             // Math.round(+new Date(user.created_at)/1000)
+//           });
+//         }
+//       });
+//     }
+//   };
+// }]);
