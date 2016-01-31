@@ -4,7 +4,7 @@
 * Description
 */
 
-app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client',function($scope,$state,$stateParams,Campaign,Client){
+app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client','$rootScope',function($scope,$state,$stateParams,Campaign,Client,$rootScope){
 	$scope.newCampaign = function(){
 		var name = prompt("Give your campaign a name");
 		if(name){
@@ -21,9 +21,22 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
     channel.bind('my_event', function(data) {
       alert(data.message);
     });
+    // Intercom('showNewMessage');
+    // Intercom('show');
+    Intercom('onShow',function(){
+    	console.log("Intercom shown");
+    });
+    Intercom('onHide',function(){
+    	console.log("Intercom hidden");
+    });
+	$scope.showIntercom = function(){
+		Intercom('show');
+	}
 	$scope.logout = function(){
 	    Client.logout().then(function(data){
-	    	$state.go('login')
+	    	$rootScope.user = null;
+	    	Intercom("shutdown");
+	    	$state.go('login');
 	    }, function (error) {
 	    });
 	};

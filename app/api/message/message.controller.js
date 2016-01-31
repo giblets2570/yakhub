@@ -19,17 +19,26 @@ var crypto = require('crypto');
 
 // Get list of leads
 exports.index = function(req, res) {
-  if(req.user.type == 'agent'){
-    Message.find({agents: {$elemMatch: {agent: req.user._id}}},req.query.fields,function (err, messages) {
+  // if(req.user.type == 'agent'){
+  //   Message.find({agents: {$elemMatch: {agent: req.user._id}}},req.query.fields,function (err, messages) {
+  //     if(err) { return handleError(res, err); }
+  //     return res.status(200).json(messages);
+  //   })
+  // }
+  // else if(req.user.type == 'client'){
+  //   Message.find({clients: {$elemMatch: {client: req.user._id}}},req.query.fields,function (err, messages) {
+  //     if(err) { return handleError(res, err); }
+  //     return res.status(200).json(messages);
+  //   })
+  // }
+  if(req.query.campaign_id){
+    Message.findOne({campaign: req.query.campaign_id},function(err,messages){
       if(err) { return handleError(res, err); }
-      return res.status(200).json(messages);
+      if(!messages) { return res.json({messages: []}); }
+      return res.json(messages);
     })
-  }
-  else if(req.user.type == 'client'){
-    Message.find({clients: {$elemMatch: {client: req.user._id}}},req.query.fields,function (err, messages) {
-      if(err) { return handleError(res, err); }
-      return res.status(200).json(messages);
-    })
+  }else{
+    return res.json([]);
   }
 };
 
@@ -46,6 +55,8 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   var message = new Message();
   var updated = _.merge(message,req.body);
+  updated.client = req.user._id;
+  updated.client_name = req.user.name;
   updated.save(function(err){
     if(err) { return handleError(res, err); }
     return res.status(201).json(updated);
@@ -58,14 +69,8 @@ exports.update = function(req, res) {
   Message.findById(req.params.id, function (err, message) {
     if (err) { return handleError(res, err); }
     if(!message) { return res.status(404).send('Not Found'); }
-    if(req.body.name)
-      message.name = req.body.name;
-    if(req.body.clients)
-      message.clients = req.body.clients
-    if(req.body.agents)
-      message.agents = req.body.agents
     if(req.body.messages){
-      message.messages = req.body.messages
+      message.messages = req.body.messages;
       message.last_message = new Date();
     }
     message.save(function (err) {

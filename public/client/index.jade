@@ -13,6 +13,9 @@ html
     link(rel='icon', href='/favicon.ico')
     title Yak Hub
 
+    // Intercom
+    script (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/m28yn4x9';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()
+
     // Bootstrap core CSS
     link(href='/libs/bootstrap/dist/css/bootstrap.css', rel='stylesheet')
 
@@ -36,11 +39,12 @@ html
     //- // NAVIGATION
     //- // MAIN CONTENT
     <div id='MainView' ui-view></div>
+  //- script(src="//static.intercomcdn.com/intercom.v1.js")
   script(src='/libs/jquery/dist/jquery.min.js')
   script(src='/libs/bootstrap/dist/js/bootstrap.min.js')
   script(src="https://js.pusher.com/3.0/pusher.min.js")
   script(src='/libs/angular/angular.min.js')
-  script(src='/libs/angular-intercom-mini/intercom.js')
+  //- script(src='/libs/angular-intercom-mini/intercom.js')
   script(src='/libs/angular-ui-router/release/angular-ui-router.min.js')
   script(src='/libs/angular-clipboard/angular-clipboard.js')
   script(src='/libs/angular-animate/angular-animate.min.js')
@@ -57,6 +61,7 @@ html
   script(src='js/services/campaign.js')
   script(src='js/services/lead.js')
   script(src='js/services/call.js')
+  script(src='js/services/message.js')
   // Controller
   script(src='js/controllers/login.js')
   script(src='js/controllers/home.js')

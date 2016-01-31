@@ -214,7 +214,7 @@ app.controller('resultsCtrl', ['$scope','$state','Alert','Call','$sce','$locatio
         scope: {
             source: '='
         },
-        templateUrl: '/client/views/templates/audioPlayer.html',
+        templateUrl: '/client/templates/audioPlayer.html',
         link: function($scope, element, attrs){
         	// console.log($scope);
         	$scope.$watch('ctime', function(value){
