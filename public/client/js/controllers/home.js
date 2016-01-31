@@ -23,15 +23,15 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
     });
     // Intercom('showNewMessage');
     // Intercom('show');
-    Intercom('onShow',function(){
-    	console.log("Intercom shown");
-    });
-    Intercom('onHide',function(){
-    	console.log("Intercom hidden");
-    });
-	$scope.showIntercom = function(){
-		Intercom('show');
-	}
+ //    Intercom('onShow',function(){
+ //    	console.log("Intercom shown");
+ //    });
+ //    Intercom('onHide',function(){
+ //    	console.log("Intercom hidden");
+ //    });
+	// $scope.showIntercom = function(){
+	// 	Intercom('show');
+	// }
 	$scope.logout = function(){
 	    Client.logout().then(function(data){
 	    	$rootScope.user = null;
