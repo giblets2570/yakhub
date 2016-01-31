@@ -87,11 +87,12 @@ app.factory('Agent', function($http,$q){
 		    });
 		    return defered.promise;
 		},
-		me: function(){
+		me: function(params){
 			var defered = $q.defer();
 			$http({
 				method:'GET',
 				url:'/api/agents/me',
+				params: params,
 				cache: false
 			}).success(function(data){
 				defered.resolve(data);

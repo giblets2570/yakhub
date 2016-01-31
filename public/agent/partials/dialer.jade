@@ -10,8 +10,8 @@
 				li
 					a(ui-sref='home.campaigns') < Back to campaigns
 
-#dialer.container
-	.col-md-6
+.container
+	.col-md-6(style='border-right: 1px solid; border-color: grey;')
 		.row
 			.col-md-6
 				h3 Company
@@ -111,6 +111,20 @@
 						center
 							h3 Submit then Get Next Number
 	.col-md-6
+		.row
+			.col-md-12
+				h4 Earned
+		.row
+			.col-md-8
+				h1 £{{earned/100|number:2}}
+			.col-md-4
+				h3 +£{{last_earning/100|number:2}}
+		.row
+			.col-md-8
+				p today on this campaign
+			.col-md-4
+				p on last call
+		hr
 		.row
 			.col-md-3
 				a(href='' style='{{getPageStyle("info")}}' ng-click='changePage("info")') Info

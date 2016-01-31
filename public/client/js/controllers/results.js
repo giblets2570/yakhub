@@ -37,8 +37,9 @@ app.controller('resultsCtrl', ['$scope','$state','Alert','Call','$sce','$locatio
 	// Function that getsthe calls from the server and sets
 	// all the call created dates to Date objects.
 	$scope.getCalls = function(){
-		Call.get({campaign:true},'').then(function(data){
+		Call.get({campaign_id:$scope.campaign._id,sorted:true},'').then(function(data){
 			$scope.calls = data;
+			console.log(data);
 			for (var i = $scope.calls.length - 1; i >= 0; i--)
 				$scope.calls[i].created = new Date($scope.calls[i].created);
 			$scope.applyFilter($scope.filter);

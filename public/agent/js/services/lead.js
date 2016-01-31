@@ -42,11 +42,12 @@ app.factory('Lead', function($http,$q){
 			})
 			return defered.promise;
 		},
-		next: function(){
+		next: function(params){
 			var defered = $q.defer();
 			$http({
 				method:'GET',
 				url:'/api/leads/next',
+				params: params,
 				cache: false
 			}).success(function(data){
 				defered.resolve(data);
@@ -82,12 +83,13 @@ app.factory('Lead', function($http,$q){
 			})
 			return defered.promise;
 		},
-		custom: function(data){
+		custom: function(data,params){
 			var defered = $q.defer();
 			$http({
 				method:'POST',
 				url:'/api/leads/custom',
 				data: data,
+				params: params,
 				cache: false
 			}).success(function(data){
 				defered.resolve(data);

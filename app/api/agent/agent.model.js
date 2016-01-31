@@ -21,54 +21,8 @@ var agentSchema = mongoose.Schema({
   // Information on the call the agent has just completed
   call_id: {type: mongoose.Schema.ObjectId, ref: 'Call'},
 
-  campaigns: [{
-    campaign: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Campaign'
-    },
-    campaign_name: String,
-    description: String,
-    date_started: Date,
-    date_ended: Date,
-    client: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Client'
-    },
-    client_name: String,
-    review: {
-      rating: {type: Number, default: 0},
-      text: {type: String, default: ''},
-      date: Date
-    }
-  }],
-
-  availabilities: {
-    type: [Number],
-    default: [0, 0, 0, 0, 0, 0, 0]
-  },
-
-  skills: {
-    type: [String],
-    default: []
-  },
-
-  available: {type: Boolean, default: true},
-
-  notifications: {
-    last_check: {type: Date, default: new Date()},
-    seen_all: {type: Boolean, default: false}
-  },
-
   new_messages: {type: Boolean, default: false},
 
-  about_me: {type : String, default: ''},
-
-  number_reviews: {type : Number, default: 0},
-  rating: {type : Number, default: 0},
-  created: {
-    type: Date,
-    default: new Date()
-  }
 });
 
 // methods ======================

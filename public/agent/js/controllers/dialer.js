@@ -6,9 +6,9 @@
 
 app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','$location','Campaign','Lead','Call',function($scope,$state,Agent,Alert,$stateParams,$location,Campaign,Lead,Call){
 	$scope.campaign_id = $stateParams.campaign_id;
-	console.log($scope.campaign_id);
 	$scope.hour = 3600000;
 	$scope.three_minutes = 180000;
+	$scope.last_earning = 0;
 	// The text that dsplays on the call button
 	$scope.call_button_text = 'Setting up';
 	// True if you can get the previous call data.
@@ -92,7 +92,7 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	};
 	// Gets the next lead for the campaign.
 	$scope.getNextLead = function(){
-		Lead.next().then(function(data){
+		Lead.next({campaign_id: $scope.campaign_id}).then(function(data){
 			$scope.lead = data;
 			$scope.initialize_call();
 		})
@@ -168,19 +168,19 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	}
 	// Submits the call data and gets the next number.
 	$scope.submitThenNextNumber = function(){
+		console.log('Submitting number');
 		if(!$scope.called) return;
-		if($scope.call.outcome=='Call later' && !$scope.made_call_back){
-			return;
-		}
 		Call.addCallData($scope.call).then(function(data){
 			var call = data.call;
-			$scope.calls.push({
-				created: new Date(call.created),
-				duration: call.duration,
-				_id: call._id,
-				rating: call.rating,
-				outcome: call.outcome
-			});
+			// $scope.calls.push({
+			// 	created: new Date(call.created),
+			// 	duration: call.duration,
+			// 	_id: call._id,
+			// 	rating: call.rating,
+			// 	outcome: call.outcome
+			// });
+			$scope.last_earning = call.duration*(2/3);
+			$scope.earned+=$scope.last_earning;
 			$scope.getNextLead();
 			// $scope.getCallStats();
 			$scope.showPrevious = true;
@@ -195,8 +195,8 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	});
 	$scope.changeOutcome = function(){
 		console.log($scope.call.outcome);
-		if($scope.call.outcome == 'Call later')
-			$scope.showCallBackModal();
+		// if($scope.call.outcome == 'Call later')
+		// 	$scope.showCallBackModal();
 	}
 	$scope.makeCallback = function(){
 		Lead.makeCallBack($scope.call_back).then(function(data){
@@ -210,7 +210,7 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 		if($scope.called) return;
 		if($scope.custom.number.substring(0,4) != "0044")
 			$scope.custom.number = "0044"+$scope.custom.number.substring(1,15)
-		Lead.custom($scope.custom).then(function(data){
+		Lead.custom($scope.custom,{campaign_id: $scope.campaign_id}).then(function(data){
 			$scope.lead = data;
 			$scope.initialize_custom();
 			$scope.initialize_call();
@@ -243,8 +243,10 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	};
 	// Get's the agent data for the current agent.
 	$scope.getAgentData = function(c){
-		Agent.me().then(function(data){
-			$scope.agent = data;
+		Agent.me({calls: true}).then(function(data){
+			$scope.agent = data.agent;
+			$scope.earned = data.earned;
+			$scope.last_earning = data.last_earning;
 			c();
 		})
 	}

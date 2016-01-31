@@ -27,7 +27,7 @@
   div.row.dashboard-lead.ng-cloak(ng-repeat='call in calls | filter : filter | orderBy : "-created" | limitTo:pageEntries:pageEntries*filter.page')
     div.row
       div.col-md-2
-        | {{call.agent_name}}
+        //- | {{call.agent_name}}
       div.col-md-2
         | {{call.created.getDate()}} / {{call.created.getMonth()+1}} / {{call.created.getFullYear()}}
       div.col-md-2

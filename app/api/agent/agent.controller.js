@@ -17,6 +17,7 @@
 var _ = require('lodash');
 var Agent = require('./agent.model');
 var Campaign = require('../campaign/campaign.model');
+var Call = require('../call/call.model');
 
 // Create a twilio client
 var twilioDetails = require('../../config/twilio');
@@ -152,7 +153,28 @@ exports.twilio = function(req, res){
 
 // Get's a twilio token for an agent, and also returns the agents id
 exports.me = function(req, res){
-  return res.status(200).json(req.user);
+  if(req.query.calls){
+    var now = new Date();
+    var hours = now.getHours();
+    var minutes = now.getMinutes();
+    var today = new Date(now.valueOf() - hours*60*60*1000 - minutes*60*1000);
+    Call.find({agent: req.user._id, created: {$gte: today}},function(err,calls){
+      if(err) { return res.status(200).json(req.user); }
+      calls.sort(function(a, b){
+        return b.created.valueOf() - a.created.valueOf();
+      });
+      var total_duration = 0;
+      var last_earning = 0;
+      for (var i = calls.length - 1; i >= 0; i--) {
+        total_duration += calls[i].duration;
+        last_earning = calls[i].duration*2/3;
+      };
+      var earned = total_duration*(2/3);
+      return res.status(200).json({agent: req.user,earned: earned,last_earning: last_earning});
+    })
+  }else{
+    return res.status(200).json(req.user);
+  }
 }
 
 // Get's a twilio token for an agent, and also returns the agents id

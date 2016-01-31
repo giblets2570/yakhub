@@ -38,7 +38,7 @@ exports.index = function(req, res) {
         return res.status(200).json(calls);
       });
     }else{
-      Call.find({}, req.query.fields, function (err, calls) {
+      Call.find({campaign: req.query.campaign_id}, req.query.fields, function (err, calls) {
         if(err) { return handleError(res, err); }
         if(req.query.sorted == 'true'){
           calls.sort(function(a, b){
@@ -132,49 +132,48 @@ exports.makeCall = function(req, res) {
   Agent.findById(req.body.agent,function(err, agent){
     if(err) { return handleError(res, err); }
     if(!agent) { return res.status(401).send('0'); }
-    var campaign_id = null;
+    var campaign_id = req.body.campaign;
     var campaign_name = null;
-    for (var i = agent.campaigns.length - 1; i >= 0; i--) {
-      if(agent.campaigns[i].campaign.toString() == req.body.campaign.toString()){
-        campaign_id = agent.campaigns[i].campaign;
-        campaign_name = agent.campaigns[i].campaign_name;
-        break;
-      }
-    };
-    if(!campaign_id) { return res.status(401).send('0'); }
-    Lead.findOne({campaign:campaign_id, agent: agent._id, called: false}, function(err, lead){
+    Campaign.findById(campaign_id,function(err,campaign){
       if(err) { return handleError(res, err); }
-      if(!lead) { return res.status(401).send('Not Found'); }
-      lead.called = true;
-      lead.call_timestamp = new Date();
-      lead.save(function(err){
+      if(!campaign) { return res.status(401).send('Not Found'); }
+      campaign_name = campaign.name;
+      Lead.findOne({campaign:campaign_id, agent: agent._id, called: false}, function(err, lead){
         if(err) { return handleError(res, err); }
-        var call = new Call();
-        call.agent = agent._id
-        call.agent_name = agent.name;
-        call.lead_info = {
-          number: lead.number,
-          company: lead.company,
-          email: lead.email,
-          person: lead.person,
-        };
-        call.campaign = campaign_id;
-        call.campaign_name = campaign_name;
-        var actionURL = '/api/calls/recording/' + call._id;
-        call.save(function(err){
+        if(!lead) { return res.status(401).send('Not Found'); }
+        lead.called = true;
+        lead.call_timestamp = new Date();
+        lead.save(function(err){
           if(err) { return handleError(res, err); }
-          agent.call_id = call._id;
-          agent.save(function(err1){
+          var call = new Call();
+          call.agent = agent._id
+          call.agent_name = agent.name;
+          call.lead_info = {
+            number: lead.number,
+            company: lead.company,
+            email: lead.email,
+            person: lead.person,
+          };
+          call.campaign = campaign_id;
+          call.campaign_name = campaign_name;
+          call.client = campaign.client_id;
+          call.client_name = campaign.client_name;
+          var actionURL = '/api/calls/recording/' + call._id;
+          call.save(function(err){
             if(err) { return handleError(res, err); }
-            var resp = new twilio.TwimlResponse();
-            resp.dial({
-              action: actionURL,
-              callerId: outgoingNumber,
-              record: true
-            },function(node){
-              node.number(lead.number,{});
+            agent.call_id = call._id;
+            agent.save(function(err1){
+              if(err) { return handleError(res, err); }
+              var resp = new twilio.TwimlResponse();
+              resp.dial({
+                action: actionURL,
+                callerId: outgoingNumber,
+                record: true
+              },function(node){
+                node.number(lead.number,{});
+              });
+              return res.send(resp.toString());
             });
-            return res.send(resp.toString());
           });
         });
       });

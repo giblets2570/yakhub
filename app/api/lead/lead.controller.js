@@ -106,28 +106,24 @@ exports.remove = function(req, res) {
 exports.next = function(req, res) {
   var now = new Date();
   // This is meant to get the call back number.
-  Lead.findOne({campaign: req.session.campaign_id, called: false, agent: req.user._id, call_back: {$lte : now}}, function(err, lead){
-    if(err) { return handleError(res, err);}
+  Lead.findOne({campaign: req.query.campaign_id, called: false, agent: req.user._id, call_back: null},function(err,lead){
+    if(err) { return handleError(res, err); }
     if(lead) { return res.status(200).json(lead)};
-    Lead.findOne({campaign: req.session.campaign_id, called: false, agent: req.user._id, call_back: null},function(err,lead){
+    Lead.findOne({campaign: req.query.campaign_id, called: false, agent: null},function(err,lead){
       if(err) { return handleError(res, err); }
-      if(lead) { return res.status(200).json(lead)};
-      Lead.findOne({campaign: req.session.campaign_id, called: false, agent: null},function(err,lead){
+      if(!lead) { return res.status(200).send('0')};
+      lead.agent = req.user._id;
+      lead.save(function(err){
         if(err) { return handleError(res, err); }
-        if(!lead) { return res.status(200).send('0')};
-        lead.agent = req.user._id;
-        lead.save(function(err){
-          if(err) { return handleError(res, err); }
-          return res.status(200).json(lead);
-        })
-      });
-    })
+        return res.status(200).json(lead);
+      })
+    });
   })
 };
 
 // Custom number
 exports.custom = function(req, res) {
-  Lead.findOne({campaign: req.session.campaign_id, called: false, agent: req.user._id},function(err,lead){
+  Lead.findOne({campaign: req.query.campaign_id, called: false, agent: req.user._id},function(err,lead){
     if(err) { return handleError(res, err); }
     if(lead) {
       lead.agent = null;
@@ -136,7 +132,7 @@ exports.custom = function(req, res) {
     var _lead = new Lead();
     var lead = _.merge(_lead,req.body);
     lead.agent = req.user._id;
-    lead.campaign = req.session.campaign_id;
+    lead.campaign = req.query.campaign_id;
     console.log(lead);
     lead.save(function(err){
       if(err) { return handleError(res, err); }
