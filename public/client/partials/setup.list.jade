@@ -44,7 +44,7 @@
 					td
 						| {{isCalled(lead)}}
 					td
-						| {{lead.call_timestamp}}
+						| {{lead.call_timestamp | formatDate}}
 					td
 						| {{lead.outcome}}
 	.row.ng-cloak

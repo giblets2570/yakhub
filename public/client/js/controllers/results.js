@@ -141,6 +141,7 @@ app.controller('resultsCtrl', ['$scope','$state','Alert','Call','$sce','$locatio
 			};
 			result += '\n';
 		};
+		result = result.replace(/\t/g,',');
 		if(oldPage){
 			$scope.filter.page = oldPage;
 			$scope.applyFilter($scope.filter);

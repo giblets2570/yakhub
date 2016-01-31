@@ -27,6 +27,10 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	$scope.getLeads = function(){
 		Lead.get({campaign_id: $scope.campaign._id},'').then(function(data){
 			$scope.leads = data;
+			for (var i = $scope.leads.length - 1; i >= 0; i--) {
+				if($scope.leads[i].call_timestamp)
+					$scope.leads[i].call_timestamp = new Date($scope.leads[i].call_timestamp);
+			};
 			$scope.applyFilter();
 		})
 	};
@@ -83,7 +87,9 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	}
 	$scope.saveLeads = function(){
 		var result = []
+		console.log($scope.csv.result);
 		$scope.csv.result = JSON.parse($scope.csv.result);
+		console.log($scope.csv.result);
 		for (var i = $scope.csv.result.length - 1; i >= 0; i--) {
 			var entry = {'person':{}}
 			for(var key in $scope.csv.result[i]){
@@ -220,6 +226,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		for (var i = 0; i < $scope.filtered.length; i++) {
 			result += $scope.filtered[i].number+'\t'+$scope.filtered[i].company+'\t'+$scope.filtered[i].person.name+'\t'+$scope.filtered[i].person.role+'\t'+$scope.filtered[i].outcome+'\t'+$scope.filtered[i].called+'\n';
 		};
+		result = result.replace(/\t/g,',');
 		if(oldPage){
 			$scope.filter.page = oldPage;
 			$scope.applyFilter($scope.filter);

@@ -16,10 +16,12 @@ app.controller('statsCtrl', ['$scope','$state','Client','Alert','Lead',function(
 				$scope.dialed+=1;
 				if($scope.leads[i].rating<2){$scope.one_or_less+=1;}
 				else{$scope.two_or_more+=1;}
-				if ($scope.leads[i].outcome in $scope.outcomes){
-					$scope.outcomes[$scope.leads[i].outcome] += 1;
-				}else{
-					$scope.outcomes[$scope.leads[i].outcome] = 1;
+				if ($scope.leads[i].outcome){
+					if ($scope.leads[i].outcome in $scope.outcomes){
+						$scope.outcomes[$scope.leads[i].outcome] += 1;
+					}else{
+						$scope.outcomes[$scope.leads[i].outcome] = 1;
+					}
 				}
 			}
 		};

@@ -1,5 +1,10 @@
-Number,Name,Address,Company,Called,Rating,Outcome
-00447547968608,Tom Murray,Newcastle,Yak Hub,false, , 
-00447810666907,Dan Leary,Newcastle,Yak Hub,false, , 
-00447547968608,Tom Murray,Newcastle,Yak Hub,true,2,Success
-00447810666907,Dan Leary,Newcastle,Yak Hub,false, ,
+number,company,name,role,outcome,called
+00447547968608,Yak Hub,Tom Murray,,Unsuccessful,true
+00447810666907,Yak Hub,Dan Leary,, ,true
+00447547968608,Yak Hub,Tom Murray,,Success,true
+00447810666907,Yak Hub,Dan Leary,,Success,false
+00447547968608,tahsdlfjhsd,Tom,dsaf,Automated response,true
+00447547968608,sdfsdah,Tom,Yak hub,Success,true
+00447547968608,sdfdafs,Tom,dsafdfsa,Unsuccessful,true
+00447547968608,sadljfksadjfl;k,Tom,CTO,Automated response,true
+00447547968608,ssdaljflk,Tom,Cto,Number didn't work,true
