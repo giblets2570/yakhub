@@ -1,4 +1,4 @@
-#main.navbar.navbar-default.navbar-static-top
+#main.navbar.navbar-default.navbar-static-top.navbar-custom
 	.container
 		.navbar-header
 			a.navbar-brand(href='' ng-click='home()') Yak Hub
@@ -7,9 +7,9 @@
 			ul.nav.navbar-nav.navbar-right.nav-text
 				li.divider-vertical
 				li
-					button#make-new-campaign.btn.btn-primary(href='' ng-click='newCampaign()' style='margin-top:10px;') Make new campaign
+					button.nav-newcamp-custom#make-new-campaign.btn.btn-primary(href='' ng-click='newCampaign()' style='margin-top:10px;') Make new campaign
 				li
-					a(href='' ng-click='logout()') Logout
+					a.nav-logout-custom(href='' ng-click='logout()') Logout
 
 <div id='SubView' ui-view></div>
 

@@ -141,16 +141,16 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		}
 	}
 	$scope.dayChosen = function(day){
-		return $scope.campaign && $scope.campaign.days[day] ? 'btn-success' : 'btn-danger'
+		return $scope.campaign && $scope.campaign.days[day] ? 'btn-success-cust' : 'btn-danger-cust'
 	}
 	$scope.chooseDay = function(day){
 		$scope.campaign.days[day] = !$scope.campaign.days[day];
 	}
 	$scope.toolbar = [
-      ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'quote'],
-      ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],
+      ['p', 'h2', 'h3'],
+      ['bold', 'italics', 'ul', 'ol', 'undo', 'redo'],
       [],
-      ['insertImage','insertLink', 'insertVideo', 'wordcount', 'charcount']
+      ['insertImage','insertLink', 'wordcount']
   	];
   	$scope.addFAQ = function(){
 		$scope.campaign.faqs.push({
