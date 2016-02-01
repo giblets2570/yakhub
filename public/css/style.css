@@ -137,9 +137,15 @@ span.large{
 
 .lead-qual-container {
   max-width:800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
 }
-
+.script-header {
+  margin-bottom: 40px;
+}
 .lead-qual-header {
+  margin-top: 60px;
   margin-bottom: 40px;
 }
 
@@ -155,11 +161,25 @@ span.large{
 
 .lead-qual-subhead {
   padding-bottom: 5px;
-  display: block;
+  display: inline-block;
 }
 
 .lead-qual-remove {
-  
+  font-size: 13px;
+  font-weight: 400;
+  color: #e74c3c;
+  float: right;
+}
+.lead-qual-remove:hover {
+  cursor: pointer;
+  color: #c0392b !important;
+}
+.button-add-qual {
+  font-size: 12px;
+  letter-spacing: 1px;
+  height: 35px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 
