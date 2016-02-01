@@ -133,7 +133,7 @@
 			.col-md-3
 				a(href='' style='{{getPageStyle("faq")}}' ng-click='changePage("faq")') FAQ
 			.col-md-3
-				//- a(href='' style='{{getPageStyle("messages")}}' ng-click='changePage("faq")') FAQ
+				a(href='' style='{{getPageStyle("info")}}' ng-click='changePage("updates")') Campaign updates
 		hr
 		div.ng-cloak(ng-show='page=="info"')
 			.row
@@ -200,3 +200,15 @@
 				.col-md-12
 					h3 {{faq.question}}
 					| {{faq.answer}}
+		div.ng-cloak(ng-show='page=="updates"')
+			.container
+				h3 Campaign updates
+				p Updates from the campaign owner since the start of the campaign
+				.row
+					.col-md-6
+						span(ng-repeat='message in messages')
+							.row
+								.col-xs-4
+									{{message.time | formatDate}}, {{message.time | formatTime}}
+								.col-xs-8
+									{{message.text}}

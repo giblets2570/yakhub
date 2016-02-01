@@ -10,7 +10,7 @@ var campaignSchema = mongoose.Schema({
 
   client: {type: mongoose.Schema.ObjectId, ref: 'Client' },
   client_name: {type: String, default: '' },
-
+  fee: {type: Number, default: 0.8},
   created: {
     type: Date,
     default: new Date()
@@ -29,15 +29,14 @@ var campaignSchema = mongoose.Schema({
     wed: {type: Boolean, default: true},
     thurs: {type: Boolean, default: true},
     fri: {type: Boolean, default: true},
-    sat: {type: Boolean, default: true},
-    sun: {type: Boolean, default: true},
+    sat: {type: Boolean, default: false},
+    sun: {type: Boolean, default: false},
   },
 
   // The agents that are actively on this campaign
   agents: [{
     agent: {type: mongoose.Schema.ObjectId, ref: 'Agent' },
     agent_name: String,
-    cost_per_hour: Number,
     active: {type: Boolean, default: true}
   }],
 

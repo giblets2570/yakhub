@@ -15,6 +15,13 @@ app.controller('updatesCtrl', ['$scope','$state','Client','Alert','Message',func
 			$scope.messages_id = data._id;
 		})
 	}
+	var pusher = new Pusher('9d60e889329cae081239', {
+      encrypted: true
+    });
+    var channel = pusher.subscribe('updates_channel');
+    // channel.bind('my_event', function(data) {
+    //   alert(data.message);
+    // });
 	$scope.send = function(){
 		if(!$scope.message) return;
 		var message = $scope.message;
@@ -36,13 +43,25 @@ app.controller('updatesCtrl', ['$scope','$state','Client','Alert','Message',func
 	$scope.$watch('campaign',function(c){
 		if(c && c._id){
 			$scope.getMessages();
+			// channel.bind(c._id, function(data) {
+			// 	console.log('get message', data);
+		 //      	alert(data.message);
+		 //    });
 		}
 	})
 }])
 
+.filter('formatTime', function(){
+	return function(input){
+		if(!input) return "";
+		return input.getHours() + ":" + input.getMinutes()
+	}
+})
+
+
 .filter('formatDate', function(){
 	return function(input){
 		if(!input) return "";
-		return input.getDate() + "/" + input.getMonth()+1 + "/" + input.getFullYear()
+		return input.getDate() + "/" + (input.getMonth()+ 1) + "/" + input.getFullYear()
 	}
 });

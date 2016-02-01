@@ -7,6 +7,12 @@ var config = require('../config/environment');
 var auth = require('../auth/auth.service');
 var url = require('url');
 
+router.get('/admin/partials/:name', function (req, res) {
+  var name = req.params.name;
+  console.log(name);
+  return res.render('admin/partials/' + name);
+});
+
 router.get('/client/partials/:name', function (req, res) {
   var name = req.params.name;
   console.log(name);

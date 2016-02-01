@@ -11,7 +11,15 @@
 
 var _ = require('lodash');
 var Message = require('./message.model');
+var Pusher = require('pusher');
 
+var pusher = new Pusher({
+  appId: '174135',
+  key: '9d60e889329cae081239',
+  secret: 'abd5f1f869348077e47f',
+  encrypted: true
+});
+pusher.port = 443;
 
 // Get aws details
 var awsDetails = require('../../config/aws');
@@ -59,8 +67,11 @@ exports.create = function(req, res) {
   updated.client_name = req.user.name;
   updated.save(function(err){
     if(err) { return handleError(res, err); }
+    pusher.trigger('updates_channel', updated.campaign, {
+      "message": req.body.messages[0]
+    });
     return res.status(201).json(updated);
-  })
+  });
 };
 
 // Updates an existing message in the DB.
@@ -75,6 +86,9 @@ exports.update = function(req, res) {
     }
     message.save(function (err) {
       if (err) { return handleError(res, err); }
+      pusher.trigger('updates_channel', message.campaign, {
+        "message": req.body.messages[req.body.messages.length-1]
+      });
       return res.status(200).json(message);
     });
   });

@@ -23,11 +23,29 @@ app.controller('dashboardCtrl', ['$scope','$state','$stateParams','Client','Camp
 	$scope.chosenTab = function(tab){
 		return tab == $scope.current_tab ? 'chosen' : '';
 	}
+	$scope.save = function(callback){
+		if(!$scope.campaign) return;
+		callback = callback || angular.noop;
+		Campaign.update($scope.campaign,$scope.campaign._id).then(callback);
+	}
 	$scope.changeTab = function(tab){
-		$scope.current_tab = tab;
-		$state.go('home.dashboard.'+tab,{campaign_id: $stateParams.campaign_id})
+		if($scope.current_tab=='setup'){
+			$scope.save(function(){
+				$scope.current_tab = tab;
+				$state.go('home.dashboard.'+tab,{campaign_id: $stateParams.campaign_id})
+			})
+		}else{
+			$scope.current_tab = tab;
+				$state.go('home.dashboard.'+tab,{campaign_id: $stateParams.campaign_id})
+		}
 	}
 	$scope.changeCampaign = function(newCampaign){
-		$state.go($state.current.name,{campaign_id: newCampaign});
+		if($scope.current_tab=='setup'){
+			$scope.save(function(){
+				$state.go($state.current.name,{campaign_id: newCampaign});
+			})
+		}else{
+			$state.go($state.current.name,{campaign_id: newCampaign});
+		}
 	}
 }])

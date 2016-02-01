@@ -9,10 +9,6 @@ app.controller('homeCtrl', ['$scope','$state','Agent','Alert',function($scope,$s
 	var pusher = new Pusher('9d60e889329cae081239', {
       encrypted: true
     });
-    var channel = pusher.subscribe('test_channel');
-    channel.bind('my_event', function(data) {
-      alert(data.message);
-    });
 	$scope.logout = function(){
 	    Agent.logout().then(function(data){
 	    	$state.go('login')

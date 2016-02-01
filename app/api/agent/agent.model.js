@@ -8,6 +8,7 @@ var bcrypt = require('bcrypt-nodejs');
 
 var agentSchema = mongoose.Schema({
   name: {type : String, default: ''},
+  real_name: {type : String, default: ''},
   url_name: {type : String, default: ''},
 
   password: {type : String, default: ''},

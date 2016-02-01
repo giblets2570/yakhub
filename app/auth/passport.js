@@ -6,9 +6,30 @@ var LocalStrategy   = require('passport-local').Strategy;
 // load up the user models
 var Agent            = require('../api/agent/agent.model');
 var Client           = require('../api/client/client.model');
+var Admin            = require('../api/admin/admin.model');
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
+
+  //==================================================================
+  // Define the strategy to be used by PassportJS
+  passport.use('admin-login', new LocalStrategy({
+      passReqToCallback: true
+    },
+    function(req, username, password, done) {
+      console.log("What the fuck");
+      Admin.findOne({'name':username},function(err,admin){
+        console.log(admin);
+        if(err)
+          return done(null, false, { message: 'Error in request.' });
+        if(!admin)
+          return done(null, false, { message: 'Incorrect username.' });
+        if(!admin.validPassword(password))
+          return done(null, false, { message: 'Incorrect password.' });
+        return done(null, admin);
+      })
+    }
+  ));
 
   //==================================================================
   // Define the strategy to be used by PassportJS
@@ -121,6 +142,9 @@ module.exports = function(passport) {
     });
     Agent.findById(id, function(err, agent) {
       if(agent){done(err, agent)}
+    });
+    Admin.findById(id, function(err, admin) {
+      if(admin){done(err, admin)}
     });
   });
 

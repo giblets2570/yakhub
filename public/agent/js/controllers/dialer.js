@@ -4,7 +4,7 @@
 * Description
 */
 
-app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','$location','Campaign','Lead','Call',function($scope,$state,Agent,Alert,$stateParams,$location,Campaign,Lead,Call){
+app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','$location','Campaign','Lead','Call','Message',function($scope,$state,Agent,Alert,$stateParams,$location,Campaign,Lead,Call,Message){
 	$scope.campaign_id = $stateParams.campaign_id;
 	$scope.hour = 3600000;
 	$scope.three_minutes = 180000;
@@ -15,7 +15,10 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	$scope.showPrevious = false;
 	// True if the current lead has been called
 	$scope.called = false;
-
+	var pusher = new Pusher('9d60e889329cae081239', {
+      encrypted: true
+    });
+	var channel = pusher.subscribe('updates_channel');
 	$scope.now = (new Date()).valueOf();
 	// Function to retreive the previous call data.
 	$scope.previous = function(){
@@ -233,6 +236,16 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 				console.log(3);
 				$scope.setupTwilio();
 				$scope.getNextLead();
+				$scope.getMessages();
+				channel.bind($scope.campaign._id, function(data) {
+					data.message.time = new Date(data.message.time);
+					console.log($scope.messages, data.message);
+					console.log('get message',data);
+					$scope.messages.push(data.message);
+					$scope.changePage('updates');
+					$scope.$apply();
+			      	alert("New update from the campaign owner:", data.message.text);
+			    });
 				// $scope.findAllocated();
 			});
 			$scope.getCalls(function(){
@@ -266,6 +279,15 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 			alert('Error, are you scheduled for this time?');
 		})
 	}
+	$scope.getMessages = function(){
+		Message.get({campaign_id: $scope.campaign._id}).then(function(data){
+			console.log(data);
+			$scope.messages = data.messages;
+			for (var i = $scope.messages.length - 1; i >= 0; i--) {
+				$scope.messages[i].time = new Date($scope.messages[i].time);
+			};
+		})
+	}
 	// Returns the correct star class based on the rating and value of star.
 	$scope.star = function(rating, value){
 		return ((rating >= value) ? 'glyphicon glyphicon-star' : 'glyphicon glyphicon-star-empty');
@@ -295,3 +317,17 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
     });
     $scope.init();
 }])
+
+.filter('formatTime', function(){
+	return function(input){
+		if(!input) return "";
+		return input.getHours() + ":" + input.getMinutes()
+	}
+})
+
+.filter('formatDate', function(){
+	return function(input){
+		if(!input) return "";
+		return input.getDate() + "/" + (input.getMonth()+ 1) + "/" + input.getFullYear()
+	}
+});

@@ -6,7 +6,7 @@
 			span(ng-repeat='message in messages')
 				.row
 					.col-xs-4
-						{{message.time | formatDate}}
+						{{message.time | formatDate}}, {{message.time | formatTime}}
 					.col-xs-8
 						{{message.text}}
 

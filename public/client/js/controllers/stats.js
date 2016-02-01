@@ -27,6 +27,16 @@ app.controller('statsCtrl', ['$scope','$state','Client','Alert','Lead',function(
 		};
 		console.log($scope.outcomes);
 	}
+	$scope.timeLeft = function(){
+		if(!($scope.campaign && $scope.campaign.start_date && $scope.campaign.end_date)) return '';
+		var day = 1000*60*60*24;
+		var days_left = Math.floor(((new Date($scope.campaign.end_date)).valueOf() - (new Date($scope.campaign.start_date)).valueOf())/day);
+		return days_left;
+	}
+	$scope.numAgents = function(){
+		if(!($scope.campaign && $scope.campaign.agents)) return 0;
+		return $scope.campaign.agents.length;
+	}
 	$scope.getLeads = function(){
 		Lead.get({campaign_id: $scope.campaign._id},'').then(function(data){
 			$scope.leads = data;
@@ -37,6 +47,7 @@ app.controller('statsCtrl', ['$scope','$state','Client','Alert','Lead',function(
 	$scope.$watch('campaign',function(c){
 		if(c && c._id){
 			$scope.getLeads();
+			console.log(c);
 		}
 	})
 }])

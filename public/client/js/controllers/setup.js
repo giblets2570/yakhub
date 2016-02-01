@@ -10,6 +10,15 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	$scope.leads_loaded = false;
 	$scope.start_time_period = "AM";
 	$scope.end_time_period = "AM";
+	$scope.day_mapper = {
+		'mon':'Monday',
+		'tues':'Tuesday',
+		'wed':'Wednesday',
+		'thurs':'Thursday',
+		'fri':'Friday',
+		'sat':'Saturday',
+		'sun':'Sunday'
+	}
 	$scope.applyFilter = function(called){
 		$scope.filtered = $filter('callFilter')($scope.leads, called);
 		if($scope.filtered){
@@ -17,6 +26,20 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 			$scope.noOfPages = Math.ceil($scope.totalItems / $scope.pageEntries);
 			console.log($scope.noOfPages)
 		}
+	}
+	$scope.getDays = function(){
+		var result = '';
+		if(!$scope.campaign) return "";
+		for(var key in $scope.campaign.days){
+			if($scope.campaign.days[key]){
+				if(!result){
+					result+=$scope.day_mapper[key]
+				}else{
+					result+= ", " + $scope.day_mapper[key]
+				}
+			}
+		}
+		return result;
 	}
 	$scope.changeLive = function(bool){
 		var q;
@@ -189,7 +212,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		'rating':['rating','score','star','stars'],
 		'called':['called','done']
 	}
-	var CSVModal = $modal({scope: $scope, templateUrl: '../../../client/views/templates/add-numbers-modal.html', show: false});
+	var CSVModal = $modal({scope: $scope, templateUrl: '../../../client/templates/add-numbers-modal.html', show: false});
 	$scope.showCSVModal = function() {
 		CSVModal.$promise.then(CSVModal.show);
 	};

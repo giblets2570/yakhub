@@ -10,8 +10,6 @@ router.get('/', controller.index);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.put('/:id', controller.update);
-router.put('/:id/rate', auth.hasRole('client'), controller.rate);
-router.put('/:id/active', auth.hasRole('client'), controller.active);
 router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);
 

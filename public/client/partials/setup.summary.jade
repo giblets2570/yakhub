@@ -54,6 +54,11 @@
 				p End: {{campaign.end_date | formatDate}}
 		div.row.setup-spacer
 			div.col-md-4
+				h4.section-title Days
+			div.col-md-8
+				h5 {{getDays()}}
+		div.row.setup-spacer
+			div.col-md-4
 				h4.section-title Times
 			div.col-md-4
 				h5 {{start_time}} {{start_time_period}}

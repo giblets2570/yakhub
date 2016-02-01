@@ -3,6 +3,7 @@ var passport = require('passport');
 var Keen = require('keen-js');
 var Client = require('../api/client/client.model')
 var Agent = require('../api/agent/agent.model')
+var Admin = require('../api/admin/admin.model')
 var Campaign = require('../api/campaign/campaign.model')
 var auth = require('./auth.service');
 var keenDetails = require('../config/keen');
@@ -89,6 +90,15 @@ router.post('/agent/signup', function(req, res) {
 
 router.get('/agent/loggedin', function(req, res){
 	return req.isAuthenticated() ? res.status(200).json({user: req.user}) : res.send('0');
+});
+
+// route to log in
+router.post('/admin/login', passport.authenticate('admin-login'), function(req, res) {
+  return res.status(200).json({user: req.user});
+});
+
+router.get('/admin/loggedin', function(req, res){
+  return req.isAuthenticated() ? res.status(200).json({user: req.user}) : res.send('0');
 });
 
 // route to log out
