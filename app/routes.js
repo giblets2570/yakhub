@@ -6,6 +6,7 @@
 
 var errors = require('./components/errors');
 var config = require('./config/environment');
+var request = require('request');
 
 module.exports = function(app) {
 

@@ -57,9 +57,9 @@
 			div.col-md-4
 				h4.section-title Dates
 			div.col-md-4
-				input.form-control.cust-input(type='text', ng-model='campaign.start_date', name='start_date', bs-datepicker, placeholder='Start date')
+				input.form-control.cust-input(type='text' data-date-format="dd MMM yyyy" ng-model='campaign.start_date', name='start_date', bs-datepicker, placeholder='Start date')
 			div.col-md-4
-				input.form-control.cust-input(type='text', ng-model='campaign.end_date', name='end_date', bs-datepicker, placeholder='End date')
+				input.form-control.cust-input(type='text' data-date-format="dd MMM yyyy" ng-model='campaign.end_date', name='end_date', bs-datepicker, placeholder='End date')
 		div.row.setup-spacer
 			div.col-md-4
 				h4.section-title Days

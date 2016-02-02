@@ -35,7 +35,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 				if(!result){
 					result+=$scope.day_mapper[key]
 				}else{
-					result+= ", " + $scope.day_mapper[key]
+					result=$scope.day_mapper[key]+", "+result
 				}
 			}
 		}

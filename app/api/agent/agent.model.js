@@ -19,7 +19,15 @@ var agentSchema = mongoose.Schema({
   paid: {type : Number, default: 0},
   earned: {type : Number, default: 0},
   pay: {type: Number, default: 40},
-
+  stripe:{
+    access_token: String,
+    livemode: Boolean,
+    refresh_token: String,
+    token_type: String,
+    stripe_publishable_key: String,
+    stripe_user_id: String,
+    scope: String
+  },
   // Information on the call the agent has just completed
   call_id: {type: mongoose.Schema.ObjectId, ref: 'Call'}
 

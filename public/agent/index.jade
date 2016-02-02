@@ -31,6 +31,7 @@ html
     // Custom styles for this template
     link(href='/css/style.css', rel='stylesheet')
     link(href='/css/animations.css', rel='stylesheet')
+    link(href='/css/stripe.css', rel='stylesheet')
 
   body(ng-app='app')
     //- // NAVIGATION
@@ -40,6 +41,7 @@ html
   script(src='/libs/bootstrap/dist/js/bootstrap.min.js')
   script(src='//static.twilio.com/libs/twiliojs/1.2/twilio.min.js')
   script(src="https://js.pusher.com/3.0/pusher.min.js")
+  script(src="https://js.stripe.com/v2/")
   script(src='/libs/angular/angular.min.js')
   script(src='/libs/angular-intercom-mini/intercom.js')
   script(src='/libs/angular-ui-router/release/angular-ui-router.min.js')
@@ -58,6 +60,7 @@ html
   script(src='js/services/message.js')
   // Controller
   script(src='js/controllers/login.js')
+  script(src='js/controllers/stripe.js')
   script(src='js/controllers/home.js')
   script(src='js/controllers/campaigns.js')
   script(src='js/controllers/dialer.js')

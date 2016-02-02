@@ -104,6 +104,13 @@ router.get('/agent/loggedin', function(req, res){
   });
 });
 
+router.get('/agent/stripe', function(req, res){
+  Agent.findById(req.user._id,function(err,agent){
+    if(err||!agent||JSON.stringify(agent.stripe)=='{}'){return res.json('0');}
+    return res.json(agent.stripe)
+  })
+});
+
 // route to log in
 router.post('/admin/login', passport.authenticate('admin-login'), function(req, res) {
   return res.status(200).json({user: req.user});

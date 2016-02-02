@@ -18,8 +18,13 @@ var _ = require('lodash');
 var Agent = require('./agent.model');
 var Campaign = require('../campaign/campaign.model');
 var Call = require('../call/call.model');
+var days = ['sun','mon','tues','wed','thurs','fri','sat'];
 
 var auth = require('../../auth/auth.service');
+
+var stripe = require("stripe")(
+  "sk_test_3ckK6VP7I08hjgym5B2uOxkF"
+);
 
 // Create a twilio client
 var twilioDetails = require('../../config/twilio');
@@ -94,12 +99,26 @@ exports.update = function(req, res) {
   Agent.findById(req.params.id, function (err, agent) {
     if (err) { return handleError(res, err); }
     if(!agent) { return res.status(404).send('Not Found'); }
+    var paid = agent.paid;
     var updated = _.merge(agent, req.body);
     if(req.body.campaigns)
       updated.campaigns = req.body.campaigns;
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      return res.status(200).json(updated);
+      console.log(paid,updated.paid);
+      if(paid < updated.paid){
+        stripe.transfers.create({
+          amount: Math.floor(updated.paid - paid),
+          currency: "gbp",
+          destination: agent.stripe.stripe_user_id,
+          description: "Payment for " + agent.name
+        }, function(err, transfer) {
+          // asynchronously called
+          console.log(err);
+          console.log(transfer);
+          return res.status(200).json(updated);
+        });
+      }
     });
   });
 };
@@ -123,30 +142,21 @@ exports.destroy = function(req, res) {
 // Get's a twilio token for an agent, and also returns the agents id
 exports.twilio = function(req, res){
   var fifteenMinutes = 900000;
-  var now = (new Date()).valueOf();
+  var now = (new Date()).getHours();
+  var day = (new Date()).getDay();
   Agent.findById(req.user._id, function(err, agent){
     if(err) { return handleError(res, err); }
     if(!agent) { return res.status(404).json({'message': 'No agent'}); }
     Campaign.findById(req.query.campaign,function(err,campaign){
       if(err) { return handleError(res, err); }
       if(!campaign) { return res.status(404).json({'message': 'No campaign'}); }
-      // var found;
-      // for (var i = campaign.allocated_slots.length - 1; i >= 0; i--) {
-      //   if(campaign.allocated_slots[i].agent.toString() == req.user._id.toString() && 
-      //   campaign.allocated_slots[i].time.valueOf() - fifteenMinutes <= now &&
-      //   campaign.allocated_slots[i].time.valueOf() + 4*fifteenMinutes > now){
-      //     found = true;
-      //     break;
-      //   }
-      // }
-      // if(found){
-      //   var token = capability.generate();
-      //   return res.status(201).json({token: token, agent_id: req.user._id});
-      // }else{
-      //   return res.status(406).json({message: 'You are not authorized to make phone calls at this time!', agent_id: req.user._id});
-      // }
-      var token = capability.generate();
-      return res.status(201).json({token: token, agent_id: req.user._id});
+      console.log(now,campaign.start_time,campaign.end_time);
+      if(campaign.days[days[day]]&&campaign.start_time<=now&&campaign.end_time>now){
+        var token = capability.generate();
+        return res.status(201).json({token: token, agent_id: req.user._id});
+      }else{
+        return res.status(406).json({message: 'You are not authorized to make phone calls at this time!', agent_id: req.user._id});
+      }
     })
   });
 }
