@@ -8,11 +8,11 @@ var router = express.Router();
 
 
 router.get('/count', controller.count);
-router.post('/add', auth.hasRole('client'), controller.add);
-router.post('/call_back', auth.hasRole('agent'), controller.call_back);
-router.get('/next', auth.hasRole('agent'), controller.next);
-router.get('/skip', auth.hasRole('agent'), controller.skip);
-router.post('/custom', auth.hasRole('agent'), controller.custom);
+router.post('/add', controller.add);
+router.post('/call_back', controller.call_back);
+router.get('/next', controller.next);
+router.get('/skip', controller.skip);
+router.post('/custom', controller.custom);
 
 router.get('/', controller.index);
 router.get('/:id', controller.show);

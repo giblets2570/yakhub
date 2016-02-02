@@ -35,7 +35,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 				if(!result){
 					result+=$scope.day_mapper[key]
 				}else{
-					result+= ", " + $scope.day_mapper[key]
+					result=$scope.day_mapper[key]+", "+result
 				}
 			}
 		}
@@ -272,6 +272,13 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	}
 	$scope.uncalled = function(){
 		if($scope.filter.called) $scope.filter.called = false;
+	}
+	$scope.getNumber = function(j){
+		var r = []
+		for (var i = 0; i < j; i++) {
+			r.push(i);
+		};
+		return r
 	}
 	$scope.$watch('filter', function (newVal, oldVal) {
 		$scope.applyFilter(newVal);

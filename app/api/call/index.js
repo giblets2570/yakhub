@@ -11,7 +11,7 @@ router.put('/data', controller.addCallData);
 router.post('/recording/:call_id', controller.twilioCallback);
 router.get('/previous', controller.previous);
 
-router.get('/', auth.hasRole('client'), controller.index);
+router.get('/', controller.index);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.put('/:id', controller.update);

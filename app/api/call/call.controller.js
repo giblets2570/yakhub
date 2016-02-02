@@ -198,9 +198,19 @@ exports.twilioCallback = function(req, res) {
 
     call.save(function(err){
       if(err) { return handleError(res, err); }
-
-      resp.say('Thanks for calling!');
-      return res.send(resp.toString());
+      Agent.findById(call.agent,function(err,agent){
+        if(err) { return handleError(res, err); }
+        if(!agent) {
+          resp.say('Error in the call');
+          return res.send(resp.toString());
+        }
+        agent.earned = agent.earned + call.duration*agent.pay/60;
+        agent.save(function(err){
+          if(err) { return handleError(res, err); }
+          resp.say('Thanks for calling!');
+          return res.send(resp.toString());
+        })
+      })
     });
   });
 };

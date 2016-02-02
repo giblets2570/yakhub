@@ -16,13 +16,20 @@ var agentSchema = mongoose.Schema({
   phone: {type : String, default: ''},
   type: {type : String, default: 'agent'},
 
-  location: {type : String, default: ''},
-  price: {type : Number, default: 15},
-
+  paid: {type : Number, default: 0},
+  earned: {type : Number, default: 0},
+  pay: {type: Number, default: 40},
+  stripe:{
+    access_token: String,
+    livemode: Boolean,
+    refresh_token: String,
+    token_type: String,
+    stripe_publishable_key: String,
+    stripe_user_id: String,
+    scope: String
+  },
   // Information on the call the agent has just completed
-  call_id: {type: mongoose.Schema.ObjectId, ref: 'Call'},
-
-  new_messages: {type: Boolean, default: false},
+  call_id: {type: mongoose.Schema.ObjectId, ref: 'Call'}
 
 });
 

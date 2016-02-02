@@ -11,7 +11,6 @@ var campaignSchema = mongoose.Schema({
   client: {type: mongoose.Schema.ObjectId, ref: 'Client' },
   client_name: {type: String, default: '' },
   fee: {type: Number, default: 80},
-  pay: {type: Number, default: 40},
   created: {
     type: Date,
     default: new Date()
