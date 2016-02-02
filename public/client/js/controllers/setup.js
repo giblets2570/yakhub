@@ -164,7 +164,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		}
 	}
 	$scope.dayChosen = function(day){
-		return $scope.campaign && $scope.campaign.days[day] ? 'btn-success-cust' : 'btn-danger-cust'
+		return $scope.campaign && $scope.campaign.days[day] ? 'btn-danger-cust' : 'btn-success-cust'
 	}
 	$scope.chooseDay = function(day){
 		$scope.campaign.days[day] = !$scope.campaign.days[day];
@@ -269,6 +269,13 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	}
 	$scope.uncalled = function(){
 		if($scope.filter.called) $scope.filter.called = false;
+	}
+	$scope.getNumber = function(j){
+		var r = []
+		for (var i = 0; i < j; i++) {
+			r.push(i);
+		};
+		return r
 	}
 	$scope.$watch('filter', function (newVal, oldVal) {
 		$scope.applyFilter(newVal);

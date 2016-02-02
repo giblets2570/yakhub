@@ -19,6 +19,8 @@ var Agent = require('./agent.model');
 var Campaign = require('../campaign/campaign.model');
 var Call = require('../call/call.model');
 
+var auth = require('../../auth/auth.service');
+
 // Create a twilio client
 var twilioDetails = require('../../config/twilio');
 var twilio = require('twilio');

@@ -7,7 +7,9 @@ var config = require('../config/environment');
 // var expressJwt = require('express-jwt');
 var compose = require('composable-middleware');
 var Agent = require('../api/agent/agent.model');
+var Admin = require('../api/admin/admin.model');
 var Client = require('../api/client/client.model');
+var Q = require('q');
 // var validateJwt = expressJwt({
 //   secret: config.secrets.session
 // });
@@ -17,79 +19,143 @@ var Client = require('../api/client/client.model');
  * Otherwise returns 403
  */
 
-function isAuthenticated(){
-  return compose()
-    // Validate jwt
-    .use(function(req, res, next) {
-      // allow access_token to be passed through query parameter as well
-      if (!req.isAuthenticated()){
-        // return res.status(401).send('Unauthorized');
-        req.session.blocked_path = req.url;
-        console.log("Setting path: ", req.session.blocked_path);
-        // return res.status(401).render(config.root + '/public/assets/errors/unauthorized');
-        return res.redirect('/');
-      }
-      return next();
-    })
-};
+// function isAuthenticated(){
+//   return compose()
+//     // Validate jwt
+//     .use(function(req, res, next) {
+//       // allow access_token to be passed through query parameter as well
+//       if (!req.isAuthenticated()){
+//         // return res.status(401).send('Unauthorized');
+//         req.session.blocked_path = req.url;
+//         console.log("Setting path: ", req.session.blocked_path);
+//         // return res.status(401).render(config.root + '/public/assets/errors/unauthorized');
+//         return res.redirect('/');
+//       }
+//       return next();
+//     })
+// };
 
-/**
- * Checks if the user role meets the minimum requirements of the route
- */
-
-function hasRole(roleRequired) {
+function hasRole(user,roleRequired) {
   if (!roleRequired)
     throw new Error('Required role needs to be set');
   if(roleRequired == 'agent')
-    return isAgent();
+    return isAgent(user);
   if(roleRequired == 'client')
-    return isClient();
-  // return res.status(403).send('Forbidden');
+    return isClient(user);
+  if(roleRequired == 'admin')
+    return isAdmin(user);
+  throw new Error('Required role needs to be set correctly');
   // return res.status(403).render(config.root + '/public/assets/errors/forbidden');
-  return res.redirect('/');
+  // return res.redirect('/');
 }
 
-function isAgent() {
+/**
+ * Checks if the user role meets the minimum requirements of the route is middleware
+ */
 
-  return compose()
-    .use(isAuthenticated())
-    .use(function meetsRequirements(req, res, next) {
-      Agent.findById(req.user._id,function(err,agent){
-        if (err) {
-          req.session.blocked_path = req.url;
-          console.log("Setting path: ", req.session.blocked_path);
-          return next(err);
-        }
-        if (!agent) {
-          req.session.blocked_path = req.url;
-          console.log("Setting path: ", req.session.blocked_path);
-          // return res.status(403).render(config.root + '/public/assets/errors/forbidden');
-          return res.redirect('/');
-        }
-        next();
-      });
-    });
+function isAgent(user){
+    var deferred = Q.defer();
+    Agent.findById(user._id, function(err,agent){
+      if(err){deferred.reject('0')}
+      if(!agent){deferred.reject('0')}
+      deferred.resolve(agent);
+    })
+    return deferred.promise
+}
+function isClient(user){
+    var deferred = Q.defer();
+    Client.findById(user._id, function(err,client){
+      if(err){deferred.reject('0')}
+      if(!client){deferred.reject('0')}
+      deferred.resolve(client);
+    })
+    return deferred.promise
+}
+function isAdmin(user){
+    var deferred = Q.defer();
+    Admin.findById(user._id, function(err,admin){
+      if(err){deferred.reject('0')}
+      if(!admin){deferred.reject('0')}
+      deferred.resolve(admin);
+    })
+    return deferred.promise
 }
 
-function isClient() {
+// function hasRole(roleRequired) {
+//   if (!roleRequired)
+//     throw new Error('Required role needs to be set');
+//   if(roleRequired == 'agent')
+//     return isAgent();
+//   if(roleRequired == 'client')
+//     return isClient();
+//   if(roleRequired == 'admin')
+//     return isAdmin();
+//   // return res.status(403).send('Forbidden');
+//   // return res.status(403).render(config.root + '/public/assets/errors/forbidden');
+//   return res.redirect('/');
+// }
 
-  return compose()
-    .use(isAuthenticated())
-    .use(function meetsRequirements(req, res, next) {
-      Client.findById(req.user._id,function(err,client){
-        if (err) {
-          req.session.blocked_path = req.url;
-          return next(err);
-        }
-        if (!client) {
-          req.session.blocked_path = req.url;
-          // return res.status(403).render(config.root + '/public/assets/errors/forbidden');
-          return res.redirect('/');
-        }
-        next();
-      });
-    });
-}
+// function isAgent() {
+
+//   return compose()
+//     .use(isAuthenticated())
+//     .use(function meetsRequirements(req, res, next) {
+//       Agent.findById(req.user._id,function(err,agent){
+//         if (err) {
+//           req.session.blocked_path = req.url;
+//           console.log("Setting path: ", req.session.blocked_path);
+//           return next(err);
+//         }
+//         if (!agent) {
+//           req.session.blocked_path = req.url;
+//           console.log("Setting path: ", req.session.blocked_path);
+//           // return res.status(403).render(config.root + '/public/assets/errors/forbidden');
+//           return res.redirect('/');
+//         }
+//         next();
+//       });
+//     });
+// }
+
+// function isClient() {
+
+//   return compose()
+//     .use(isAuthenticated())
+//     .use(function meetsRequirements(req, res, next) {
+//       Client.findById(req.user._id,function(err,client){
+//         if (err) {
+//           req.session.blocked_path = req.url;
+//           return next(err);
+//         }
+//         if (!client) {
+//           req.session.blocked_path = req.url;
+//           // return res.status(403).render(config.root + '/public/assets/errors/forbidden');
+//           return res.redirect('/');
+//         }
+//         next();
+//       });
+//     });
+// }
+
+// function isAdmin() {
+
+//   return compose()
+//     .use(isAuthenticated())
+//     .use(function meetsRequirements(req, res, next) {
+//       Admin.findById(req.user._id,function(err,admin){
+//         if (err) {
+//           req.session.blocked_path = req.url;
+//           return next(err);
+//         }
+//         if (!admin) {
+//           req.session.blocked_path = req.url;
+//           // return res.status(403).render(config.root + '/public/assets/errors/forbidden');
+//           return res.redirect('/');
+//         }
+//         next();
+//       });
+//     });
+// }
 
 /**
  * Returns a jwt token signed by the app secret
@@ -108,7 +174,7 @@ function setTokenCookie(req, res) {
   res.redirect('/');
 }
 
-exports.isAuthenticated = isAuthenticated;
+// exports.isAuthenticated = isAuthenticated;
 exports.hasRole = hasRole;
 exports.signToken = signToken;
 exports.setTokenCookie = setTokenCookie;

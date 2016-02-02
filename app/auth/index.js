@@ -23,12 +23,18 @@ router.post('/client/login', passport.authenticate('client-login'), function(req
 	})
 });
 
+
 router.get('/client/loggedin', function(req, res){
-	if(!req.isAuthenticated()) {return res.send('0');}
-	Campaign.findOne({client: req.user._id},function(err,campaign){
-		if(!campaign){campaign = {}}
-		return res.status(200).json({user: req.user, campaign_id: campaign._id});
-	})
+  if(!req.isAuthenticated()){return res.send('0');}
+  auth.hasRole(req.user,'client').then(function(data){
+    if(data=='0'){return res.send('0');}
+    Campaign.findOne({client: req.user._id},function(err,campaign){
+      if(!campaign){campaign = {}}
+      return res.status(200).json({user: req.user, campaign_id: campaign._id});
+    })
+  },function(error){
+    return res.send('0');
+  });
 });
 
 // route to signup
@@ -89,7 +95,13 @@ router.post('/agent/signup', function(req, res) {
 });
 
 router.get('/agent/loggedin', function(req, res){
-	return req.isAuthenticated() ? res.status(200).json({user: req.user}) : res.send('0');
+  if(!req.isAuthenticated()){return res.send('0');}
+  auth.hasRole(req.user,'agent').then(function(data){
+    if(data=='0'){return res.send('0');}
+    return res.status(200).json({user: req.user})
+  },function(error){
+    return res.send('0');
+  });
 });
 
 // route to log in
@@ -98,7 +110,13 @@ router.post('/admin/login', passport.authenticate('admin-login'), function(req, 
 });
 
 router.get('/admin/loggedin', function(req, res){
-  return req.isAuthenticated() ? res.status(200).json({user: req.user}) : res.send('0');
+  if(!req.isAuthenticated()){return res.send('0');}
+  auth.hasRole(req.user,'admin').then(function(data){
+    if(data=='0'){return res.send('0');}
+    return res.status(200).json({user: req.user})
+  },function(error){
+    return res.send('0');
+  });
 });
 
 // route to log out

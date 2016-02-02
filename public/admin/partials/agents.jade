@@ -18,13 +18,13 @@
 						p(ng-show='!agent.editing') {{agent.name}}
 						input.form-control(ng-show='agent.editing' ng-model='agent.name')
 					td
-						p {{agent.earned}}
+						p £{{agent.earned/100|number:2}}
 					td
-						p {{agent.paid}}
+						p £{{agent.paid/100|number:2}}
 					td
-						p {{agent.earned - agent.paid}}
+						p £{{(agent.earned - agent.paid)/100|number:2}}
 					td
 						button.btn.btn-primary(ng-show='!agent.editing' ng-click='editAgent(agent)') Edit
-						button.btn.btn-success(ng-show='!agent.editing') Pay
+						button.btn.btn-success(ng-show='!agent.editing' ng-click='payAgent(agent)' ) Pay
 						button.btn.btn-warning(ng-show='agent.editing' ng-click='cancelAgent(agent)') Cancel
 						button.btn.btn-success(ng-show='agent.editing' ng-click='saveAgent(agent)') Save
