@@ -77,6 +77,14 @@ exports.destroy = function(req, res) {
  *
  */
 
+// Get a single lead
+exports.count = function(req, res) {
+  Lead.count({campaign: req.query.campaign_id, called: false}, function (err, num_leads) {
+    if(err) { return handleError(res, err); }
+    return res.json({num_leads: num_leads});
+  });
+};
+
  // Creates a new lead in the DB.
 exports.add = function(req, res) {
   var k = 0;

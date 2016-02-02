@@ -28,6 +28,20 @@ app.factory('Lead', function($http,$q){
 			})
 			return defered.promise;
 		},
+		count: function(campaign_id){
+			var defered = $q.defer();
+			$http({
+				method:'GET',
+				url:'/api/leads/count',
+				params: {campaign_id: campaign_id},
+				cache: false
+			}).success(function(data){
+				defered.resolve(data);
+			}).error(function(error){
+				defered.reject(error);
+			})
+			return defered.promise;
+		},
 		makeCallBack: function(data){
 			var defered = $q.defer();
 			$http({

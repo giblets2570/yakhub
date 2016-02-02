@@ -10,7 +10,8 @@ var campaignSchema = mongoose.Schema({
 
   client: {type: mongoose.Schema.ObjectId, ref: 'Client' },
   client_name: {type: String, default: '' },
-  fee: {type: Number, default: 0.8},
+  fee: {type: Number, default: 80},
+  pay: {type: Number, default: 40},
   created: {
     type: Date,
     default: new Date()
@@ -19,8 +20,8 @@ var campaignSchema = mongoose.Schema({
     type: Boolean,
     default: false
   },
-  start_time: {type: Number, default: 0},
-  end_time: {type: Number, default: 0},
+  start_time: {type: Number, default: 9},
+  end_time: {type: Number, default: 17},
   start_date: Date,
   end_date: Date,
   days:{

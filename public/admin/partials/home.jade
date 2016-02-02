@@ -12,10 +12,10 @@
 #sub-nav.navbar.navbar-default.navbar-static-top
 	.container
 		.navbar-collapse.collapse(collapse='isCollapsed')
-			ul.nav.navbar-nav.nav-text
+			ul.nav.navbar-nav.navbar-right.nav-text
 				li
 					a(class='{{chosenTab("agents")}}' href='' ng-click='changeTab("agents")') Agents
 				li
-					a(class='{{chosenTab("campaigns")}}' href='' ng-click='changeTab("campaigns")') Results
+					a(class='{{chosenTab("campaigns")}}' href='' ng-click='changeTab("campaigns")') Campaigns
 
 <div id='SubView' ui-view></div>
