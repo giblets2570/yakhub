@@ -173,7 +173,7 @@ span.large{
 }
 
 .lead-qual-subhead {
-  padding-bottom: 5px;
+  padding-bottom: 10px;
   display: inline-block;
 }
 
@@ -193,6 +193,39 @@ span.large{
   height: 35px;
   padding-left: 15px;
   padding-right: 15px;
+}
+
+
+/*----------------------- Setup - List --------------------------*/
+
+.list-options-row {
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.list-pagination-container {
+  float: right;
+  display: inline-block;
+  width: 180px;
+}
+
+.list-called {
+  margin-right: 5px;
+}
+
+.list-called-container {
+  margin-right: 30px;
+  width: auto;
+  display: inline-block;
+}
+
+.list-buttons-row {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.list-button {
+  margin-right: 30px;
 }
 
 

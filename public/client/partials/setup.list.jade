@@ -1,39 +1,44 @@
 .container
-	.row
-		.col-md-3
-			label(for='called') Called
-			input(type='checkbox', value='called', name='called' ng-model='filter.called' ng-change='called()')
-			label(for='called') Uncalled
-			input(type='checkbox', value='called', name='called' ng-model='filter.uncalled' ng-change='uncalled()')
-		.col-md-offset-6.col-md-3
-			a.page-change(href='' ng-click='changePage(filter.page-1)')
-				span Prev
-			div.dropdown
-				button#dateDropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true',style="float:left;")
-					span.ng-cloak Page {{filter.page+1}}
-					//- span.caretspan.glyphicon.glyphicon-triangle-bottom
-				ul.dropdown-menu(aria-labelledby='dateDropdown')
-					li(ng-repeat='i in getNumber(noOfPages)')
-						a(href='', ng-click='changePage(i)') Page {{i+1}}
-			a.page-change(href='' ng-click='changePage(filter.page+1)')
-				span Next
+	.row.list-options-row
+		.col-md-4
+			.list-called-container
+				label.list-called(for='called') Called
+				input(type='checkbox', value='called', name='called' ng-model='filter.called' ng-change='called()')
+			.list-called-container
+				label.list-called(for='called') Uncalled
+				input(type='checkbox', value='called', name='called' ng-model='filter.uncalled' ng-change='uncalled()')
+		.col-md-8
+			.list-pagination-container
+				a.page-change(href='' ng-click='changePage(filter.page-1)')
+					span Prev
+				div.dropdown
+					button#dateDropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true',style="float:left;")
+						strong
+							span.ng-cloak Page {{filter.page+1}}
+						//- span.caretspan.glyphicon.glyphicon-triangle-bottom
+					ul.dropdown-menu(aria-labelledby='dateDropdown')
+						li(ng-repeat='i in getNumber(noOfPages)')
+							a(href='', ng-click='changePage(i)') Page {{i+1}}
+				a.page-change(href='' ng-click='changePage(filter.page+1)')
+					span Next
 
 	.row.ng-cloak
 		.col-md-12
-			table.table.white
-				tr
-					th
-						strong Company
-					th
-						strong Number
-					th
-						strong Person
-					th
-						strong Called
-					th
-						strong Call Timestamp
-					th
-						strong Call Outcome
+			table.table.table-striped.white
+				thead
+					tr
+						th
+							strong Company
+						th
+							strong Number
+						th
+							strong Person
+						th
+							strong Called
+						th
+							strong Call Timestamp
+						th
+							strong Call Outcome
 				tr(ng-repeat='lead in leads | callFilter : filter.called : filter.uncalled | limitTo:pageEntries:pageEntries*filter.page')
 					td
 						| {{lead.company}}
@@ -47,10 +52,10 @@
 						| {{lead.call_timestamp | formatDate}}
 					td
 						| {{lead.outcome}}
-	.row.ng-cloak
-		.col-xs-3
-			button.btn.btn-primary(ng-click='showCSVModal()') Add Numbers
-		.col-xs-3
-			button.btn.btn-danger(ng-click='remove()') Remove Numbers
-		.col-xs-3.col-xs-offset-3
-			button.btn.btn-success(ng-click='download()') Download CSV
+	.row.list-buttons-row.ng-cloak
+		.col-xs-4
+			button.btn.btn-primary.button-add-qual.list-button.pull-left(ng-click='showCSVModal()') ADD NUMBERS
+			button.btn.btn-danger.button-add-qual.pull-left(ng-click='remove()') REMOVE NUMBERS
+		.col-xs-8
+			button.btn.btn-success.button-add-qual.pull-right(ng-click='download()') DOWNLOAD CSV
+

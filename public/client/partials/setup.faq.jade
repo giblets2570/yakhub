@@ -1,13 +1,14 @@
 .container
-	h3 FAQ
-	div.row.ng-cloak(ng-repeat='faq in campaign.faqs')
-		div.col-md-12
-			h4 {{$index+1}}
-			button.close(ng-click='deleteFAQ($index)' ng-show='edit_all') REMOVE FAQ
-			|Question
-			textarea.form-control(rows='2' ng-model='faq.question' placeholder='What is your question?')
-			|Answer
-			textarea.form-control(rows='2' ng-model='faq.answer' placeholder='What is the answer?')
-	div.row.ng-cloak
-		div.col-md-12
-			button.btn.btn-success(ng-click='addFAQ()') ADD NEW FAQ
+	.container.lead-qual-container
+		h3.script-header FAQ
+		div.row.ng-cloak(ng-repeat='faq in campaign.faqs')
+			div.col-md-12
+				.QA-container
+					strong.lead-qual-subhead Question {{$index+1}}
+					a.lead-qual-remove(nng-click='deleteFAQ($index)' ng-show='edit_all') Delete
+					textarea.form-control.qual-form(rows='2' ng-model='faq.question' placeholder='What is your question?')
+					strong.lead-qual-subhead Answer
+					textarea.form-control(rows='2' ng-model='faq.answer' placeholder='What is the answer?')
+		div.row.ng-cloak
+			div.col-md-12
+				button.btn.btn-primary.button-add-qual(ng-click='addFAQ()') ADD NEW FAQ

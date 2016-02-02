@@ -8,9 +8,9 @@
 				.QA-container
 					strong.lead-qual-subhead Question {{$index+1}}
 					a.lead-qual-remove(ng-click='deleteQuestion($index)') Delete
-					textarea.form-control.qual-form(rows='2' ng-model='question.question' placeholder='What is your question?')
-					strong.lead-qual-subhead Description
-					textarea.form-control(rows='2' ng-model='question.description' placeholder='Why do you want this information?')
+					textarea.form-control.qual-form(rows='2' ng-model='question.question' placeholder='What is the question you want agents to ask?')
+					strong.lead-qual-subhead Further info
+					textarea.form-control(rows='2' ng-model='question.description' placeholder='What would a good answer be? Are there alternate questions for getting this info?')
 		div.row.ng-cloak(ng-show='campaign.questions.length < 6')
 			div.col-md-12
 				button.btn.btn-primary.button-add-qual(ng-click='addQuestion()') ADD QUESTION
