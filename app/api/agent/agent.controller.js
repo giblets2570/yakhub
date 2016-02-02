@@ -48,6 +48,19 @@ exports.show = function(req, res) {
       if(!agent) { return res.status(404).send('Not Found'); }
       return res.json(agent);
     });
+  }else if(req.query.stats){
+    Call.find({campaign: req.query.campaign_id, agent: req.params.id},function(err,calls){
+      if(err) { return handleError(res, err); }
+      if(!calls) { return res.status(404).send('Not Found'); }
+      var total_duration = 0;
+      var total_dials = calls.length;
+      var last_dial = new Date(0);
+      for (var i = calls.length - 1; i >= 0; i--) {
+        total_duration+=calls[i].duration;
+        if(calls[i].created.valueOf()>last_dial.valueOf()) last_dial = calls[i].created;
+      };
+      return res.json({total_duration: total_duration,total_dials:total_dials,last_dial:last_dial})
+    })
   }else{
     Agent.findById(req.params.id, req.query.fields, function (err, agent) {
       if(err) { return handleError(res, err); }
@@ -79,26 +92,11 @@ exports.update = function(req, res) {
   Agent.findById(req.params.id, function (err, agent) {
     if (err) { return handleError(res, err); }
     if(!agent) { return res.status(404).send('Not Found'); }
-    var last_check;
-    if(req.body.notifications)
-      last_check = new Date(agent.notifications.last_check);
     var updated = _.merge(agent, req.body);
     if(req.body.campaigns)
       updated.campaigns = req.body.campaigns;
-    if(req.body.reviews)
-      updated.reviews = req.body.reviews;
-    if(req.body.availabilities){
-      updated.markModified('availabilities')
-      updated.availabilities = req.body.availabilities;
-    }
-    if(req.body.skills){
-      updated.markModified('skills')
-      updated.skills = req.body.skills;
-    }
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      if(req.body.notifications)
-        return res.status(200).json({last_check: last_check});
       return res.status(200).json(updated);
     });
   });

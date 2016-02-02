@@ -6,6 +6,8 @@ var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
+
+router.get('/count', controller.count);
 router.post('/add', auth.hasRole('client'), controller.add);
 router.post('/call_back', auth.hasRole('agent'), controller.call_back);
 router.get('/next', auth.hasRole('agent'), controller.next);

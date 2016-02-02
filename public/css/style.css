@@ -15,8 +15,21 @@ body{
   width: 100%;
 }
 
+button.campaign{
+  background: #F1F1F1;
+  border: 1px solid #D1D1D1;
+  width: 100%;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: left;
+}
+
 .greyish {
   background:#F1F1F1;
+}
+
+.editable:hover{
+  cursor: pointer;
 }
 
 .setup-spacer {

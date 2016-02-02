@@ -1,5 +1,19 @@
 .container
 	.row
 		.col-md-8
-			button.btn.btn-primary(ng-repeat='campaign in campaigns' ng-click='go(campaign._id)') {{campaign.name}}
+			.row(ng-repeat='campaign in campaigns')
+				.col-md-12
+					button.campaign(ng-click='go(campaign._id)')
+						.row
+							.col-xs-offset-2.col-xs-4
+								strong {{campaign.name}}
+								br
+								br
+								p {{campaign.client_name}}
+								p £0.40 min
+							.col-xs-4
+								br
+								br
+								p {{campaign.num_leads}} Contacts left to call
+								p Ending in {{numDays(campaign)}} days
 		.col-md-4
