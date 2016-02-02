@@ -5,7 +5,7 @@
 			div.col-md-12
 				.QA-container
 					strong.lead-qual-subhead Question {{$index+1}}
-					a.lead-qual-remove(nng-click='deleteFAQ($index)' ng-show='edit_all') Delete
+					a.lead-qual-remove(ng-click='deleteFAQ($index)') Delete
 					textarea.form-control.qual-form(rows='2' ng-model='faq.question' placeholder='What is your question?')
 					strong.lead-qual-subhead Answer
 					textarea.form-control(rows='2' ng-model='faq.answer' placeholder='What is the answer?')

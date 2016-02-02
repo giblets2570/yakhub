@@ -69,14 +69,14 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	$scope.$watch('campaign', function(c){
 		if(c && c._id){
 			$scope.start_time = c.start_time;
-			if($scope.start_time/12>=1){
+			if($scope.start_time/24>=1){
 				$scope.start_time_period = "PM";
-				$scope.start_time = $scope.start_time % 12;
+				$scope.start_time = $scope.start_time % 24;
 			}
 			$scope.end_time = c.end_time;
-			if($scope.end_time/12>=1){
+			if($scope.end_time/24>=1){
 				$scope.end_time_period = "PM";
-				$scope.end_time = $scope.end_time % 12;
+				$scope.end_time = $scope.end_time % 24;
 			}
 			if($scope.current_screen=='list'){
 				$scope.leads_loaded = true;
@@ -86,12 +86,12 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	});
 	$scope.changeTime = function(when){
 		if(when=="start"){
-			$scope.start_time = $scope.start_time % 12;
+			$scope.start_time = $scope.start_time % 24;
 			if($scope.start_time<0)
 				$scope.start_time = 0;
 			$scope.campaign.start_time = $scope.start_time
 		}else if(when=="end"){
-			$scope.end_time = $scope.end_time % 12;
+			$scope.end_time = $scope.end_time % 24;
 			if($scope.end_time<0)
 				$scope.end_time = 0;
 			$scope.campaign.end_time = $scope.end_time
@@ -99,13 +99,13 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	}
 	$scope.timePick = function(time,when){
 		if(when=='start'){
-			$scope.campaign.start_time = $scope.campaign.start_time % 12
+			$scope.campaign.start_time = $scope.campaign.start_time % 24
 			if(time=='PM')
-				$scope.campaign.start_time+=12;
+				$scope.campaign.start_time+=24;
 		}else if(when=='end'){
-			$scope.campaign.end_time = $scope.campaign.end_time % 12
+			$scope.campaign.end_time = $scope.campaign.end_time % 24
 			if(time=='PM')
-				$scope.campaign.end_time+=12;
+				$scope.campaign.end_time+=24;
 		}
 	}
 	$scope.saveLeads = function(){
@@ -149,6 +149,9 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	$scope.isCurrentScreen = function(_screen){
 		return $scope.current_screen == _screen ? 'strong' : 'weak';
 	}
+	$scope.isCurrentScreenForWrapper = function(_screen){
+		return $scope.current_screen == _screen ? 'current-link' : 'not-current-link';
+	}
 	$scope.save = function(callback){
 		if(!$scope.campaign) return;
 		callback = callback || angular.noop;
@@ -164,7 +167,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		}
 	}
 	$scope.dayChosen = function(day){
-		return $scope.campaign && $scope.campaign.days[day] ? 'btn-success-cust' : 'btn-danger-cust'
+		return $scope.campaign && $scope.campaign.days[day] ? 'btn-danger-cust' : 'btn-success-cust'
 	}
 	$scope.chooseDay = function(day){
 		$scope.campaign.days[day] = !$scope.campaign.days[day];

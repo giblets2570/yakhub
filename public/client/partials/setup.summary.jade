@@ -1,66 +1,74 @@
-.container
-	h3 Summary
-	button.btn.btn-success.live-button(ng-click='changeLive(true)' ng-show='!campaign.live') Go live!
-	button.btn.btn-danger.live-button(ng-click='changeLive(false)' ng-show='campaign.live') Stop the campaign!
-	.col-md-offset-1.col-md-10
-		div.row.setup-spacer
-			div.col-md-4
-				h4.section-title Campaign name
-			div.col-md-8
-				h5 {{campaign.name}}
+.container.summary-container
+	.row.summary-header-row
+		.col-md-12
+			h3.summary-head.pull-left Summary
+			button.btn.btn-success.button-golive.pull-right(ng-click='changeLive(true)' ng-show='!campaign.live') LAUNCH CAMPAIGN
+			button.btn.btn-danger.button-golive.pull-right(ng-click='changeLive(false)' ng-show='campaign.live') STOP THE CAMPAIGN
+	.row
+		.col-md-12
+			div.row.setup-spacer
+				div.col-md-4
+					strong.summary-head.section-title Campaign name
+				div.col-md-8
+					p.summary-text {{campaign.name}}
 
-		div.row.setup-spacer
-			div.col-md-4
-				h4.section-title Campaign objective
-			div.col-md-8
-				h5 {{campaign.objective}}
+			div.row.setup-spacer
+				div.col-md-4
+					strong.summary-head.section-title Campaign objective
+				div.col-md-8
+					p.summary-text {{campaign.objective}}
 
-		div.row.setup-spacer
-			div.col-md-4
-				h4.section-title Description/instructions
-			div.col-md-8
-				h5 {{ campaign.description }}
-		div.row.setup-spacer
-			div.col-md-4
-				h4.section-title Score definition
-			div.col-md-8
-				div.input-group.ng-cloak
-					h5 0: {{ campaign.score_definition.zero }}
-				div.input-group.ng-cloak
-					h5 1: {{ campaign.score_definition.one }}
-				div.input-group.ng-cloak
-					h5 2: {{ campaign.score_definition.two }}
-				div.input-group.ng-cloak
-					h5 3: {{ campaign.score_definition.three }}
-		div.row.setup-spacer
-			div.col-md-4
-				h4.section-title Your contact info
-			div.col-md-8
-				div.row
-					div.col-md-6
-						h5 Name {{ campaign.contact_info.name }}
-					div.col-md-6
-						h5 Role: {{ campaign.contact_info.role }}
-					div.col-md-6
-						h5 Phone: {{ campaign.contact_info.phone }}
-					div.col-md-6
-						h5 Email: {{ campaign.contact_info.email }}
-		div.row.setup-spacer
-			div.col-md-4
-				h4.section-title Dates
-			div.col-md-4
-				p Start: {{campaign.start_date | formatDate}}
-			div.col-md-4
-				p End: {{campaign.end_date | formatDate}}
-		div.row.setup-spacer
-			div.col-md-4
-				h4.section-title Days
-			div.col-md-8
-				h5 {{getDays()}}
-		div.row.setup-spacer
-			div.col-md-4
-				h4.section-title Times
-			div.col-md-4
-				h5 {{start_time}} {{start_time_period}}
-			div.col-md-4
-				h5 {{end_time}} {{end_time_period}}
+			div.row.setup-spacer
+				div.col-md-4
+					strong.summary-head.section-title Description/instructions
+				div.col-md-8
+					p.summary-text {{ campaign.description }}
+			div.row.setup-spacer
+				div.col-md-4
+					strong.summary-head.section-title Score definition
+				div.col-md-8
+					div.input-group.ng-cloak
+						p.summary-text 0: {{ campaign.score_definition.zero }}
+					div.input-group.ng-cloak
+						p.summary-text 1: {{ campaign.score_definition.one }}
+					div.input-group.ng-cloak
+						p.summary-text 2: {{ campaign.score_definition.two }}
+					div.input-group.ng-cloak
+						p.summary-text 3: {{ campaign.score_definition.three }}
+			div.row.setup-spacer
+				div.col-md-4
+					strong.summary-head.section-title Your contact info
+				div.col-md-8
+					div.row
+						div.col-md-6
+							p.summary-text Name {{ campaign.contact_info.name }}
+						div.col-md-6
+							p.summary-text Role: {{ campaign.contact_info.role }}
+						div.col-md-6
+							p.summary-text Phone: {{ campaign.contact_info.phone }}
+						div.col-md-6
+							p.summary-text Email: {{ campaign.contact_info.email }}
+			div.row.setup-spacer
+				div.col-md-4
+					strong.summary-head.section-title Dates
+				div.col-md-4
+					p Start: {{campaign.start_date | formatDate}}
+				div.col-md-4
+					p End: {{campaign.end_date | formatDate}}
+			div.row.setup-spacer
+				div.col-md-4
+					strong.summary-head.section-title Days
+				div.col-md-8
+					p.summary-text {{getDays()}}
+			div.row.setup-spacer
+				div.col-md-4
+					strong.summary-head.section-title Times
+				div.col-md-4
+					p.summary-text {{start_time}} {{start_time_period}}
+				div.col-md-4
+					p.summary-text {{end_time}} {{end_time_period}}
+	.row
+		button.btn.btn-success.button-golive-big(ng-click='changeLive(true)' ng-show='!campaign.live') LAUNCH CAMPAIGN
+			button.btn.btn-danger.button-golive-big(ng-click='changeLive(false)' ng-show='campaign.live') STOP THE CAMPAIGN
+
+

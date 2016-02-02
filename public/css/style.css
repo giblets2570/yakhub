@@ -66,10 +66,6 @@ button.campaign{
 }
 
 
-.live-button {
-  float: right;
-  margin-top: -40px;
-}
 
 .middle{
   text-align: center;
@@ -142,6 +138,42 @@ span.large{
       opacity: 0;
     }
   }
+}
+
+
+.date-pick-cust {
+  float:left;
+  max-width: 214px;
+}
+.date-pick-text {
+  float: left;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 10px;
+}
+.time-pick-cust {
+  float:left;
+  max-width: 80px;
+}
+.time-pick-text {
+  float: left;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+.next-step-wrap {
+  margin-bottom: 10px;
+  border-top: 1px solid #ecf0f1;
+  padding-top: 20px;
+}
+
+.brief-section-title {
+  margin-top: 10px;
+}
+.brief-text {
+  color: #7f8c8d;
+  margin-right: 20px;
 }
 
 
@@ -228,6 +260,50 @@ span.large{
   margin-right: 30px;
 }
 
+/*----------------------- Setup - Summary --------------------------*/
+
+.summary-container {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 60px;
+}
+.summary-header-row {
+ margin-bottom: 40px;
+}
+
+.summary-head {
+  margin-top: 20px;
+}
+
+.button-golive {
+  font-size: 12px;
+  letter-spacing: 1px;
+  height: 35px;
+  margin-top: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.button-golive-big {
+  font-size: 14px;
+  letter-spacing: 1px;
+  height: 50px;
+  margin-top: 0px;
+  margin-bottom: 30px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.summary-head {
+}
+
+.summary-text {
+  line-height: 25px;
+}
 
 
 
@@ -240,9 +316,25 @@ span.large{
   margin-right: auto;
 }
 
+.setup-links-col {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.current-link {
+  background-color: #415E7B;
+  height: 60px;
+  width: auto;
+}
+
+.not-current-link {
+  height: 60px;
+  width: auto;
+}
+
 .footer {
   width: 100%;
-  height: 50px;
+  height: 60px;
   background-color: #2c3e50;
   z-index: 999;
   position: fixed;
@@ -250,8 +342,9 @@ span.large{
   text-align: center;
 }
 .footer a h5 {
-  margin-top: 15px;
-  font-size: 14px;
+  padding-top: 22px;
+  margin-top: 0;
+  font-size: 16px;
 }
 .footer a h5:hover {
   color: white !important;
