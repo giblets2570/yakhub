@@ -38,9 +38,10 @@ app.controller('agentsCtrl', ['$scope','$state','Agent','Alert','$stateParams',f
 			}
 			if(confirm("Are you sure about paying "+agent.name+": £"+amount+"?")) {
 				alert("Paying "+agent.name+": £"+amount);
-				agent.paid = agent.paid+amount*100;
-				Agent.update({paid:agent.paid},agent._id).then(function(data){
+				var total = agent.paid+amount*100;
+				Agent.update({paid:total},agent._id).then(function(data){
 					console.log(data);
+					if(!data.error){agent.paid = total}
 				})
 			}
 		}

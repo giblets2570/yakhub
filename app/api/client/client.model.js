@@ -11,7 +11,8 @@ var clientSchema = mongoose.Schema({
   phone: {type : String, default: ''},
   type: {type : String, default: 'client'},
   company_name: {type : String, default: ''},
-
+  funds: {type : Number, default: 0},
+  funds_used: {type : Number, default: 0},
   website: {type : String, default: ''},
   created: {
     type: Date,
@@ -24,29 +25,6 @@ var clientSchema = mongoose.Schema({
     },
     campaign_name: String,
   }],
-  reviews: [
-    {
-      agent: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Agent'
-      },
-      agent_name: String,
-      rating: Number,
-      text: String,
-      date: Date
-    }
-  ],
-  new_messages: {type: Boolean, default: false},
-  notifications: [{
-    last_check: {type: Date, default: new Date()},
-    seen_all: {type: Boolean, default: false},
-    campaign: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Campaign'
-    }
-  }],
-  number_reviews: {type : Number, default: 0},
-  rating: {type : Number, default: 0}
 });
 
 // methods ======================
