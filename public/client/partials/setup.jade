@@ -14,19 +14,24 @@ footer.footer
 	.container.setup-links-container
 		.row
 			.col-xs-1
-			.col-xs-2
-				a(href='' ng-click='changeScreen("brief")')
-					h5(class='{{isCurrentScreen("brief")}}') Brief
-			.col-xs-2
-				a(href='' ng-click='changeScreen("script")')
-					h5(class='{{isCurrentScreen("script")}}') Script
-			.col-xs-2
-				a(href='' ng-click='changeScreen("faq")')
-					h5(class='{{isCurrentScreen("faq")}}') FAQ
-			.col-xs-2
-				a(href='' ng-click='changeScreen("list")')
-					h5(class='{{isCurrentScreen("list")}}') List
-			.col-xs-2
-				a(href='' ng-click='changeScreen("confirm")')
-					h5(class='{{isCurrentScreen("confirm")}}') Confirm
+			.col-xs-2.setup-links-col
+				div(class='{{isCurrentScreenForWrapper("brief")}}')
+					a(href='' ng-click='changeScreen("brief")')
+						h5.setup-links-h5(class='{{isCurrentScreen("brief")}}') Briefing
+			.col-xs-2.setup-links-col
+				div(class='{{isCurrentScreenForWrapper("script")}}')
+					a(href='' ng-click='changeScreen("script")')
+						h5.setup-links-h5(class='{{isCurrentScreen("script")}}') Script
+			.col-xs-2.setup-links-col
+				div(class='{{isCurrentScreenForWrapper("faq")}}')
+					a(href='' ng-click='changeScreen("faq")')
+						h5.setup-links-h5(class='{{isCurrentScreen("faq")}}') FAQ
+			.col-xs-2.setup-links-col
+				div(class='{{isCurrentScreenForWrapper("list")}}')
+					a(href='' ng-click='changeScreen("list")')
+						h5.setup-links-h5(class='{{isCurrentScreen("list")}}') List
+			.col-xs-2.setup-links-col
+				div(class='launch-link')
+					a(href='' ng-click='changeScreen("confirm")')
+						h5.launch-link-h5(class='{{isCurrentScreen("confirm")}}') Launch/Pause
 			.col-xs-1

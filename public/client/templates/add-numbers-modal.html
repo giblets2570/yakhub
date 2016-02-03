@@ -6,6 +6,19 @@
         <h4 class="modal-title">Add numbers</h4>
       </div>
       <div class="modal-body">
+        <p>Please attach a CSV file (you can save an excel spreadsheet as a CSV file).</p>
+        <p>If you've already uploaded a list of contacts, new contacts will be appended to the end of the existing list (a new CSV upload does NOT replace your existing uploaded contacts).</p>
+        <p>Allowed fields (case-insensitive) in your spreadsheet are:</p>
+        <p><strong>'Number'</strong> - The phone number.</p>
+        <p><strong>'Company'</strong> - Name of company to contact.</p>
+        <p><strong>'Address'</strong> - Company address.</p>
+        <p><strong>'Name'</strong> - Name of person the agent will be calling if available.</p>
+        <p><strong>'Role'</strong> - Job title of person the agent will be calling.</p>
+        <p><strong>'Email'</strong> - Email address of person the agent will be calling.</p>
+        <p><strong>'Notes'</strong> - For anything about this contact that the agent should be aware of.</p>
+        <p><strong>'Outcome'</strong> - Yak Hub will update this field once the campaign is live.</p>
+        <p><strong>'Rating'</strong> - Yak Hub will update this field once the campaign is live.</p>
+        <p><strong>'Called'</strong> - This has a value of 'Y' or 'N' to denote if the number's been dialled already.</p>
         <ng-csv-import content="csv.content" header="csv.header"  separator="csv.separator" result="csv.result"></ng-csv-import>
       </div>
       <div class="modal-footer">
