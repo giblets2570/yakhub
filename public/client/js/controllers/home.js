@@ -5,6 +5,16 @@
 */
 
 app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client','$rootScope','$http',function($scope,$state,$stateParams,Campaign,Client,$rootScope,$http){
+	Intercom("boot", {
+		app_id: "m28yn4x9",
+		email: $rootScope.user.email,
+		created_at: $rootScope.user.created,
+		name: $rootScope.user.name,
+		user_id: $rootScope.user._id,
+		widget: {
+			activator: "#IntercomDefaultWidget"
+		}
+	});
 	$scope.newCampaign = function(){
 		var name = prompt("Give your campaign a name");
 		if(name){
@@ -22,7 +32,7 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
 	$scope.getClient();
 	$scope.handler = StripeCheckout.configure({
 		key: 'pk_test_2a5qQm7wUtDiB6VCJAkoPc5n',
-		image: '/assets/images/qualt.png',
+		image: '/assets/images/logo.png',
 		locale: 'auto',
 		token: function(token) {
 		  // Use the token to create the charge with a server-side script.
@@ -49,7 +59,7 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
 		$scope.amount = amount;
 		$scope.description = 'Deposit of £'+amount/100
 		$scope.handler.open({
-			name: 'yakhub.co.uk',
+			name: 'Yak Hub',
 			description: $scope.description,
 			currency: "gbp",
 			amount: amount
@@ -68,17 +78,10 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
 		}
 	}
 	$scope.current_tab = $state.current.name.substring(15,45);
-    // Intercom('showNewMessage');
-    // Intercom('show');
- //    Intercom('onShow',function(){
- //    	console.log("Intercom shown");
- //    });
- //    Intercom('onHide',function(){
- //    	console.log("Intercom hidden");
- //    });
-	// $scope.showIntercom = function(){
-	// 	Intercom('show');
-	// }
+	$scope.showIntercom = function(){
+		console.log("Show intercom");
+		Intercom('show');
+	}
 	$scope.logout = function(){
 	    Client.logout().then(function(data){
 	    	$rootScope.user = null;
