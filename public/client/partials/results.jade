@@ -1,92 +1,181 @@
-.container#client-results
-  div.row
-    div.col-md-2
-      a.filter(href='' data-template-url='../../../client/templates/dashboard-popover.html', data-animation='am-flip-x', data-auto-close='1', bs-popover)
-        |Filter
-        img(src='/assets/images/filter.png')
-    div.col-md-2
-      button#dateDropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
-          | {{filter.time}}
-          img(src='/assets/images/calendar.png')
-        ul.dropdown-menu(aria-labelledby='dateDropdown')
-          li(ng-repeat='(key,length) in time_filters')
-            a(href='', ng-click='filter.time=key') {{key}}
-    div.col-md-offset-5.col-md-3
-      a.page-change(href='' ng-click='changePage(filter.page-1)')
-        span Prev
-      div.dropdown
-        button#dateDropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true',style="float:left;")
-          span.ng-cloak Page {{filter.page+1}}
-          span.glyphicon.glyphicon-triangle-bottom.caretspan
-        ul.dropdown-menu(aria-labelledby='dateDropdown')
-          li(ng-repeat='i in getNumber(noOfPages)')
-            a(href='', ng-click='changePage(i)') Page {{i+1}}
-      a.page-change(href='' ng-click='changePage(filter.page+1)')
-        span Next
+.results-bg
+	.container#client-results
+		div.row.results-top
+			div.col-md-4
+				.result-top-item-wrap
+					a.filter(href='' data-template-url='../../../client/templates/dashboard-popover.html', data-animation='am-flip-x', data-auto-close='1', bs-popover)
+					|Filter
+					img(src='/assets/images/filter.png')
+				.result-top-item-wrap
+					button#dateDropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+					| {{filter.time}}
+					img(src='/assets/images/calendar.png')
+					ul.dropdown-menu(aria-labelledby='dateDropdown')
+						li(ng-repeat='(key,length) in time_filters')
+							a(href='', ng-click='filter.time=key') {{key}}
+			div.col-md-8
+				.list-pagination-container
+					a.page-change(href='' ng-click='changePage(filter.page-1)')
+						span Prev
+					div.dropdown
+						button#dateDropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true',style="float:left;")
+							strong
+								span.ng-cloak Page {{filter.page+1}}
+							//- span.caretspan.glyphicon.glyphicon-triangle-bottom
+						ul.dropdown-menu(aria-labelledby='dateDropdown')
+							li(ng-repeat='i in getNumber(noOfPages)')
+								a(href='', ng-click='changePage(i)') Page {{i+1}}
+					a.page-change(href='' ng-click='changePage(filter.page+1)')
+						span Next
 
-  div.row.dashboard-lead.ng-cloak(ng-repeat='call in calls | filter : filter | orderBy : "-created" | limitTo:pageEntries:pageEntries*filter.page')
-    div.row
-      div.col-md-2
-        //- | {{call.agent_name}}
-      div.col-md-2
-        | {{call.created.getDate()}} / {{call.created.getMonth()+1}} / {{call.created.getFullYear()}}
-      div.col-md-2
-        | {{call.created.getHours()}} : {{call.created.getMinutes() | minuteFormat}}
-      div.col-md-offset-2.col-md-4
-        | Call length: {{call.duration/60 | number: 2}} minutes
-    hr
-    div.row
-      div.col-md-3.dashboard-lead-left
-        strong Company
-        br
-        | {{call.lead_info.company}}
-        br
-        | {{call.lead_info.address}}
-        br
-        | {{call.lead_info.number}}
-        br
-        | {{call.lead_info.email}}
-        br
-        | {{call.lead_info.person.name}}
-        br
-        | {{call.lead_info.person.role}}
-        hr
-        strong Score
-        br
-        span(class='{{star(call.rating,1)}}')
-        span(class='{{star(call.rating,2)}}')
-        span(class='{{star(call.rating,3)}}')
-        hr
-        strong Spoke to
-        br
-        | {{call.contact_info.person.name}}
-        br
-        | {{call.contact_info.person.role}}
-        br
-        | {{call.contact_info.number}}
-        br
-        | {{call.contact_info.email}}
-        hr
-        strong Outcome
-        br
-        |{{call.outcome}}
-      div.col-md-9
-        div.row
-          div.col-md-12
-            strong Call notes
-            br
-            |{{call.notes}}
-        hr
-        div.row
-          div.col-md-12
-            strong Call recording
-            audio-player(source='call.recording_url')
+		div.row.card.card-1dashboard-lead.ng-cloak(ng-repeat='call in calls | filter : filter | orderBy : "-created" | limitTo:pageEntries:pageEntries*filter.page')
+			div.row.card-top-row
+				.col-md-12
+					p.card-top-text {{call.agent_name}}
+					p.card-top-text {{call.created.getDate()}} / {{call.created.getMonth()+1}} / {{call.created.getFullYear()}}
+					p.card-top-text {{call.created.getHours()}} : {{call.created.getMinutes() | minuteFormat}}
+					p.card-top-text Call length: {{call.duration/60 | number: 2}} minutes
+			div.row
+				div.col-md-3.dashboard-lead-left
+					.left-card-container
+						strong.card-header Company
+						p.card-text {{call.lead_info.company}}
+						p.card-text {{call.lead_info.number}}
+					.left-card-container
+						strong.card-header Score
+						span.card-star-glyph(class='{{star(call.rating,1)}}')
+						span.card-star-glyph(class='{{star(call.rating,2)}}')
+						span.card-star-glyph(class='{{star(call.rating,3)}}')
+					.left-card-container
+						strong.card-header Spoke to
+						p.card-text {{call.contact_info.person.name}}
+						p.card-text {{call.contact_info.person.role}}
+						p.card-text {{call.contact_info.number}}
+						p.card-text {{call.contact_info.email}}
+					.left-card-container
+						strong.card-header Outcome
+						p.card-text {{call.outcome}}
+				div.col-md-9
+					div.row
+						div.col-md-12
+							strong.card-header Call notes
+							p.card-text {{call.notes}}
+					hr
+					div.row
+						div.col-md-12
+							strong.card-header Call recording
+							audio-player(source='call.recording_url')
 
-        hr
-        div.row
-          div.col-md-4.dashboard-question(ng-repeat='answer in call.answers')
-            strong {{answer.question}}
-            br
-            |{{answer.answer}}
+					hr
+					div.row
+						div.col-md-4.dashboard-question(ng-repeat='answer in call.answers')
+							strong.card-header {{answer.question}}
+							p.card-text {{answer.answer}}
+		button.btn.btn-primary(ng-hide='noOfPages==0' ng-click='download()') Download CSV
 
-  button.btn.btn-primary(ng-hide='noOfPages==0' ng-click='download()') Download CSV
+
+		//---------------- Hard coded -------------------------------------------------------
+
+		div.row.card.card-1.dashboard-lead
+			div.row.card-top-row
+				.col-md-12
+					p.card-top-text Toby M
+					p.card-top-text 02 / 01 / 2016
+					p.card-top-text 15:34
+					p.card-top-text Call length: 12:45 minutes
+			div.row
+				div.col-md-3.dashboard-lead-left
+					.left-card-container
+						strong.card-header Company
+						p.card-text St Sushi
+						p.card-text 07810 857 937
+					.left-card-container
+						strong.card-header Score
+						span.card-star-glyph(class='glyphicon glyphicon-star')
+						span.card-star-glyph(class='glyphicon glyphicon-star')
+						span.card-star-glyph(class='glyphicon glyphicon-star-empty')
+					.left-card-container
+						strong.card-header Spoke to
+						p.card-text Chris Jones
+						p.card-text Restaurant Manager
+						p.card-text 09707 465 837
+						p.card-text chris@stsushi.com
+					.left-card-container
+						strong.card-header Outcome
+						p.card-text Success
+				div.col-md-9
+					div.row
+						div.col-md-12
+							strong.card-header Call notes
+							p.card-text Spoke to Chris at St Sushi, he said that he's interested in offering deliveries and would like to know more. I set up an appoinment, he's concerned about chef capacity, and brand damage from late deliveries.
+					hr
+					div.row
+						div.col-md-12
+							strong.card-header Call recording
+							audio-player(source='call.recording_url')
+
+					hr
+					div.row
+						div.col-md-4.dashboard-question
+							strong.card-header Do you offer deliveries?
+							p.card-text No they don't. They tried it once but didn't really market it so not enough people used it. He was thinking about trying again with JustEat deliveries.
+						div.col-md-4.dashboard-question
+							strong.card-header Do you do any marketing?
+							p.card-text They have good foot traffic so haven't done any marketing for a while. They look after their Yelp ratings though.
+						div.col-md-4.dashboard-question
+							strong.card-header Do you have excess capacity to produce food?
+							p.card-text On week nights yes, at the weekend they're quite stretched but have physical space to add more if they were doing deliveries.
+
+		//---------------- Hard coded DUPLICATE -------------------------------------------------------
+
+		div.row.card.card-1.dashboard-lead
+			div.row.card-top-row
+				.col-md-12
+					p.card-top-text Toby M
+					p.card-top-text 02 / 01 / 2016
+					p.card-top-text 15:34
+					p.card-top-text Call length: 12:45 minutes
+			div.row
+				div.col-md-3.dashboard-lead-left
+					.left-card-container
+						strong.card-header Company
+						p.card-text St Sushi
+						p.card-text 07810 857 937
+					.left-card-container
+						strong.card-header Score
+						span.card-star-glyph(class='glyphicon glyphicon-star')
+						span.card-star-glyph(class='glyphicon glyphicon-star')
+						span.card-star-glyph(class='glyphicon glyphicon-star-empty')
+					.left-card-container
+						strong.card-header Spoke to
+						p.card-text Chris Jones
+						p.card-text Restaurant Manager
+						p.card-text 09707 465 837
+						p.card-text chris@stsushi.com
+					.left-card-container
+						strong.card-header Outcome
+						p.card-text Success
+				div.col-md-9
+					div.row
+						div.col-md-12
+							strong.card-header Call notes
+							p.card-text Spoke to Chris at St Sushi, he said that he's interested in offering deliveries and would like to know more. I set up an appoinment, he's concerned about chef capacity, and brand damage from late deliveries.
+					hr
+					div.row
+						div.col-md-12
+							strong.card-header Call recording
+							audio-player(source='call.recording_url')
+
+					hr
+					div.row
+						div.col-md-4.dashboard-question
+							strong.card-header Do you offer deliveries?
+							p.card-text No they don't. They tried it once but didn't really market it so not enough people used it. He was thinking about trying again with JustEat deliveries.
+						div.col-md-4.dashboard-question
+							strong.card-header Do you do any marketing?
+							p.card-text They have good foot traffic so haven't done any marketing for a while. They look after their Yelp ratings though.
+						div.col-md-4.dashboard-question
+							strong.card-header Do you have excess capacity to produce food?
+							p.card-text On week nights yes, at the weekend they're quite stretched but have physical space to add more if they were doing deliveries.
+		
+		button.btn.btn-primary(ng-click='download()') Download CSV

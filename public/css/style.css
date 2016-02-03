@@ -14,6 +14,9 @@ body{
   font-family: Open Sans, sans-serif;
   width: 100%;
 }
+textarea {
+  resize: vertical; 
+}
 
 button.campaign{
   background: #F1F1F1;
@@ -306,6 +309,115 @@ span.large{
 }
 
 
+/*----------------------- Results --------------------------*/
+
+.results-bg {
+  background-color: #ecf0f1;
+  margin-top: -20px;
+}
+
+.row.results-top {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 0;
+  margin-right: 0;
+  max-width: 1000px;
+}
+
+.result-top-item-wrap {
+  display: inline-block;
+  margin-right: 30px;
+}
+
+#client-results {
+  padding-bottom: 30px;
+}
+
+#client-results .agent-select{
+  background: #f5f5f5;
+}
+
+#client-results .filter{
+  color: #111111;
+}
+
+#client-results img{
+  height: 15px;
+  margin-left: 10px;
+}
+
+#agent-dashboard .filter{
+  color: #111111;
+}
+
+.dashboard-lead {
+  border-radius:3px;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-top: 30px;
+  padding-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background: white;
+  max-width: 1000px;
+}
+
+.card {
+  background: #fff;
+}
+
+.card-1 {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.2s ease-in-out;
+}
+
+.dashboard-lead-left {
+  border: 0px;
+  border-right: 1px;
+}
+
+.dashboard-question {
+  margin-bottom: 10px;
+}
+
+.card-top-row {
+  padding-bottom: 20px !important;
+}
+
+.left-card-container {
+  margin-bottom: 20px;
+}
+
+.card-star-glyph{
+  font-size: 14px !important;
+}
+
+p.card-top-text {
+  font-size: 13px;
+  display: inline-block;
+  float: left;
+  margin-right: 60px;
+  color: #bdc3c7;
+  margin-bottom: 0;
+}
+
+strong.card-header {
+  font-size: 13px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+p.card-text {
+  font-size: 13px;
+  color: #95a5a6;
+  margin-bottom: 5px;
+}
+
+
+
+
 
 
 /* Set the fixed height of the footer here */
@@ -556,28 +668,7 @@ span.glyphicon.glyphicon-menu-down{
   color: black;
 }
 
-/*
- *
- * Client dashboard
- *
- */
 
-#client-results .agent-select{
-  background: #f5f5f5;
-}
-
-#client-results .filter{
-  color: #111111;
-}
-
-#client-results img{
-  height: 15px;
-  margin-left: 10px;
-}
-
-#agent-dashboard .filter{
-  color: #111111;
-}
 
 /*
  *
@@ -1136,26 +1227,7 @@ span.glyphicon.glyphicon-menu-down{
   margin-top: -7px;
 }
 
-.dashboard-lead {
-  border-radius:3px;
-  padding: 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  background: white;
-  -webkit-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
-  -moz-box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
-  box-shadow: 0px 0px 10px 1px rgba(153,153,153,1);
-};
 
-.dashboard-lead-left {
-  border: 0px;
-  border-right: 1px;
-  border-style:solid;
-}
-
-.dashboard-question {
-  margin-bottom: 10px;
-};
 
 div.input-group.info-spacer {
   margin-top: 5px;
