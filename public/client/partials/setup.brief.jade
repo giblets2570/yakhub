@@ -55,6 +55,14 @@
 						input.form-control.cust-input.margin-input.ng-cloak(type='text',placeholder='Email' ng-model='campaign.contact_info.email')
 		div.row.setup-spacer
 			div.col-md-4
+				h4.brief-section-title Campaign period
+				p.brief-text Choose the date range in which your campaign will run.
+			div.col-md-8
+				input.form-control.cust-input.date-pick-cust(type='text', data-date-format="d MMM yy", ng-model='campaign.start_date', name='start_date', bs-datepicker, placeholder='Start date')
+				p.date-pick-text to
+				input.form-control.cust-input.date-pick-cust(type='text', data-date-format="d MMM yy", ng-model='campaign.end_date', name='end_date', bs-datepicker, placeholder='End date')
+		div.row.setup-spacer
+			div.col-md-4
 				h4.brief-section-title Which days?
 				p.brief-text Choose which days agents can dial during your campaign period.
 			div.col-md-8

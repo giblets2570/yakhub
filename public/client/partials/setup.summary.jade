@@ -64,9 +64,9 @@
 				div.col-md-4
 					strong.summary-head.section-title Times
 				div.col-md-4
-					p.summary-text {{start_time}} {{start_time_period}}
+					p.summary-text {{start_time}}:00
 				div.col-md-4
-					p.summary-text {{end_time}} {{end_time_period}}
+					p.summary-text {{end_time}}:00
 	.row
 		button.btn.btn-success.button-golive-big(ng-click='changeLive(true)' ng-show='!campaign.live') LAUNCH CAMPAIGN
 			button.btn.btn-danger.button-golive-big(ng-click='changeLive(false)' ng-show='campaign.live') STOP THE CAMPAIGN
