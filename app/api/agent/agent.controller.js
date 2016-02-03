@@ -105,7 +105,6 @@ exports.update = function(req, res) {
       updated.campaigns = req.body.campaigns;
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      console.log(paid,updated.paid);
       if(paid < updated.paid){
         stripe.transfers.create({
           amount: Math.floor(updated.paid - paid),
@@ -114,10 +113,11 @@ exports.update = function(req, res) {
           description: "Payment for " + agent.name
         }, function(err, transfer) {
           // asynchronously called
-          console.log(err);
-          console.log(transfer);
-          return res.status(200).json(updated);
+          if(err){return res.json({error:'Error in the request'})}
+          return res.status(200).json(transfer);
         });
+      }else{
+        return res.status(200).json(updated);
       }
     });
   });

@@ -6,9 +6,16 @@
 
 app.factory('Client', ['$q','$http', function($q,$http){
 	return {
-		show : function(id){
+		show : function(params,fields,id){
+			if(params)
+				params.fields = fields;
 			var defered = $q.defer();
-			$http.get('/api/clients/'+id)
+			$http({
+				method: 'GET',
+				url: '/api/clients/'+id,
+				params: params,
+				cache: false
+			})
 		    .success(function(user){
 		      // No error: authentication OK
 		      defered.resolve(user);

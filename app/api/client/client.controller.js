@@ -12,6 +12,10 @@
 var _ = require('lodash');
 var Client = require('./client.model');
 
+var stripe = require("stripe")(
+  "sk_test_3ckK6VP7I08hjgym5B2uOxkF"
+);
+
 // Get list of clients
 exports.index = function(req, res) {
   Client.find(function (err, clients) {
@@ -46,6 +50,32 @@ exports.create = function(req, res) {
     })
   });
 };
+
+exports.charge = function(req,res){
+  var stripeToken = req.body.stripeToken.id;
+  var amount = req.body.amount;
+  var description = req.body.description;
+
+  var charge = stripe.charges.create({
+    amount: amount,
+    currency: "gbp",
+    source: stripeToken,
+    description: description}, function(err, charge) {
+    if (err && err.type === 'StripeCardError'){
+      console.log(err);
+      return res.send({error:'Error in the charge'});
+    }
+    Client.findById(req.user._id,function(err,client){
+      if (err) { return handleError(res, err); }
+      if(!client) { return res.status(404).send('Not Found'); }
+      client.funds = client.funds + amount;
+      client.save(function(err){
+        if (err) { return handleError(res, err); }
+        return res.json(charge);
+      })
+    })
+  });
+}
 
 // Updates an existing client in the DB.
 exports.update = function(req, res) {
