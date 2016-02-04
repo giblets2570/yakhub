@@ -8,7 +8,6 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	$scope.current_screen = 'brief';
 	$scope.pageEntries = 20;
 	$scope.leads_loaded = false;
-	$scope.start_time_period = "AM";
 	$scope.end_time_period = "AM";
 	$scope.day_mapper = {
 		'mon':'Monday',
@@ -68,33 +67,16 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	}
 	$scope.$watch('campaign', function(c){
 		if(c && c._id){
-			$scope.start_time = c.start_time;
-			if($scope.start_time/24>=1){
-				$scope.start_time_period = "PM";
-				$scope.start_time = $scope.start_time % 24;
-			}
-			$scope.end_time = c.end_time;
-			if($scope.end_time/24>=1){
-				$scope.end_time_period = "PM";
-				$scope.end_time = $scope.end_time % 24;
-			}
-			if($scope.current_screen=='list'){
-				$scope.leads_loaded = true;
-				$scope.getLeads();
-			}
+			console.log(c);
+			$scope.start_time = String(c.start_time);
+			$scope.end_time = String(c.end_time);
 		}
 	});
 	$scope.changeTime = function(when){
 		if(when=="start"){
-			$scope.start_time = $scope.start_time % 24;
-			if($scope.start_time<0)
-				$scope.start_time = 0;
-			$scope.campaign.start_time = $scope.start_time
+			$scope.campaign.start_time = parseInt($scope.start_time)
 		}else if(when=="end"){
-			$scope.end_time = $scope.end_time % 24;
-			if($scope.end_time<0)
-				$scope.end_time = 0;
-			$scope.campaign.end_time = $scope.end_time
+			$scope.campaign.end_time = parseInt($scope.end_time)
 		}
 	}
 	$scope.timePick = function(time,when){

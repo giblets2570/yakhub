@@ -15,7 +15,7 @@ var agentSchema = mongoose.Schema({
   email: {type : String, default: ''},
   phone: {type : String, default: ''},
   type: {type : String, default: 'agent'},
-
+  agreement: {type : Boolean, default: true},
   paid: {type : Number, default: 0},
   earned: {type : Number, default: 0},
   pay: {type: Number, default: 40},

@@ -13,6 +13,14 @@
 				input.form-control.enter(placeholder='Name' type='text' ng-model='user_signup.username.name')
 				input.form-control.enter(placeholder='Email' type='text' ng-model='user_signup.username.email')
 				input.form-control.enter(placeholder='Password' type='password' ng-model='user_signup.password')
+				.row
+					.col-xs-1
+						input(type='checkbox' ng-model='agreement')
+					.col-xs-11
+						p Yes, I understand and agree to the 
+							a(href='https://s3-eu-west-1.amazonaws.com/yakhub-chats/uploads/YakHubContractorAgreement.pdf' target='_blank')
+								| Yak Hub Contractor Agreement
+							| .
 				button.btn.button.done(type='submit') SIGN UP
 		a(href='' ng-click='not_login=!not_login')
 			p.change-enter Already signed up?

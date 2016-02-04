@@ -17,3 +17,7 @@
 								p {{campaign.num_leads}} Contacts left to call
 								p Ending in {{numDays(campaign)}} days
 		.col-md-4
+	.row(ng-show='campaigns.length==0')
+		.col-md-8
+			h3 No campaigns at the moment
+			p Come back later

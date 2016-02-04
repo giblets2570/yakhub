@@ -13,7 +13,8 @@ app.controller('stripeCtrl', ['$scope','$state','Agent','Alert','$location','$ht
 		}).success(function(data){
 			console.log(data);
 			if(data!='0'){
-				$scope.stripe_loaded=true
+				$scope.stripe_loaded=true,
+				$state.go('home.campaigns');
 			}
 		});
 	}

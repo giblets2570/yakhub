@@ -12,7 +12,6 @@ app.controller('campaignsCtrl', ['$scope','$state','Campaign','Alert','Lead',fun
 	}
 	$scope.getCampaigns = function(){
 		Campaign.get().then(function(data){
-			console.log(data);
 			$scope.campaigns = data;
 			for (var i = $scope.campaigns.length - 1; i >= 0; i--) {
 				$scope.getNumLeads($scope.campaigns[i]);

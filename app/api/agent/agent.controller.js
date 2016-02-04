@@ -183,7 +183,11 @@ exports.me = function(req, res){
       return res.status(200).json({agent: req.user,earned: earned,last_earning: last_earning});
     })
   }else{
-    return res.status(200).json(req.user);
+    Agent.findById(req.user._id,req.query.fields,function(err,agent){
+      if(err) { return handleError(res, err); }
+      if(!agent) res.status(400).send("Agent not found!");
+      return res.status(200).json(agent);
+    })
   }
 }
 

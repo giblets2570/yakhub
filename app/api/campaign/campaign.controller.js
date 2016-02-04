@@ -36,10 +36,10 @@ exports.index = function(req, res) {
       return res.status(200).json(campaigns);
     });
   }else if(req.user.type=='agent'){
-    Campaign.find({agents: {$elemMatch: {agent: req.user._id, active: true}}},req.query.fields, function (err, campaigns) {
+    var date_now = new Date();
+    var hour_now = (new Date()).getHours();
+    Campaign.find({live: true, start_date: {$lte: date_now}, end_date: {$gt: date_now}, start_time: {$lte: hour_now}, end_time: {$gt: hour_now}, agents: {$elemMatch: {agent: req.user._id, active: true}}},req.query.fields, function (err, campaigns) {
       if(err) { return handleError(res, err); }
-      if(req.query.current != undefined)
-        return res.status(200).json({campaigns:campaigns,campaign:req.session.campaign_id});
       return res.status(200).json(campaigns);
     });
   }else{
@@ -147,73 +147,6 @@ exports.destroy = function(req, res) {
 /**
  * Non CRUD routes
  */
-
-// changes the current campaign
-exports.session = function(req, res) {
-  if(req.body.campaign){
-    if(req.body.campaign == req.session.campaign_id)
-      return res.status(200).send('0');
-    Campaign.findById(req.body.campaign,function(err,campaign){
-      if(err){return res.status(200).send('0')};
-      req.session.campaign_id = campaign._id;
-      req.session.campaign_name = campaign.url_name;
-      return res.status(200).json({'campaign':req.session.campaign_name});
-    })
-  }else{
-    return res.status(200).send('0');
-  }
-};
-
-exports.request = function(req, res) {
-  Campaign.findById(req.params.id, function(err, campaign){
-    var request = campaign.requested_slots.id(req.body.request_id);
-    request.created = new Date();
-    if(req.body.type=='approve'){
-      request.status = 'Approved';
-      notifyAgent(req.body.agent_id);
-    }
-    if(req.body.type=='decline'){
-      request.status = 'Declined';
-      notifyAgent(req.body.agent_id);
-    }
-    if(req.body.type=='undo')
-      request.status = '';
-    campaign.save(function(err){
-      if(err){return res.status(200).send('0')};
-      return res.json(request);
-    })
-  })
-}
-
-function notifyClient(client_id,campaign_id){
-  Client.findById(client_id, function(err, client){
-    if(err) console.log('Error in notifying client');
-    if(!client) console.log('Error in notifying client');
-    client.notifications.seen_all = false;
-    for (var i = client.notifications.length - 1; i >= 0; i--) {
-      if(client.notifications[i].campaign.toString() == campaign_id.toString()){
-        client.notifications[i].seen_all = false;
-        break;
-      }
-    };
-    client.save(function(err){
-      if(err) console.log('Error in notifying client');
-      console.log('Client notified');
-    })
-  })
-}
-
-function notifyAgent(agent_id){
-  Agent.findById(agent_id, function(err, agent){
-    if(err) console.log('Error in notifying agent');
-    if(!agent) console.log('Error in notifying agent');
-    agent.notifications.seen_all = false;
-    agent.save(function(err){
-      if(err) console.log('Error in notifying agent');
-      console.log('Agent notified');
-    })
-  })
-}
 
 function handleError(res, err) {
   return res.status(500).send(err);

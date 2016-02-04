@@ -87,8 +87,8 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	// Gets the campaign data.
 	$scope.getCampaign = function(c){
 		Campaign.show({},'-available_slots -requested_slots -agents',$scope.campaign_id).then(function(data){
-			$scope.campaign = data;
 			console.log(data);
+			$scope.campaign = data;
 			$scope.initialize_call();
 			c();
 		});
@@ -100,28 +100,6 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 			$scope.initialize_call();
 		})
 	};
-	$scope.stats = {};
-	$scope.stats.range = '86400000';
-	$scope.stats.chart = {
-		labels: ['Dials','Pickups','0 stars','1 star','2 stars','3 stars'],
-		series: ['Call stats'],
-		data: [[0,0,0,0,0,0]]
-	}
-	$scope.findAllocated = function(time){
-		if(!time) time = $scope.stats.range;
-		$scope.stats.allocated = 0;
-		$scope.stats.left = 0;
-		var time_left = 0;
-		for (var i = $scope.campaign.allocated_slots.length - 1; i >= 0; i--) {
-			if($scope.campaign.allocated_slots[i].agent.toString() != $scope.agent._id.toString() || $scope.campaign.allocated_slots[i].time <= $scope.now - time) continue
-			$scope.stats.allocated++;
-			if($scope.campaign.allocated_slots[i].time.valueOf() < $scope.now.valueOf() && $scope.campaign.allocated_slots[i].time.valueOf()+$scope.hour > $scope.now)
-				time_left += ($scope.campaign.allocated_slots[i].time.valueOf()+$scope.hour - $scope.now)
-			else if($scope.campaign.allocated_slots[i].time.valueOf() > $scope.now.valueOf())
-				time_left += $scope.hour
-		};
-		$scope.stats.left = time_left / $scope.hour;
-	}
 	$scope.getCalls = function(c){
 		Call.get({campaign: true, sorted: true},'created duration rating outcome').then(function(data){
 			$scope.calls = data;
@@ -129,26 +107,6 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 				$scope.calls[i].created = new Date($scope.calls[i].created);
 			c();
 		})
-	}
-	$scope.getCallStats = function(time){
-		if(!time) time = $scope.stats.range;
-		$scope.stats.chart.data = [[0,0,0,0,0,0]];
-		$scope.number_of_calls = 0;
-		var total_time = 0;
-		for (var i = 1; i <= $scope.calls.length; i++) {
-			if($scope.calls[i-1].created.valueOf() < $scope.now - time) continue;
-			$scope.stats.chart.data[0][0]++;
-			if($scope.calls[i-1].outcome != 'No answer') $scope.stats.chart.data[0][1]++;
-			$scope.stats.chart.data[0][2 + $scope.calls[i-1].rating]++;
-			$scope.number_of_calls++;
-			if(!$scope.calls[i])
-				total_time += $scope.calls[i-1].duration*1000+$scope.three_minutes
-			else if($scope.calls[i-1].created.valueOf()+$scope.calls[i-1].duration*1000+$scope.three_minutes>$scope.calls[i].created.valueOf())
-				total_time += ($scope.calls[i].created.valueOf() - $scope.calls[i-1].created.valueOf())
-			else
-				total_time += $scope.calls[i-1].duration*1000+$scope.three_minutes
-		}
-		$scope.hours_complete = (total_time/(60000))/60;
 	}
 	$scope.callsPerHour = function(number_of_calls,hours_complete){
 		return hours_complete == 0 ? 0 : number_of_calls/hours_complete;
@@ -175,17 +133,9 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 		if(!$scope.called) return;
 		Call.addCallData($scope.call).then(function(data){
 			var call = data.call;
-			// $scope.calls.push({
-			// 	created: new Date(call.created),
-			// 	duration: call.duration,
-			// 	_id: call._id,
-			// 	rating: call.rating,
-			// 	outcome: call.outcome
-			// });
-			$scope.last_earning = call.duration*(2/3);
+			$scope.last_earning = call.duration*$scope.agent.pay/60;
 			$scope.earned+=$scope.last_earning;
 			$scope.getNextLead();
-			// $scope.getCallStats();
 			$scope.showPrevious = true;
 			$scope.made_call_back = false;
 		})
@@ -200,12 +150,6 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 		console.log($scope.call.outcome);
 		// if($scope.call.outcome == 'Call later')
 		// 	$scope.showCallBackModal();
-	}
-	$scope.makeCallback = function(){
-		Lead.makeCallBack($scope.call_back).then(function(data){
-			console.log(data);
-			$scope.made_call_back = true;
-		})
 	}
 	// Function that creates the custom number to call and makes it the current lead
 	// for the agent. Need to do phone number regex.
@@ -226,6 +170,7 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
     // Function that is called when page loaded.
 	$scope.init = function(){
 		$scope.page = "info";
+		Twilio.Device.disconnectAll();
 		var params = $location.search();
 		if(params.page)
 			$scope.page = params.page;
@@ -237,7 +182,7 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 				$scope.setupTwilio();
 				$scope.getNextLead();
 				$scope.getMessages();
-				channel.bind($scope.campaign._id, function(data) {
+				channel.bind($scope.campaign_id, function(data) {
 					data.message.time = new Date(data.message.time);
 					console.log($scope.messages, data.message);
 					console.log('get message',data);
@@ -246,11 +191,9 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 					$scope.$apply();
 			      	alert("New update from the campaign owner:", data.message.text);
 			    });
-				// $scope.findAllocated();
 			});
 			$scope.getCalls(function(){
 				console.log(4);
-				// $scope.getCallStats();
 			});
 		});
 	};
@@ -294,10 +237,11 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	}
 	// Function that does the star rating.
 	$scope.rateCall = function(num){
-		$scope.call.rating = num;
+		$scope.call.rating==1 && num==1 ? $scope.call.rating = 0 : $scope.call.rating = num;
 	}
 	//Twilio javascript
     Twilio.Device.ready(function (device) {
+    	console.log('ready');
         $scope.call_button_text = 'Call';
         $scope.$apply();
     });
@@ -309,10 +253,12 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 
     Twilio.Device.connect(function (conn) {
     	$scope.call_button_text = 'Connected';
+    	console.log("Connected");
         $scope.$apply();
     });
 
     Twilio.Device.disconnect(function (conn) {
+    	console.log("Disconnected");
     	$scope.call_button_text = 'Call';
     });
     $scope.init();

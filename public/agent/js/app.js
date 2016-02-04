@@ -3,7 +3,7 @@
 // *
 // * Description
 // */
-var app = angular.module('app', ['ui.router','ngAnimate','mgcrea.ngStrap'])
+var app = angular.module('app', ['ngSanitize','ui.router','ngAnimate','mgcrea.ngStrap'])
 
 .config(function($stateProvider, $urlRouterProvider, $locationProvider,$httpProvider) {
     //================================================
@@ -39,7 +39,6 @@ var app = angular.module('app', ['ui.router','ngAnimate','mgcrea.ngStrap'])
       });
       return deferred.promise;
     };
-
     var isLoggedin = function($q, $timeout, $http, $state, $rootScope){
       // Initialize a new promise
       var deferred = $q.defer();
@@ -148,12 +147,12 @@ var app = angular.module('app', ['ui.router','ngAnimate','mgcrea.ngStrap'])
       })
 
       .state('home.dialer', {
-        url: 'dialer',
+        url: ':campaign_id',
         templateUrl: 'partials/dialer',
         controller: 'dialerCtrl',
         resolve: {
           isLoggedIn: checkLoggedin,
-          isStripeSetup: isStripeSetup
+          isStripeSetup: isStripeSetup,
         }
       })
 
@@ -163,7 +162,7 @@ var app = angular.module('app', ['ui.router','ngAnimate','mgcrea.ngStrap'])
         controller: 'campaignsCtrl',
         resolve: {
           isLoggedIn: checkLoggedin,
-          isStripeSetup: isStripeSetup
+          isStripeSetup: isStripeSetup,
         }
       });
 })

@@ -4,7 +4,7 @@
 * Description
 */
 
-app.controller('agentsCtrl', ['$scope','$state','Agent','Alert','$stateParams',function($scope,$state,Agent,Alert,$stateParams){
+app.controller('agentsCtrl', ['$scope','$state','Agent','Alert','Payment','$stateParams',function($scope,$state,Agent,Alert,Payment,$stateParams){
 	$scope.getAgents = function(){
 		Agent.get({},'name earned paid').then(function(data){
 			console.log(data);
@@ -41,7 +41,15 @@ app.controller('agentsCtrl', ['$scope','$state','Agent','Alert','$stateParams',f
 				var total = agent.paid+amount*100;
 				Agent.update({paid:total},agent._id).then(function(data){
 					console.log(data);
-					if(!data.error){agent.paid = total}
+					data.agent = agent._id;
+					data.agent_name = agent.name;
+					if(!data.error){
+						Payment.save(data).then(function(data){
+							console.log(data);
+							agent.paid = total;
+							alert("Payment complete");
+						})
+					}
 				})
 			}
 		}

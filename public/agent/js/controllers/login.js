@@ -26,6 +26,10 @@ app.controller('loginCtrl', ['$scope','$state','Agent','Alert',function($scope,$
 		})
 	};
 	$scope.signup = function(){
+		if(!$scope.agreement){
+			alert("Have you agreed to the Yak Hub contractor agreement?");
+			return;
+		}
 		Alert.success("Loading...").then(function(loading){
 			loading.show();
 	    Agent.signup($scope.user_signup).then(function(data){

@@ -4,7 +4,7 @@
 * Description
 */
 
-app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client','$rootScope','$http',function($scope,$state,$stateParams,Campaign,Client,$rootScope,$http){
+app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client','$rootScope','$http','Deposit',function($scope,$state,$stateParams,Campaign,Client,$rootScope,$http,Deposit){
 	Intercom("boot", {
 		app_id: "m28yn4x9",
 		email: $rootScope.user.email,
@@ -51,6 +51,11 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
 		  	}else{
 		  		$scope.client.funds+=$scope.amount;
 		  		alert('Funds successfully added!');
+		  		data.client = $scope.client._id;
+		  		data.client_name = $scope.client.name;
+		  		Deposit.save(data).then(function(data){
+		  			console.log("Deposit saved in backend");
+		  		})
 		  	}
 		  })
 		}

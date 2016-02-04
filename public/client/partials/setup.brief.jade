@@ -58,9 +58,9 @@
 				h4.brief-section-title Campaign period
 				p.brief-text Choose the date range in which your campaign will run.
 			div.col-md-8
-				input.form-control.cust-input.date-pick-cust(type='text', data-date-format="d MMM yy", ng-model='campaign.start_date', name='start_date', bs-datepicker, placeholder='Start date')
+				input.form-control.cust-input.date-pick-cust(type='text', data-date-format="d MMM yy" data-max-date="{{campaign.end_date}}" ng-model='campaign.start_date', name='start_date', bs-datepicker, placeholder='Start date')
 				p.date-pick-text to
-				input.form-control.cust-input.date-pick-cust(type='text', data-date-format="d MMM yy", ng-model='campaign.end_date', name='end_date', bs-datepicker, placeholder='End date')
+				input.form-control.cust-input.date-pick-cust(type='text', data-date-format="d MMM yy", data-min-date="{{campaign.start_date}}" ng-model='campaign.end_date', name='end_date', bs-datepicker, placeholder='End date')
 		div.row.setup-spacer
 			div.col-md-4
 				h4.brief-section-title Which days?
@@ -78,7 +78,7 @@
 				h4.brief-section-title What time of day?
 				p.brief-text Choose what time of day agents can dial.
 			div.col-md-8
-				select.form-control.cust-input.time-pick-cust(type="number" ng-model="start_time" name="start_time" placeholder='Start time' ng-change='changeTime("start")')
+				select.form-control.cust-input.time-pick-cust(type="text" ng-model="start_time" name="start_time" placeholder='Start time' ng-change='changeTime("start")')
 					option(value='0') 00:00
 					option(value='1') 01:00
 					option(value='2') 02:00
@@ -104,7 +104,7 @@
 					option(value='22') 22:00
 					option(value='23') 23:00
 				p.time-pick-text to
-				select.form-control.cust-input.time-pick-cust(type="number" ng-model="end_time" name="end_time" placeholder='End time' ng-change='changeTime("end")')
+				select.form-control.cust-input.time-pick-cust(type="text" ng-model="end_time" name="end_time" placeholder='End time' ng-change='changeTime("end")')
 					option(value='0') 00:00
 					option(value='1') 01:00
 					option(value='2') 02:00

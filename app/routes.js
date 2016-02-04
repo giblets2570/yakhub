@@ -22,6 +22,8 @@ module.exports = function(app) {
   app.use('/api/campaigns', require('./api/campaign'));
   app.use('/api/leads', require('./api/lead'));
   app.use('/api/messages', require('./api/message'));
+  app.use('/api/payments', require('./api/payment'));
+  app.use('/api/deposits', require('./api/deposit'));
   app.use('/api/admins', require('./api/admin'));
   app.use('/auth', require('./auth'));
   app.use('', require('./public'));

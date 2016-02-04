@@ -58,7 +58,7 @@ var callSchema = mongoose.Schema({
 	recording_url: {type : String, default: ''},
 	duration : {type : Number, default: 0},
 	status : {type : String, default: ''},
-
+	fee : {type : Number, default: 0},
 	// Client driven data from the call
 	followed_up: {type : Boolean, default: false},
 

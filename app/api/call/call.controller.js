@@ -11,6 +11,7 @@
 
 var _ = require('lodash');
 var Call = require('./call.model');
+var Client = require('../client/client.model');
 var Campaign = require('../campaign/campaign.model');
 var Agent = require('../agent/agent.model');
 var Lead = require('../lead/lead.model');
@@ -147,6 +148,7 @@ exports.makeCall = function(req, res) {
           if(err) { return handleError(res, err); }
           var call = new Call();
           call.agent = agent._id
+          call.fee = campaign.fee;
           call.agent_name = agent.name;
           call.lead_info = {
             number: lead.number,
@@ -156,7 +158,7 @@ exports.makeCall = function(req, res) {
           };
           call.campaign = campaign_id;
           call.campaign_name = campaign_name;
-          call.client = campaign.client_id;
+          call.client = campaign.client;
           call.client_name = campaign.client_name;
           var actionURL = '/api/calls/recording/' + call._id;
           call.save(function(err){
@@ -207,10 +209,24 @@ exports.twilioCallback = function(req, res) {
         agent.earned = agent.earned + call.duration*agent.pay/60;
         agent.save(function(err){
           if(err) { return handleError(res, err); }
-          resp.say('Thanks for calling!');
-          return res.send(resp.toString());
+          Client.findById(call.client,function(err,client){
+            if(err) { return handleError(res, err); }
+            if(!client) {
+              resp.say('Could not find the client, '+call.client);
+              return res.send(resp.toString());
+            }
+            console.log(client.funds_used,call.duration,call.fee);
+            client.funds_used = client.funds_used + call.duration*call.fee/60;
+            console.log(client.funds_used);
+            client.markModified('funds_used');
+            client.save(function(err){
+              if(err) { return handleError(res, err); }
+              resp.say('Thanks for calling!');
+              return res.send(resp.toString());
+            })
+          });
         })
-      })
+      });
     });
   });
 };

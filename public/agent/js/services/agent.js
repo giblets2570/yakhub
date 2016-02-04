@@ -87,7 +87,9 @@ app.factory('Agent', function($http,$q){
 		    });
 		    return defered.promise;
 		},
-		me: function(params){
+		me: function(params,fields){
+			if(params)
+				params.fields = fields;
 			var defered = $q.defer();
 			$http({
 				method:'GET',
