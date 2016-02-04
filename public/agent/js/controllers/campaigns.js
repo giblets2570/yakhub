@@ -4,7 +4,7 @@
 * Description
 */
 
-app.controller('campaignsCtrl', ['$scope','$state','Campaign','Alert','Lead',function($scope,$state,Campaign,Alert,Lead){
+app.controller('campaignsCtrl', ['$scope','$state','Campaign','Alert','Lead','Agent',function($scope,$state,Campaign,Alert,Lead,Agent){
 	$scope.getNumLeads = function(campaign){
 		Lead.count(campaign._id).then(function(data){
 			campaign.num_leads = data.num_leads;
@@ -28,4 +28,12 @@ app.controller('campaignsCtrl', ['$scope','$state','Campaign','Alert','Lead',fun
 		var end = (new Date(campaign.end_date)).valueOf();
 		return Math.max(0,Math.floor((end-$scope.now)/$scope.day));
 	}
+	$scope.getAgentData = function(c){
+		Agent.me({calls: true, month: true}).then(function(data){
+			$scope.earned = data.earned;
+			if(c)
+				c();
+		})
+	}
+	$scope.getAgentData();
 }])

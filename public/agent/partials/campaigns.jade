@@ -17,6 +17,9 @@
 								p {{campaign.num_leads}} Contacts left to call
 								p Ending in {{numDays(campaign)}} days
 		.col-md-4
+			p Earned
+			h3 £ {{earned/100|number:2}}
+			p this month
 	.row(ng-show='campaigns.length==0')
 		.col-md-8
 			h3 No campaigns at the moment

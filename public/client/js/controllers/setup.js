@@ -44,7 +44,13 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	}
 	$scope.changeLive = function(bool){
 		var q;
-		if(bool) {q = "Are you sure you want to start your campaign?"}
+		if(bool) {
+			if($scope.client.funds-$scope.client.funds_used<=0){
+				alert("You have insufficient funds to make this campaign live!");
+				return;
+			}
+			q = "Are you sure you want to start your campaign?"
+		}
 		else {q = "Are you sure you want to end your campaign?"}
 		if(confirm(q)) $scope.campaign.live = bool;
 	}
@@ -278,7 +284,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 				})
 			})
 		})
-	},10000);
+	},5000);
 	$scope.$watch('filter', function (newVal, oldVal) {
 		$scope.applyFilter(newVal);
 	}, true);

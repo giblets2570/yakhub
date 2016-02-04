@@ -138,6 +138,10 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 			$scope.getNextLead();
 			$scope.showPrevious = true;
 			$scope.made_call_back = false;
+			if(data.campaign=='Over'){
+				alert('Campaign funds have run out!');
+				$state.go('home.campaigns')
+			}
 		})
 	};
 	$scope.call_back = {
@@ -197,9 +201,9 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 			});
 		});
 	};
-	// Get's the agent data for the current agent.
+	// Get's the agent data for the current agent and campaign.
 	$scope.getAgentData = function(c){
-		Agent.me({calls: true}).then(function(data){
+		Agent.me({calls: true, campaign_id: $scope.campaign_id}).then(function(data){
 			$scope.agent = data.agent;
 			$scope.earned = data.earned;
 			$scope.last_earning = data.last_earning;

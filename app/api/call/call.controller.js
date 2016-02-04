@@ -239,32 +239,52 @@ exports.addCallData = function(req, res) {
       updated.answers = req.body.answers;
     updated.save(function(err){
       if(err) { return handleError(res, err); }
-      if(req.body.send_follow_up){
-        sendFollowUp(req);
-      }
-      if(req.body.outcome){
-        console.log(call.lead_info);
-        Lead.findOne({
-          number: call.lead_info.number,
-          company: call.lead_info.company,
-          'person.name': call.lead_info.person.name,
-          'person.role': call.lead_info.person.role,
-          agent: req.user._id},function(err, lead){
-          if(err) { return handleError(res, err); }
-          if(lead){
-            lead.outcome = call.outcome;
-            lead.rating = call.rating;
-            lead.save(function(err){
+      Lead.findOne({
+        number: call.lead_info.number,
+        company: call.lead_info.company,
+        'person.name': call.lead_info.person.name,
+        'person.role': call.lead_info.person.role,
+        agent: req.user._id},function(err, lead){
+        if(err) { return handleError(res, err); }
+        if(lead){
+          lead.outcome = call.outcome;
+          lead.rating = call.rating;
+          lead.save(function(err){
+            if(err) { return handleError(res, err); }
+            Client.findById(call.client,function(err,client){
               if(err) { return handleError(res, err); }
-              return res.status(200).json({'message':'Complete, with lead','call':call})
+              if(client.funds<client.funds_used){
+                Campaign.findById(call.campaign,function(err,campaign){
+                  if(err) {return handleError(res, err); }
+                  campaign.live = false;
+                  campaign.save(function(err){
+                    if(err){handleError(res,err);}
+                    return res.status(200).json({'message':'Complete, with lead','call':call,'campaign':'Over'})
+                  })
+                })
+              }else{
+                return res.status(200).json({'message':'Complete, with lead','call':call})
+              }
             })
-          }else{
-            return res.status(200).json({'message':'Complete','call':call})
-          }
-        })
-      }else{
-        return res.status(200).json({'message':'Complete','call':call})
-      }
+          })
+        }else{
+          Client.findById(call.client,function(err,client){
+            if(err) { return handleError(res, err); }
+            if(client.funds<client.funds_used){
+              Campaign.findById(call.campaign,function(err,campaign){
+                if(err) {return handleError(res, err); }
+                campaign.live = false;
+                campaign.save(function(err){
+                  if(err){handleError(res,err);}
+                  return res.status(200).json({'message':'Complete','call':call,'campaign':'Over'});
+                })
+              })
+            }else{
+              return res.status(200).json({'message':'Complete','call':call});
+            }
+          })
+        }
+      })
     })
   });
 };

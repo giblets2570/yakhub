@@ -168,20 +168,40 @@ exports.me = function(req, res){
     var hours = now.getHours();
     var minutes = now.getMinutes();
     var today = new Date(now.valueOf() - hours*60*60*1000 - minutes*60*1000);
-    Call.find({agent: req.user._id, created: {$gte: today}},function(err,calls){
-      if(err) { return res.status(200).json(req.user); }
-      calls.sort(function(a, b){
-        return b.created.valueOf() - a.created.valueOf();
-      });
-      var total_duration = 0;
-      var last_earning = 0;
-      for (var i = calls.length - 1; i >= 0; i--) {
-        total_duration += calls[i].duration;
-        last_earning = calls[i].duration*2/3;
-      };
-      var earned = total_duration*(2/3);
-      return res.status(200).json({agent: req.user,earned: earned,last_earning: last_earning});
-    })
+    if(req.query.campaign_id){
+      Call.find({campaign: req.query.campaign_id, agent: req.user._id, created: {$gte: today}},function(err,calls){
+        if(err) { return res.status(200).json(req.user); }
+        calls.sort(function(a, b){
+          return b.created.valueOf() - a.created.valueOf();
+        });
+        var total_duration = 0;
+        var last_earning = 0;
+        for (var i = calls.length - 1; i >= 0; i--) {
+          total_duration += calls[i].duration;
+          last_earning = calls[i].duration*2/3;
+        };
+        var earned = total_duration*(2/3);
+        return res.status(200).json({agent: req.user,earned: earned,last_earning: last_earning});
+      })
+    }else{
+      if(req.query.month){
+        today = new Date(today.valueOf() - 1000*60*60*24*30);
+      }
+      Call.find({agent: req.user._id, created: {$gte: today}},function(err,calls){
+        if(err) { return res.status(200).json(req.user); }
+        calls.sort(function(a, b){
+          return b.created.valueOf() - a.created.valueOf();
+        });
+        var total_duration = 0;
+        var last_earning = 0;
+        for (var i = calls.length - 1; i >= 0; i--) {
+          total_duration += calls[i].duration;
+          last_earning = calls[i].duration*2/3;
+        };
+        var earned = total_duration*(2/3);
+        return res.status(200).json({agent: req.user,earned: earned,last_earning: last_earning});
+      })
+    }
   }else{
     Agent.findById(req.user._id,req.query.fields,function(err,agent){
       if(err) { return handleError(res, err); }
