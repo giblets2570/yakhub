@@ -4,7 +4,7 @@
 * Description
 */
 
-app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead','$modal','$location','$filter','$window',function($scope,$state,Client,Alert,Campaign,Lead,$modal,$location,$filter,$window){
+app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead','$modal','$location','$filter','$window','$interval',function($scope,$state,Client,Alert,Campaign,Lead,$modal,$location,$filter,$window,$interval){
 	$scope.current_screen = 'brief';
 	$scope.pageEntries = 20;
 	$scope.leads_loaded = false;
@@ -18,6 +18,8 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		'sat':'Saturday',
 		'sun':'Sunday'
 	}
+	$scope.changesMade = false;
+	$scope.firstLoad = 2;
 	$scope.applyFilter = function(called){
 		$scope.filtered = $filter('callFilter')($scope.leads, called);
 		if($scope.filtered){
@@ -262,8 +264,31 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		};
 		return r
 	}
+	var saving = $interval(function(){
+		console.log("Checking if changes made");
+		if(!$scope.changesMade) return;
+		console.log("Changes were made");
+		$scope.changesMade = false;
+		Alert.warning('Saving campaign...').then(function(loading){
+			loading.show();
+			$scope.save(function(){
+				loading.hide();
+				Alert.success('Campaign saved!').then(function(loading){
+					loading.show();
+				})
+			})
+		})
+	},10000);
 	$scope.$watch('filter', function (newVal, oldVal) {
 		$scope.applyFilter(newVal);
+	}, true);
+	$scope.$watch('campaign', function (newVal, oldVal) {
+		if($scope.firstLoad>0){
+			$scope.firstLoad--;
+		}else{
+			$scope.changesMade = true;
+			$scope.firstLoad--;
+		}
 	}, true);
 	$scope.isCalled = function(lead){
 		return lead.called ? "Yes" : "No";
