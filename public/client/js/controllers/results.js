@@ -264,4 +264,5 @@ app.controller('resultsCtrl', ['$scope','$state','Alert','Call','$sce','$locatio
             }
         }
     };
-});
+})
+
