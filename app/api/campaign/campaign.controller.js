@@ -19,6 +19,8 @@ var Campaign = require('./campaign.model');
 var Client = require('../client/client.model');
 var Agent = require('../agent/agent.model');
 
+var days = ['sun','mon','tues','wed','thurs','fri','sat'];
+
 // Get list of campaigns
 exports.index = function(req, res) {
   if(!req.user){
@@ -38,7 +40,12 @@ exports.index = function(req, res) {
   }else if(req.user.type=='agent'){
     var date_now = new Date();
     var hour_now = (new Date()).getHours();
+    var today = (new Date()).getDay();
     Campaign.find({live: true, start_date: {$lte: date_now}, end_date: {$gt: date_now}, start_time: {$lte: hour_now}, end_time: {$gt: hour_now}, agents: {$elemMatch: {agent: req.user._id, active: true}}},req.query.fields, function (err, campaigns) {
+      for (var i = campaigns.length - 1; i >= 0; i--) {
+        if(!campaigns[i].days[days[today]])
+          campaigns.splice(i,1);
+      };
       if(err) { return handleError(res, err); }
       return res.status(200).json(campaigns);
     });

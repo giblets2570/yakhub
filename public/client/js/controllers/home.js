@@ -8,7 +8,7 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
 	Intercom("boot", {
 		app_id: "m28yn4x9",
 		email: $rootScope.user.email,
-		created_at: $rootScope.user.created,
+		created_at: new Date($rootScope.user.created).valueOf(),
 		name: $rootScope.user.name,
 		user_id: $rootScope.user._id,
 		widget: {
@@ -50,11 +50,11 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
 		  		alert('There was a problem with the payment!');
 		  	}else{
 		  		$scope.client.funds+=$scope.amount;
-		  		alert('Funds successfully added!');
 		  		data.client = $scope.client._id;
 		  		data.client_name = $scope.client.name;
 		  		Deposit.save(data).then(function(data){
 		  			console.log("Deposit saved in backend");
+		  			alert('Funds successfully added!');
 		  		})
 		  	}
 		  })

@@ -15,4 +15,11 @@ app.controller('homeCtrl', ['$scope','$state','Agent','Alert',function($scope,$s
 	    }, function (error) {
 	    });
 	};
+	$scope.$on('$stateChangeStart',
+		function(event, toState, toParams, fromState, fromParams){
+			if(fromState.name=='home.dialer'){
+				Twilio.Device.disconnectAll();
+				Twilio.Device.destroy();
+			}
+		})
 }])
