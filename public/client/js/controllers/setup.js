@@ -150,6 +150,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	$scope.changeScreen = function(_screen){
 		$scope.current_screen = _screen;
 		$location.search('step',_screen);
+		document.body.scrollTop = document.documentElement.scrollTop = 0;
 		$scope.save();
 		if(_screen=='list' && !$scope.leads_loaded){
 			$scope.leads_loaded = true;
