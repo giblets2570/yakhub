@@ -32,7 +32,7 @@ app.controller('resultsCtrl', ['$scope','$state','Alert','Call','$sce','$locatio
 	  stars:[true,true,true,true],
 		outcome:'',
 		agent: '',
-		time: 'All_time'
+		time: 'All time'
 	};
 	// Function that getsthe calls from the server and sets
 	// all the call created dates to Date objects.

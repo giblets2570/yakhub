@@ -4,12 +4,12 @@
 			div.col-md-4
 				.result-top-item-wrap
 					a.filter(href='' data-template-url='../../../client/templates/dashboard-popover.html', data-animation='am-flip-x', data-auto-close='1', bs-popover)
-					|Filter
-					img(src='/assets/images/filter.png')
+						|Filter
+						img(src='/assets/images/filter.png')
 				.result-top-item-wrap
-					button#dateDropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
-					| {{filter.time}}
-					img(src='/assets/images/calendar.png')
+					button#dateDropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true')
+						| {{filter.time}}
+						img(src='/assets/images/calendar.png')
 					ul.dropdown-menu(aria-labelledby='dateDropdown')
 						li(ng-repeat='(key,length) in time_filters')
 							a(href='', ng-click='filter.time=key') {{key}}

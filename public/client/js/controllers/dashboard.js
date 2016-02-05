@@ -29,6 +29,7 @@ app.controller('dashboardCtrl', ['$scope','$state','$stateParams','Client','Camp
 		Campaign.update($scope.campaign,$scope.campaign._id).then(callback);
 	}
 	$scope.changeTab = function(tab){
+		document.body.scrollTop = document.documentElement.scrollTop = 0;
 		if($scope.current_tab=='setup'){
 			$scope.save(function(){
 				$scope.current_tab = tab;
