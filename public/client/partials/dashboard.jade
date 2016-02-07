@@ -1,0 +1,21 @@
+#sub-nav.navbar.navbar-default.navbar-static-top
+	.container
+		.navbar-collapse.collapse(collapse='isCollapsed')
+			ul.nav.navbar-nav.nav-text
+				li
+					select#main-campaign-select.form-control(ng-model='current_campaign', ng-change='changeCampaign(current_campaign)')
+						option.main-campaign-select(ng-repeat='campaign in campaigns', value='{{campaign._id}}') {{campaign.name}}
+						//- span.glyphicon.glyphicon-menu-down
+
+
+			ul.nav.navbar-nav.navbar-right.nav-text
+				li
+					a(class='{{chosenTab("setup")}}' href='' ng-click='changeTab("setup")') Setup
+				li
+					a(class='{{chosenTab("results")}}' href='' ng-click='changeTab("results")') Results
+				li
+					a(class='{{chosenTab("stats")}}' href='' ng-click='changeTab("stats")') Stats
+				li
+					a(class='{{chosenTab("updates")}}' href='' ng-click='changeTab("updates")') Updates
+
+<div id='SubSubView' ui-view></div>

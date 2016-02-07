@@ -1,0 +1,24 @@
+#main.navbar.navbar-default.navbar-static-top.navbar-custom
+	.container
+		.navbar-header
+			a.navbar-brand(href='' ng-click='home()') Yak Hub
+
+		#navbar-main.navbar-collapse.collapse(collapse='isCollapsed')
+			ul.nav.navbar-nav.navbar-right.nav-text
+				li
+					p(style='margin-top:20px; margin-right:20px;') Funds: £{{(client.funds-client.funds_used)/100|number:2}}
+				li
+					button.nav-newcamp-custom#make-new-campaign.btn.btn-primary(href='' ng-click='addFunds()' style='margin-top:10px;') Add funds
+				li.divider-vertical
+				li
+					button.nav-newcamp-custom#make-new-campaign.btn.btn-primary(href='' ng-click='newCampaign()' style='margin-top:10px;') Make new campaign
+				li
+					a.nav-logout-custom(href='' ng-click='logout()') Logout
+
+<div id='SubView' ui-view></div>
+
+
+a(href='' ng-click='showIntercom()')
+	div(style='position: fixed; z-index: 9999; bottom: 10px; right: 10px; height: 40px; width: 40px; border-radius: 30px; background: #8e44ad;')
+		span(style='margin-left: 10px; margin-top: 9px; color: white;').glyphicon.glyphicon-envelope
+

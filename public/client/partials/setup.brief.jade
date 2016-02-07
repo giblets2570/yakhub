@@ -1,0 +1,137 @@
+.container.setup-container
+	.col-md-12
+		div.row.setup-spacer
+			div.col-md-4
+				h4.brief-section-title Campaign name
+			div.col-md-8
+				input.form-control.cust-input.ng-cloak(placeholder='Your campaign\'s name' type='text' ng-model='campaign.name')
+
+		div.row.setup-spacer
+			div.col-md-4
+				h4.brief-section-title Campaign objective
+				p.brief-text What do you want to achieve? E.g. Leads qualified, appointments booked, etc.
+			div.col-md-8
+				textarea.form-control.ng-cloak(rows='5', placeholder='What\'s your objective? For instance: finding leads with need X, getting an appointment booked etc.' ng-model='campaign.objective')
+
+		div.row.setup-spacer
+			div.col-md-4
+				h4.brief-section-title Description/instructions
+				p.brief-text Give some more detail or instructions e.g. "Agents should book appointments with Calendly.com using the following link..."
+			div.col-md-8
+				textarea.form-control.ng-cloak(rows='5', placeholder='Do you have any specific instructions for callers?' ng-model='campaign.description')
+		div.row.setup-spacer
+			div.col-md-4
+				h4.brief-section-title Score definition
+				p.brief-text Agents can score leads from 0 to 3 stars. Define what each score means.
+				p.brief-text For example:
+				p.brief-text 0 = Not interested
+				p.brief-text 3 = Appointment booked
+			div.col-md-8
+				div.input-group.margin-input.ng-cloak
+					span#zero.input-group-addon 0
+					input.form-control.cust-input(type='text', placeholder='', aria-describedby='zero' ng-model='campaign.score_definition.zero')
+				div.input-group.margin-input.ng-cloak
+					span#one.input-group-addon 1
+					input.form-control.cust-input(type='text', placeholder='', aria-describedby='one' ng-model='campaign.score_definition.one')
+				div.input-group.margin-input.ng-cloak
+					span#two.input-group-addon 2
+					input.form-control.cust-input(type='text', placeholder='', aria-describedby='two' ng-model='campaign.score_definition.two')
+				div.input-group.margin-input.ng-cloak
+					span#three.input-group-addon 3
+					input.form-control.cust-input(type='text', placeholder='', aria-describedby='three' ng-model='campaign.score_definition.three')
+		div.row.setup-spacer
+			div.col-md-4
+				h4.brief-section-title Your contact info
+				p.brief-text Sometimes prospects will ask your agents for your contact details so that they can call back or email you later.
+			div.col-md-8
+				div.row
+					div.col-md-6
+						input.form-control.cust-input.margin-input.ng-cloak(type='text',placeholder='Name of in-house contact' ng-model='campaign.contact_info.name')
+					div.col-md-6
+						input.form-control.cust-input.margin-input.ng-cloak(type='text',placeholder='Role/Job Title' ng-model='campaign.contact_info.role')
+					div.col-md-6
+						input.form-control.cust-input.margin-input.ng-cloak(type='text',placeholder='Phone Number' ng-model='campaign.contact_info.phone')
+					div.col-md-6
+						input.form-control.cust-input.margin-input.ng-cloak(type='text',placeholder='Email' ng-model='campaign.contact_info.email')
+		div.row.setup-spacer
+			div.col-md-4
+				h4.brief-section-title Campaign period
+				p.brief-text Choose the date range in which your campaign will run.
+			div.col-md-8
+				input.form-control.cust-input.date-pick-cust(type='text', data-date-format="dd MMM yyyy" data-autoclose="true", data-max-date="{{campaign.end_date}}" ng-model='campaign.start_date', name='start_date', bs-datepicker, placeholder='Start date')
+				p.date-pick-text to
+				input.form-control.cust-input.date-pick-cust(type='text', data-date-format="dd MMM yyyy", data-autoclose="true" data-min-date="{{campaign.start_date}}" data-placement="auto bottom" ng-model='campaign.end_date', name='end_date', bs-datepicker, placeholder='End date')
+		div.row.setup-spacer
+			div.col-md-4
+				h4.brief-section-title Which days?
+				p.brief-text Choose which days agents can dial during your campaign period.
+			div.col-md-8
+				button.cust-button.btn(class='{{dayChosen("mon")}}' ng-click='chooseDay("mon")') Monday
+				button.cust-button.btn(class='{{dayChosen("tues")}}' ng-click='chooseDay("tues")') Tuesday
+				button.cust-button.btn(class='{{dayChosen("wed")}}' ng-click='chooseDay("wed")') Wednesday
+				button.cust-button.btn(class='{{dayChosen("thurs")}}' ng-click='chooseDay("thurs")') Thursday
+				button.cust-button.btn(class='{{dayChosen("fri")}}' ng-click='chooseDay("fri")') Friday
+				button.cust-button.btn(class='{{dayChosen("sat")}}' ng-click='chooseDay("sat")') Saturday
+				button.cust-button.btn(class='{{dayChosen("sun")}}' ng-click='chooseDay("sun")') Sunday
+		div.row.setup-spacer
+			div.col-md-4
+				h4.brief-section-title What time of day?
+				p.brief-text Choose what time of day agents can dial.
+			div.col-md-8
+				select.form-control.cust-input.time-pick-cust(type="text" ng-model="start_time" name="start_time" placeholder='Start time' ng-change='changeTime("start")')
+					option(value='0') 00:00
+					option(value='1') 01:00
+					option(value='2') 02:00
+					option(value='3') 03:00
+					option(value='4') 04:00
+					option(value='5') 05:00
+					option(value='6') 06:00
+					option(value='7') 07:00
+					option(value='8') 08:00
+					option(value='9') 09:00
+					option(value='10') 10:00
+					option(value='11') 11:00
+					option(value='12') 12:00
+					option(value='13') 13:00
+					option(value='14') 14:00
+					option(value='15') 15:00
+					option(value='16') 16:00
+					option(value='17') 17:00
+					option(value='18') 18:00
+					option(value='19') 19:00
+					option(value='20') 20:00
+					option(value='21') 21:00
+					option(value='22') 22:00
+					option(value='23') 23:00
+				p.time-pick-text to
+				select.form-control.cust-input.time-pick-cust(type="text" ng-model="end_time" name="end_time" placeholder='End time' ng-change='changeTime("end")')
+					option(value='0') 00:00
+					option(value='1') 01:00
+					option(value='2') 02:00
+					option(value='3') 03:00
+					option(value='4') 04:00
+					option(value='5') 05:00
+					option(value='6') 06:00
+					option(value='7') 07:00
+					option(value='8') 08:00
+					option(value='9') 09:00
+					option(value='10') 10:00
+					option(value='11') 11:00
+					option(value='12') 12:00
+					option(value='13') 13:00
+					option(value='14') 14:00
+					option(value='15') 15:00
+					option(value='16') 16:00
+					option(value='17') 17:00
+					option(value='18') 18:00
+					option(value='19') 19:00
+					option(value='20') 20:00
+					option(value='21') 21:00
+					option(value='22') 22:00
+					option(value='23') 23:00
+		div.row.set
+			.col-md-12
+				.next-step-wrap
+					strong.summary-text Next Step: 
+					|Click "Script" below
+

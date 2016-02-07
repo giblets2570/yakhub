@@ -1,0 +1,7 @@
+.container
+	.row
+		.col-md-12
+			h1 Stripe
+			p We need to set you up with a stripe account. Click below.
+			a(ng-hide='stripe_loaded' ng-href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id={{client_id}}&scope=read_write" class="stripe-connect")
+				span Connect with Stripe

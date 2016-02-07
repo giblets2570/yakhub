@@ -1,0 +1,5 @@
+node_modules/*
+app/config/local.env.js
+public/libs/*
+server.key
+*.crt

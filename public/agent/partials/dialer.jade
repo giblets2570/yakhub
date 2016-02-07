@@ -1,0 +1,214 @@
+#sub-nav.navbar.navbar-default.navbar-static-top
+	.container
+		.navbar-collapse.collapse(collapse='isCollapsed')
+			ul.nav.navbar-nav.nav-text
+				li
+					h4(style='color: black;') {{campaign.name}}
+
+
+			ul.nav.navbar-nav.navbar-right.nav-text
+				li
+					a(ui-sref='home.campaigns') < Back to campaigns
+
+.container
+	.col-md-6(style='border-right: 1px solid; border-color: grey;')
+		.row
+			.col-md-6
+				h3 Company
+				p(ng-bind='lead.company')
+				p(ng-bind='lead.number')
+			.col-md-6
+				h3 Name
+				p(ng-bind='lead.person.name')
+				p(ng-bind='lead.person.role')
+		hr
+		.row
+			.col-md-4
+				a(href='' ng-click='previous()' ng-show='showPrevious')
+					|Previous
+			.col-md-4
+				a(href='' ng-click='skip()')
+					|Skip
+			.col-md-4
+				a(href='' data-content='{{filter.content}}', data-template-url='../../../agent/templates/dialer-popover.html', data-animation='am-flip-x', data-auto-close='1', bs-popover)
+					|Use Custom Number
+		.row
+			.col-md-8(style='padding:10px;')
+				a(href='' ng-click='makeCall()')
+					div(style='width:100%; height:60px; border-radius: 5px; padding:1px; background:#009E0F; color: white;' )
+						center
+							h3(ng-bind='call_button_text') Setting up
+			.col-md-4(style='padding:10px;')
+				a(href='' ng-click='hangUp()')
+					div(style='width:100%; height:60px; border-radius: 5px; padding:1px; background:#CF2A27; color: white;')
+						center
+							h3 Hang up
+		.row
+			.col-md-12
+				h3 Call outcome
+				select.form-control(ng-model='call.outcome' ng-change='changeOutcome()')
+					option(value='No answer') No answer
+					option(value='Call later') Call later
+					option(value='Success') Success
+					option(value='Unsuccessful') Unsuccessful
+					option(value='Automated response') Automated response
+					option(value='Number didn\'t work') Number didn't work
+					option(value='Do not call') Do not call
+		hr
+		.row
+			.col-md-2
+				h3 Score
+			.col-md-10
+				span(class='{{star(call.rating, 1)}}' ng-click='rateCall(1)')
+				span(class='{{star(call.rating, 2)}}' ng-click='rateCall(2)')
+				span(class='{{star(call.rating, 3)}}' ng-click='rateCall(3)')
+		hr
+		.row
+			.col-md-12
+				h3 Contact Info Collected
+		.row
+			.col-md-3
+				h4 Name
+			.col-md-9
+				input.form-control(type='text' ng-model='call.contact_info.person.name')
+		.row
+			.col-md-3
+				h4 Role
+			.col-md-9
+				input.form-control(type='text' ng-model='call.contact_info.person.role')
+		.row
+			.col-md-3
+				h4 Company
+			.col-md-9
+				input.form-control(type='text' ng-model='call.contact_info.company')
+		.row
+			.col-md-3
+				h4 Phone
+			.col-md-9
+				input.form-control(type='text' ng-model='call.contact_info.number')
+		.row
+			.col-md-3
+				h4 Email
+			.col-md-9
+				input.form-control(type='text' ng-model='call.contact_info.email')
+
+		.row
+			.col-md-12
+				h3 Questions
+		.row.ng-cloak(ng-repeat='question in campaign.questions')
+			.col-md-12
+				h4 {{$index+1}}. {{question.question}}
+				textarea.form-control(rows='3' placeholder='{{question.description}}' ng-model='call.answers[$index].answer')
+		hr
+		.row
+			.col-md-12
+				h4 Calling notes
+				textarea.form-control(rows='5' ng-model='call.notes')
+		.row
+			.col-xs-12(style='padding:10px;margin-bottom:20px;')
+				a(href='' ng-click='submitThenNextNumber()')
+					div(style='width:100%; height:60px; border-radius: 5px; padding:1px; background:blue; color: white;')
+						center
+							h3 Submit then Get Next Number
+	.col-md-6
+		.row
+			.col-md-12
+				h4 Earned
+		.row
+			.col-md-8
+				h1 £{{earned/100|number:2}}
+			.col-md-4
+				h3 +£{{last_earning/100|number:2}}
+		.row
+			.col-md-8
+				p today on this campaign
+			.col-md-4
+				p on last call
+		hr
+		.row
+			.col-md-3
+				a(href='' style='{{getPageStyle("info")}}' ng-click='changePage("info")') Info
+			.col-md-3
+				a(href='' style='{{getPageStyle("script")}}' ng-click='changePage("script")') Script
+			.col-md-3
+				a(href='' style='{{getPageStyle("faq")}}' ng-click='changePage("faq")') FAQ
+			.col-md-3
+				a(href='' style='{{getPageStyle("info")}}' ng-click='changePage("updates")') Campaign updates
+		hr
+		div.ng-cloak(ng-show='page=="info"')
+			.row
+				.col-md-12
+					h4 Company Background
+					p(ng-bind='campaign.background')
+			.row
+				.col-md-12
+					a(ng-href='{{campaign.website}}' ng-bind='campaign.website')
+			hr
+			.row
+				.col-md-12
+					h4 Target Demographic
+					p(ng-bind='campaign.demographic')
+			hr
+			.row
+				.col-md-12
+					h4 Objective
+					p(ng-bind='campaign.objective')
+			hr
+			.row
+				.col-md-12
+					h4 Score definition
+			.row
+				.col-md-4
+					span.glyphicon.glyphicon-star-empty
+				.col-md-8
+					p(ng-bind='campaign.score_definition.zero')
+			.row
+				.col-md-4
+					span.glyphicon.glyphicon-star
+				.col-md-8
+					p(ng-bind='campaign.score_definition.one')
+			.row
+				.col-md-4
+					span.glyphicon.glyphicon-star
+					span.glyphicon.glyphicon-star
+				.col-md-8
+					p(ng-bind='campaign.score_definition.two')
+			.row
+				.col-md-4
+					span.glyphicon.glyphicon-star
+					span.glyphicon.glyphicon-star
+					span.glyphicon.glyphicon-star
+				.col-md-8
+					p(ng-bind='campaign.score_definition.three')
+			.row
+				.col-md-12
+					h4 Pricing Info
+					p(ng-bind='campaign.pricing')
+			.row
+				.col-md-12
+					h4 Contact info
+					p(ng-bind='campaign.contact_info.name + " - " + campaign.contact_info.role')
+					p(ng-bind='campaign.contact_info.phone')
+					p(ng-bind='campaign.contact_info.email')
+		div.ng-cloak(ng-show='page=="script"')
+			.row
+				.col-md-12
+					p(ng-bind-html='campaign.script')
+
+		div.ng-cloak(ng-show='page=="faq"')
+			.row(ng-repeat='faq in campaign.faqs')
+				.col-md-12
+					h3 {{faq.question}}
+					| {{faq.answer}}
+		div.ng-cloak(ng-show='page=="updates"')
+			.container
+				h3 Campaign updates
+				p Updates from the campaign owner since the start of the campaign
+				.row
+					.col-md-6
+						span(ng-repeat='message in messages')
+							.row
+								.col-xs-4
+									{{message.time | formatDate}}, {{message.time | formatTime}}
+								.col-xs-8
+									{{message.text}}

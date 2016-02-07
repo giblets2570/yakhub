@@ -1,0 +1,59 @@
+.container
+	.row.list-options-row
+		.col-md-4
+			.list-called-container
+				label.list-called(for='called') Called
+				input(type='checkbox', value='called', name='called' ng-model='filter.called' ng-change='called()')
+			.list-called-container
+				label.list-called(for='called') Uncalled
+				input(type='checkbox', value='called', name='called' ng-model='filter.uncalled' ng-change='uncalled()')
+		.col-md-8
+			.list-pagination-container
+				a.page-change(href='' ng-click='changePage(filter.page-1)')
+					span Prev
+				div.dropdown
+					button#dateDropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true',style="float:left;")
+						strong
+							span.ng-cloak Page {{filter.page+1}}
+						//- span.caretspan.glyphicon.glyphicon-triangle-bottom
+					ul.dropdown-menu(aria-labelledby='dateDropdown')
+						li(ng-repeat='i in getNumber(noOfPages)')
+							a(href='', ng-click='changePage(i)') Page {{i+1}}
+				a.page-change(href='' ng-click='changePage(filter.page+1)')
+					span Next
+
+	.row.ng-cloak
+		.col-md-12
+			table.table.table-striped.white
+				thead
+					tr
+						th
+							strong Company
+						th
+							strong Number
+						th
+							strong Person
+						th
+							strong Called
+						th
+							strong Call Timestamp
+						th
+							strong Call Outcome
+				tr(ng-repeat='lead in leads | callFilter : filter.called : filter.uncalled | limitTo:pageEntries:pageEntries*filter.page')
+					td
+						| {{lead.company}}
+					td
+						| {{lead.number}}
+					td
+						| {{lead.person.name}} - {{lead.person.role}}
+					td
+						| {{isCalled(lead)}}
+					td
+						| {{lead.call_timestamp | formatDate}}
+					td
+						| {{lead.outcome}}
+	.row.list-buttons-row.ng-cloak
+		button.btn.btn-primary.button-add-qual.list-button.pull-left(ng-click='showCSVModal()') ADD NUMBERS
+		button.btn.btn-danger.button-add-qual.pull-left(ng-click='remove()') REMOVE NUMBERS
+		button.btn.btn-success.button-add-qual.pull-right(ng-click='download()') DOWNLOAD CSV
+

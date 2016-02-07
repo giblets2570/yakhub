@@ -1,0 +1,50 @@
+<div class="popover" tabindex="-1">
+  <div class="arrow"></div>
+  <h3 class="popover-title">Filter</h3>
+  <div class="popover-content">
+    <form name="popoverForm">
+      <p style="min-width:175px;"></p>
+        <strong>Stars</strong>
+        <div class='row'>
+          <div class='col-xs-6'><a href="" ng-click='changeStar(0)'>0 stars</a></div>
+          <div class='col-xs-6'><span ng-show='filter.stars[0]' class='glyphicon glyphicon-ok' style='font-size:10px; margin-left:20px;'></span><br/></div>
+        </div>
+        <div class='row'>
+          <div class='col-xs-6'><a href="" ng-click='changeStar(1)'>1 star</a></div>
+          <div class='col-xs-6'><span ng-show='filter.stars[1]' class='glyphicon glyphicon-ok' style='font-size:10px; margin-left:20px;'></span><br/></div>
+        </div>
+        <div class='row'>
+          <div class='col-xs-6'><a href="" ng-click='changeStar(2)'>2 stars</a></div>
+          <div class='col-xs-6'><span ng-show='filter.stars[2]' class='glyphicon glyphicon-ok' style='font-size:10px; margin-left:20px;'></span><br/></div>
+        </div>
+        <div class='row'>
+          <div class='col-xs-6'><a href="" ng-click='changeStar(3)'>3 stars</a></div>
+          <div class='col-xs-6'><span ng-show='filter.stars[3]' class='glyphicon glyphicon-ok' style='font-size:10px; margin-left:20px;'></span></div>
+        </div>
+        <strong>Outcome</strong>
+        <select class='form-control', ng-model='filter.outcome', ng-change='changeOutcome()'>
+          <option value=''>All</option>
+          <option value='No answer'>No answer</option>
+          <option value='Call later'>Call later</option>
+          <option value='Success'>Success</option>
+          <option value='Unsuccessful'>Unsuccessful</option>
+          <option value='Automated response'>Automated response</option>
+          <option value="Number didn't work">Number didn't work</option>
+          <option value='Do not call'>Do not call</option>
+        </select>
+        <strong>Call length (in minutes)</strong>
+       <div class='row'>
+        <div class='col-md-5'>
+          <input type='text' class='form-control' ng-model='filter.time.low' ng-change='changeTime("low")'/>
+        </div>
+        <div class='col-md-2'>
+          -
+        </div>
+        <div class='col-md-5'>
+          <input type='text' class='form-control' ng-model='filter.time.high' ng-change='changeTime("high")'/>
+        </div>
+       </div>
+      </pre>
+    </form>
+  </div>
+</div>

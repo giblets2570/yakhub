@@ -1,0 +1,23 @@
+<div class="popover" tabindex="-1">
+  <div class="arrow"></div>
+  <h3 class="popover-title">Date range</h3>
+  <div class="popover-content">
+    <form name="popoverForm">
+      <p style="min-width:300px;"></p>
+        <strong>From:</strong>
+        <div class='row'>
+          <div class='col-md-12'>
+            <input class='form-control' type='text', ng-model='filter.date.start', data-date-format="dd/MM/yy", data-max-date='{{filter.date.end}}', placeholder='From', bs-datepicker='', ng-change='changeDate("start")'>
+          </div>
+        </div>
+        <strong>Until:</strong>
+        <div class='row'>
+          <div class='col-md-12'>
+            <input class='form-control' type='text', ng-model='filter.date.end', data-date-format="dd/MM/yy", data-min-date='{{filter.date.start}}', placeholder='Until', bs-datepicker='', ng-change='changeDate("end")'>
+          </div>
+        </div>
+       </div>
+      </pre>
+    </form>
+  </div>
+</div>

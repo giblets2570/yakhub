@@ -1,0 +1,30 @@
+.container
+	.row
+		.col-md-12
+			table.table.table-striped
+				tr
+					td
+						strong Name
+					td
+						strong Earned
+					td
+						strong Paid
+					td
+						strong Owed
+					td
+						strong
+				tr(ng-repeat='agent in agents')
+					td
+						p(ng-show='!agent.editing') {{agent.name}}
+						input.form-control(ng-show='agent.editing' ng-model='agent.name')
+					td
+						p £{{agent.earned/100|number:2}}
+					td
+						p £{{agent.paid/100|number:2}}
+					td
+						p £{{(agent.earned - agent.paid)/100|number:2}}
+					td
+						button.btn.btn-primary(ng-show='!agent.editing' ng-click='editAgent(agent)') Edit
+						button.btn.btn-success(ng-show='!agent.editing' ng-click='payAgent(agent)' ) Pay
+						button.btn.btn-warning(ng-show='agent.editing' ng-click='cancelAgent(agent)') Cancel
+						button.btn.btn-success(ng-show='agent.editing' ng-click='saveAgent(agent)') Save

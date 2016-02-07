@@ -1,0 +1,12 @@
+#main.navbar.navbar-default.navbar-static-top
+	.container
+		.navbar-header
+			a.navbar-brand(href='' ng-click='home()') Yak Hub
+
+		#navbar-main.navbar-collapse.collapse(collapse='isCollapsed')
+			ul.nav.navbar-nav.navbar-right.nav-text
+				li.divider-vertical
+				li
+					a(href='' ng-click='logout()') Logout
+
+<div id='SubView' ui-view></div>

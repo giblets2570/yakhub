@@ -1,0 +1,16 @@
+.container
+	.container.lead-qual-container
+		h3.script-header Script
+		div(text-angular ta-toolbar='toolbar' ng-model="campaign.script")
+		h3.lead-qual-header Lead qualification questions
+		div.row.ng-cloak(ng-repeat='question in campaign.questions')
+			div.col-md-12
+				.QA-container
+					strong.lead-qual-subhead Question {{$index+1}}
+					a.lead-qual-remove(ng-click='deleteQuestion($index)') Delete
+					textarea.form-control.qual-form(rows='2' ng-model='question.question' placeholder='What is the question you want agents to ask?')
+					strong.lead-qual-subhead Further info
+					textarea.form-control(rows='2' ng-model='question.description' placeholder='What would a good answer be? Are there alternate questions for getting this info?')
+		div.row.ng-cloak(ng-show='campaign.questions.length < 6')
+			div.col-md-12
+				button.btn.btn-primary.button-add-qual(ng-click='addQuestion()') ADD QUESTION

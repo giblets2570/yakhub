@@ -1,0 +1,21 @@
+#main.navbar.navbar-default.navbar-static-top
+	.container
+		.navbar-header
+			a.navbar-brand(href='' ng-click='home()') Yak Hub
+
+		#navbar-main.navbar-collapse.collapse(collapse='isCollapsed')
+			ul.nav.navbar-nav.navbar-right.nav-text
+				li.divider-vertical
+				li
+					a(href='' ng-click='logout()') Logout
+
+#sub-nav.navbar.navbar-default.navbar-static-top
+	.container
+		.navbar-collapse.collapse(collapse='isCollapsed')
+			ul.nav.navbar-nav.navbar-right.nav-text
+				li
+					a(class='{{chosenTab("agents")}}' href='' ng-click='changeTab("agents")') Agents
+				li
+					a(class='{{chosenTab("campaigns")}}' href='' ng-click='changeTab("campaigns")') Campaigns
+
+<div id='SubView' ui-view></div>

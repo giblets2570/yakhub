@@ -1,0 +1,37 @@
+.container
+	.row(ng-repeat='campaign in campaigns')
+		h2 {{campaign.name}}
+		p
+			span(ng-show='!campaign.editing_fee') £ {{campaign.fee/100|number:2}}
+			input(type='text' ng-model='campaign.fee' ng-show='campaign.editing_fee')
+			span(ng-show='!campaign.editing_fee') /min fee 
+			a(href='' ng-show='!campaign.editing_fee' ng-click='editFee(campaign)') Edit
+			a(href='' ng-show='campaign.editing_fee' ng-click='cancelFee(campaign)') Cancel
+			span     
+			a(href='' ng-show='campaign.editing_fee' ng-click='saveFee(campaign)') Save
+		button.btn.btn-primary(ng-click='chooseCampaign(campaign)' data-template-url='../../../admin/templates/add-agent.html', data-animation='am-flip-x', data-auto-close='1', bs-popover) Add agent
+		nutton.btn.btn-success(ng-click='loadCampaign(campaign)') Load campaign
+		table.table.table-striped
+			tr
+				td
+					strong Name
+				td
+					strong Mins called
+				td
+					strong Dials
+				td
+					strong Last dial
+				td
+					strong
+			tr(ng-repeat='agent in campaign.agents')
+				td
+					p {{agent.agent_name}}
+				td
+					p {{getMinsCalled(agent)}}
+				td
+					p {{getDials(agent)}}
+				td
+					p {{getLastDial(agent)}}
+				td
+					button.btn.btn-danger(ng-click='removeAgent($index,campaign)') Remove
+					//- button.btn.btn-success(ng-click='loadAgent(agent,campaign)' ng-hide='agent.loaded') Load stats
