@@ -39,7 +39,7 @@ capability.allowClientOutgoing(twilioDetails.appID);
 // Get list of agents
 exports.index = function(req, res) {
   if(req.query.campaign){
-    Agent.find({'campaigns.campaign': req.session.campaign_id},req.query.fields,function (err, agents) {
+    Agent.find({'campaigns.campaign': req.query.campaign_id},req.query.fields,function (err, agents) {
       if(err) { return handleError(res, err); }
       return res.status(200).json(agents);
     });

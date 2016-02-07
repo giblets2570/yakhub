@@ -2,9 +2,18 @@
   /*position: absolute;*/
   /*left: 0;*/
   /*right: 0;*/
+  /*-webkit-transition:all .35s ease-in-out;*/
+  /*transition:all .35s ease-in-out;*/
+}
+
+.ng-enter {
+  /*position: absolute;*/
+  /*left: 0;*/
+  /*right: 0;*/
   -webkit-transition:all .35s ease-in-out;
   transition:all .35s ease-in-out;
 }
+
 
 .ng-enter {
   opacity: 0;
