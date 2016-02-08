@@ -10,8 +10,21 @@ var request = require('request');
 
 module.exports = function(app) {
 
+  // Redirect all HTTP traffic to HTTPS
+  function ensureSecure(req, res, next){
+    if(req.headers["x-forwarded-proto"] === "https"){
+      // OK, continue
+      return next();
+    };
+    res.redirect('https://'+req.hostname+req.url);
+  };
+
+  // Handle environments
+  if (process.env.NODE_ENV === 'production') {
+    app.all('*', ensureSecure);
+  }
+
   app.use(function(req,res,next){
-    // console.log(req.session);
     next();
   });
 
