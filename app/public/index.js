@@ -8,6 +8,7 @@ var auth = require('../auth/auth.service');
 var url = require('url');
 var Agent = require('../api/agent/agent.model');
 var request = require('request');
+var stripe_sercret_key = require('../config/stripe').secretKey;
 
 router.get('/admin/partials/:name', function (req, res) {
   var name = req.params.name;
@@ -31,7 +32,7 @@ router.get('/api/stripe', function(req, res){
   request.post({
     url:'https://connect.stripe.com/oauth/token',
     form: {
-      client_secret: 'sk_test_3ckK6VP7I08hjgym5B2uOxkF',
+      client_secret: stripe_sercret_key,
       code: req.query.code,
       grant_type: 'authorization_code'
     }
@@ -58,12 +59,12 @@ router.get('/api/stripe', function(req, res){
     		agent.stripe.scope = body.scope;
     		console.log(agent);
     		agent.save(function(err){
-    			return res.redirect('/agent/dashboard/stripe');
+    			return res.redirect('/agent/dashboard/setup');
     		})
     	})
     }
     if(req.user.type=='client')
-      return res.redirect('/client/dashboard/stripe');
+      return res.redirect('/client/dashboard/setup');
   })
 });
 

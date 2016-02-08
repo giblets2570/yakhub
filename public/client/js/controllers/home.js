@@ -49,7 +49,7 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
 			  	}
 			  }).success(function(data){
 			  	console.log(data);
-			  	if(data.error||data.status!='paid'){
+			  	if(data.error||(data.status!='paid'&&data.status!='succeeded')){
 			  		alert('There was a problem with the payment!');
 			  	}else{
 			  		$scope.client.funds+=$scope.amount;

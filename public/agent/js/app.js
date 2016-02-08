@@ -80,7 +80,7 @@ var app = angular.module('app', ['ngSanitize','ui.router','ngAnimate','mgcrea.ng
         cache: false
       }).success(function(data){
         // Authenticated
-        if (data !== '0'){
+        if (data.loaded){
           /*$timeout(deferred.resolve, 0);*/
           deferred.resolve();
         // Not Authenticated
@@ -138,7 +138,7 @@ var app = angular.module('app', ['ngSanitize','ui.router','ngAnimate','mgcrea.ng
       })
 
       .state('home.stripe', {
-        url: 'stripe',
+        url: 'setup',
         templateUrl: 'partials/stripe',
         controller: 'stripeCtrl',
         resolve: {
@@ -147,7 +147,7 @@ var app = angular.module('app', ['ngSanitize','ui.router','ngAnimate','mgcrea.ng
       })
 
       .state('home.dialer', {
-        url: ':campaign_id',
+        url: 'dialer/:campaign_id',
         templateUrl: 'partials/dialer',
         controller: 'dialerCtrl',
         resolve: {
@@ -162,7 +162,7 @@ var app = angular.module('app', ['ngSanitize','ui.router','ngAnimate','mgcrea.ng
         controller: 'campaignsCtrl',
         resolve: {
           isLoggedIn: checkLoggedin,
-          isStripeSetup: isStripeSetup,
+          isStripeSetup: isStripeSetup
         }
       });
 })

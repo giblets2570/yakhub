@@ -1,10 +1,17 @@
+#main.navbar.navbar-default.navbar-static-top.navbar-custom
+	.container
+		.navbar-header
+			a.navbar-brand(href='') Yak Hub
+.container
+	.col-md-offset-3.col-md-6
+		img(src='/assets/images/admin-login.png' style='width:100%; margin-top:-30px;')
 .container
 	.col-md-offset-4.col-md-4(ng-show='!not_login')
 		center
-		form.form-signin(ng-submit='login()')
-			input.form-control.enter(placeholder='Username or email' type='text' ng-model='user_login.username')
-			input.form-control.enter(placeholder='Password' type='password' ng-model='user_login.password')
-			button.btn.button(type='submit') LOG IN
+			form.form-signin(ng-submit='login()')
+				input.form-control.enter(placeholder='Username or email' type='text' ng-model='user_login.username')
+				input.form-control.enter(placeholder='Password' type='password' ng-model='user_login.password')
+				button.btn.button(type='submit') LOG IN
 	//- 	a(href='' ng-click='not_login=!not_login')
 	//- 		p.change-enter Need to sign up?
 	//- .col-md-offset-4.col-md-4(ng-show='not_login')

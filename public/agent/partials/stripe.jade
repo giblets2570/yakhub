@@ -1,7 +1,16 @@
 .container
 	.row
-		.col-md-12
-			h1 Stripe
-			p We need to set you up with a stripe account. Click below.
+		.col-md-offset-3.col-md-6(style='text-align:center;')
+			h2.brief-section-title Thanks for becoming a Yak Hub Agent!
+			h4.brief-text We're glad to have you on board.
+			a(href="http://www.freepik.com/free-vector/entrepreneur-mood_796162.htm" target='_blank')
+				img(src='/assets/images/happy.png' width='30%')
+	.row
+		.col-md-offset-3.col-md-6(style='text-align:center;')
+			h4.brief-text During your time here, you will be working on telemarketing campaigns using this website.
+			h4.brief-text In order to get make sure you get paid, we need to set you up with a 
+				a(href='https://stripe.com/help/transfers' target='_blank') Stripe account. 
+				| Press the button below to get started.
+			br
 			a(ng-hide='stripe_loaded' ng-href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id={{client_id}}&scope=read_write" class="stripe-connect")
 				span Connect with Stripe
