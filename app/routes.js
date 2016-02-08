@@ -16,8 +16,9 @@ module.exports = function(app) {
     // console.log(req.url);
     if(req.protocol!='https' && req.host != 'localhost'){
       res.redirect('https://'+req.host+req.url);
+    }else{
+      next();
     }
-    next();
   });
 
   // Insert routes below
