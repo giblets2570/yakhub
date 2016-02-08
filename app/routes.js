@@ -14,7 +14,7 @@ module.exports = function(app) {
     // console.log(req.protocol);
     // console.log(req.host);
     // console.log(req.url);
-    if(req.protocol!='https' && req.host != 'localhost'){
+    if(req.protocol=='http' && req.host != 'localhost'){
       res.redirect('https://'+req.host+req.url);
     }else{
       next();
