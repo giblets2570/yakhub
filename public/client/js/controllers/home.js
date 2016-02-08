@@ -19,6 +19,7 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
 		created_at: format_date(new Date($rootScope.user.created)),
 		name: $rootScope.user.name,
 		user_id: $rootScope.user._id,
+		"user_type":"client",
 		widget: {
 			activator: "#IntercomDefaultWidget"
 		}
@@ -107,4 +108,7 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
 	    }, function (error) {
 	    });
 	};
+	window.onpageunload = function(){
+		Intercom("shutdown");
+	}
 }])
