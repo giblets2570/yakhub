@@ -11,7 +11,12 @@ var request = require('request');
 module.exports = function(app) {
 
   app.use(function(req,res,next){
-    // console.log(req.session);
+    // console.log(req.protocol);
+    // console.log(req.host);
+    // console.log(req.url);
+    if(req.protocol!='https' && req.host != 'localhost'){
+      req.redirect('https://'+req.host+req.url);
+    }
     next();
   });
 
