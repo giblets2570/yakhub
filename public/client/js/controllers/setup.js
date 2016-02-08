@@ -49,6 +49,16 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 				alert("You have insufficient funds to make this campaign live!");
 				return;
 			}
+			if(!$scope.campaign.start_date || !$scope.campaign.end_date){
+				alert("You need to specify the range of dates you want the campaign to run for");
+				$scope.changeScreen('brief');
+				return;
+			}
+			if($scope.campaign.start_date > $scope.campaign.end_date){
+				alert("Your end date in is before your start date");
+				$scope.changeScreen('brief');
+				return;
+			}
 			q = "Are you sure you want to start your campaign?"
 		}
 		else {q = "Are you sure you want to end your campaign?"}

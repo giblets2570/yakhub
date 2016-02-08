@@ -5,10 +5,18 @@
 */
 
 app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client','$rootScope','$http','Deposit',function($scope,$state,$stateParams,Campaign,Client,$rootScope,$http,Deposit){
+	var format_date = function(date){
+		var day = String(date.getDate());
+		if(day.length<2){day='0'+day}
+		var month = String(date.getMonth()+1);
+		if(month.length<2){month='0'+month}
+		var year = String(date.getFullYear());
+		return date+'/'+month+'/'+year;
+	}
 	Intercom("boot", {
 		app_id: "m28yn4x9",
 		email: $rootScope.user.email,
-		created_at: new Date($rootScope.user.created).valueOf(),
+		created_at: format_date(new Date($rootScope.user.created)),
 		name: $rootScope.user.name,
 		user_id: $rootScope.user._id,
 		widget: {
