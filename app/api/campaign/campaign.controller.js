@@ -137,13 +137,10 @@ exports.destroy = function(req, res) {
  * Non CRUD routes
  */
 
-<<<<<<< HEAD
+
 function notifyAgent(agent){
   
 }
-
-=======
->>>>>>> d0ca265bbcc0767f930e471637fde35591e0eac5
 function handleError(res, err) {
   return res.status(500).send(err);
 }
