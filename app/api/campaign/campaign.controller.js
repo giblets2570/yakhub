@@ -73,7 +73,6 @@ exports.other = function(req, res) {
   });
 };
 
-
 // Creates a new campaign in the DB.
 exports.create = function(req, res) {
   Campaign.findOne({name: req.body.name}, function(err, campaign){
@@ -138,10 +137,13 @@ exports.destroy = function(req, res) {
  * Non CRUD routes
  */
 
+<<<<<<< HEAD
 function notifyAgent(agent){
   
 }
 
+=======
+>>>>>>> d0ca265bbcc0767f930e471637fde35591e0eac5
 function handleError(res, err) {
   return res.status(500).send(err);
 }

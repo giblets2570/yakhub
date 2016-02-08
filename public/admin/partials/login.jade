@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #main.navbar.navbar-default.navbar-static-top.navbar-custom
 	.container
 		.navbar-header
@@ -12,6 +13,15 @@
 				input.form-control.enter(placeholder='Username or email' type='text' ng-model='user_login.username')
 				input.form-control.enter(placeholder='Password' type='password' ng-model='user_login.password')
 				button.btn.button(type='submit') LOG IN
+=======
+.container
+	.col-md-offset-4.col-md-4(ng-show='!not_login')
+		center
+		form.form-signin(ng-submit='login()')
+			input.form-control.enter(placeholder='Username or email' type='text' ng-model='user_login.username')
+			input.form-control.enter(placeholder='Password' type='password' ng-model='user_login.password')
+			button.btn.button(type='submit') LOG IN
+>>>>>>> d0ca265bbcc0767f930e471637fde35591e0eac5
 	//- 	a(href='' ng-click='not_login=!not_login')
 	//- 		p.change-enter Need to sign up?
 	//- .col-md-offset-4.col-md-4(ng-show='not_login')

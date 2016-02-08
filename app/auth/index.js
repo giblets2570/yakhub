@@ -15,6 +15,7 @@ var keen = new Keen({
 
 var router = express.Router();
 
+
 var stripe_client_id = require('../config/stripe').clientId
 
 // route to log in

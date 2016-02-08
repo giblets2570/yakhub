@@ -14,7 +14,10 @@
   transition:all .35s ease-in-out;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d0ca265bbcc0767f930e471637fde35591e0eac5
 .ng-enter {
   opacity: 0;
 }
