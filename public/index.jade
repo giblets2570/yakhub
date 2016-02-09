@@ -23,7 +23,7 @@ head
     |
     script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
 
-body(style='background: #A1A1A1;')
+body
   #main.navbar.navbar-default.navbar-static-top
     .container
       .navbar-header
@@ -38,6 +38,12 @@ body(style='background: #A1A1A1;')
             a(href='client') Client
   .container
     .row
-      .col-md-offset-2.col-md-8
-        img(src='assets/images/qualt.png' style='width: 100%;')
+      .col-md-offset-1.col-md-5
+        a(href='agent')
+          button.landing-button(style='width:100%; height: 80vh; padding:30px;')
+            img(src='assets/images/agent-login.png' style='width: 100%;')
+      .col-md-5
+        a(href='client')
+          button.landing-button(style='width:100%; height: 80vh; padding:30px;')
+            img(src='assets/images/client-login.png' style='width: 100%;')
   // /container
