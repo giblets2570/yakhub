@@ -39,7 +39,7 @@ app.controller('agentsCtrl', ['$scope','$state','Agent','Alert','Payment','$stat
 			if(confirm("Are you sure about paying "+agent.name+": £"+amount+"?")) {
 				alert("Paying "+agent.name+": £"+amount);
 				var total = agent.paid+amount*100;
-				Agent.update({paid:total},agent._id).then(function(data){
+				Agent.pay({paid:total},agent._id).then(function(data){
 					console.log(data);
 					data.agent = agent._id;
 					data.agent_name = agent.name;
@@ -49,6 +49,8 @@ app.controller('agentsCtrl', ['$scope','$state','Agent','Alert','Payment','$stat
 							agent.paid = total;
 							alert("Payment complete");
 						})
+					}else{
+						alert(data.error);
 					}
 				})
 			}

@@ -44,6 +44,20 @@ app.factory('Agent', function($http,$q){
 			})
 			return defered.promise
 		},
+		pay: function(data,id){
+			var defered = $q.defer();
+			$http({
+				method:'PUT',
+				url:'/api/agents/'+id+'/pay',
+				data: data,
+				cache: false
+			}).success(function(data){
+				defered.resolve(data);
+			}).error(function(error){
+				defered.reject(error);
+			})
+			return defered.promise
+		},
 		show: function(params,fields,id){
 			if(params)
 				params.fields = fields;

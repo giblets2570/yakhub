@@ -5,6 +5,7 @@ var controller = require('./agent.controller');
 
 var router = express.Router();
 
+router.put('/:id/pay', controller.pay);
 router.get('/twilio', controller.twilio);
 router.get('/me', controller.me);
 router.get('/other', controller.other);

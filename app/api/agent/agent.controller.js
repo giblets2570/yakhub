@@ -103,29 +103,38 @@ exports.update = function(req, res) {
   Agent.findById(req.params.id, function (err, agent) {
     if (err) { return handleError(res, err); }
     if(!agent) { return res.status(404).send('Not Found'); }
-    var paid = agent.paid;
     var updated = _.merge(agent, req.body);
     if(req.body.campaigns)
       updated.campaigns = req.body.campaigns;
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      if(paid < updated.paid){
-        stripe.transfers.create({
-          amount: Math.floor(updated.paid - paid),
-          currency: "gbp",
-          destination: agent.stripe.stripe_user_id,
-          description: "Payment for " + agent.name
-        }, function(err, transfer) {
-          // asynchronously called
-          if(err){return res.json({error:'Error in the request'})}
-          return res.status(200).json(transfer);
-        });
-      }else{
-        return res.status(200).json(updated);
-      }
+      return res.status(200).json(updated);
     });
   });
 };
+
+exports.pay = function(req, res) {
+  Agent.findById(req.params.id, function (err, agent) {
+    if (err) { return handleError(res, err); }
+    if(!agent) { return res.status(404).send('Not Found'); }
+    var paid = agent.paid;
+    stripe.transfers.create({
+      amount: Math.floor(req.body.paid - paid),
+      currency: "gbp",
+      destination: agent.stripe.stripe_user_id,
+      description: "Payment for " + agent.name
+    }, function(err, transfer) {
+      // asynchronously called
+      console.log(err);
+      if(err){return res.json({error:'Payment not processed'})}
+      agent.paid = req.body.paid;
+      agent.save(function(err){
+        if(err){return res.json({error:'Error in the request'})}
+        return res.status(200).json(transfer);
+      })
+    });
+  });
+}
 
 // Deletes a agent from the DB.
 exports.destroy = function(req, res) {
