@@ -9,6 +9,7 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	$scope.hour = 3600000;
 	$scope.three_minutes = 180000;
 	$scope.last_earning = 0;
+	$scope.show_contact_info = false;
 	// The text that dsplays on the call button
 	$scope.call_button_text = 'Setting up';
 	// True if you can get the previous call data.
@@ -142,6 +143,8 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 				alert('Campaign funds have run out!');
 				$state.go('home.campaigns')
 			}
+			$scope.show_contact_info = false;
+			document.body.scrollTop = document.documentElement.scrollTop = 0;
 		})
 	};
 	$scope.call_back = {

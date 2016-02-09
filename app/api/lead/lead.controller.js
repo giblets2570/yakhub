@@ -94,6 +94,7 @@ exports.add = function(req, res) {
     var updated = _.merge(lead, req.body.leads[i])
     updated.client = req.user._id;
     updated.campaign = req.body.campaign;
+    updated.created = new Date();
     updated.save(function(err){
       if (err) { return handleError(res, err); }
       k+=1;

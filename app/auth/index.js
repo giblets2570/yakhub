@@ -54,6 +54,7 @@ router.post('/client/signup', function(req, res) {
       client.email = req.body.username.email;
       client.url_name = client.urlSafeName(req.body.username.name);
       client.password = client.generateHash(req.body.password);
+      client.created = new Date();
       client.save(function(err){
         if(err){return res.status(401).json({ message: 'Error in request.' })}
         // Bit of a hack :P
@@ -85,6 +86,7 @@ router.post('/agent/signup', function(req, res) {
       agent.email = req.body.username.email;
       agent.url_name = agent.urlSafeName(req.body.username.name);
       agent.password = agent.generateHash(req.body.password);
+      agent.created = new Date();
       agent.save(function(err){
         if(err){return res.status(401).json({ message: 'Error in request.' })}
         // Bit of a hack :P

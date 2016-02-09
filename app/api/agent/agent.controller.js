@@ -26,6 +26,11 @@ var stripeSecretKey = require('../../config/stripe').secretKey;
 var stripe = require("stripe")(
   stripeSecretKey
 );
+// console.log(stripeSecretKey);
+
+stripe.balance.retrieve(function(err, balance) {
+  console.log(balance);
+});
 
 var Mailgun = require('mailgun').Mailgun;
 var mg = new Mailgun(process.env.MAILGUN_API_KEY);
@@ -90,6 +95,7 @@ exports.create = function(req, res) {
     agent.name = req.body.name;
     agent.password = agent.generateHash(req.body.password);
     agent.email = req.body.email;
+    agent.created = new Date();
     agent.save(function(err) {
       if (err) { return handleError(res, err); }
       return res.status(201).json(agent);
@@ -126,7 +132,7 @@ exports.pay = function(req, res) {
     }, function(err, transfer) {
       // asynchronously called
       console.log(err);
-      if(err){return res.json({error:'Payment not processed'})}
+      if(err){return res.json({error:err.message})}
       agent.paid = req.body.paid;
       agent.save(function(err){
         if(err){return res.json({error:'Error in the request'})}

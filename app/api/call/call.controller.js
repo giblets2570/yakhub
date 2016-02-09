@@ -150,6 +150,7 @@ exports.makeCall = function(req, res) {
           call.agent = agent._id
           call.fee = campaign.fee;
           call.agent_name = agent.name;
+          call.created = new Date();
           call.lead_info = {
             number: lead.number,
             company: lead.company,
