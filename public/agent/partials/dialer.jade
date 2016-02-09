@@ -138,16 +138,13 @@
 		div.ng-cloak(ng-show='page=="info"')
 			.row
 				.col-md-12
-					h4 Company Background
-					p(ng-bind='campaign.background')
-			.row
-				.col-md-12
-					a(ng-href='{{campaign.website}}' ng-bind='campaign.website')
+					h4 Campaign objective
+					p(ng-bind='campaign.objective')
 			hr
 			.row
 				.col-md-12
-					h4 Target Demographic
-					p(ng-bind='campaign.demographic')
+					h4 Description/instructions
+					p(ng-bind='campaign.description')
 			hr
 			.row
 				.col-md-12
