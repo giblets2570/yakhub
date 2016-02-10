@@ -21,7 +21,6 @@
 						button#dateDropdown.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true',style="float:left;")
 							strong
 								span.ng-cloak Page {{filter.page+1}}
-							//- span.caretspan.glyphicon.glyphicon-triangle-bottom
 						ul.dropdown-menu(aria-labelledby='dateDropdown')
 							li(ng-repeat='i in getNumber(noOfPages)')
 								a(href='', ng-click='changePage(i)') Page {{i+1}}
