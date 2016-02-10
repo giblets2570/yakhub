@@ -156,6 +156,16 @@ var app = angular.module('app', ['ngSanitize','ui.router','ngAnimate','mgcrea.ng
         }
       })
 
+      .state('home.brief', {
+        url: 'brief/:campaign_id',
+        templateUrl: 'partials/brief',
+        controller: 'briefCtrl',
+        resolve: {
+          isLoggedIn: checkLoggedin,
+          isStripeSetup: isStripeSetup,
+        }
+      })
+
       .state('home.campaigns', {
         url: 'campaigns',
         templateUrl: 'partials/campaigns',

@@ -60,7 +60,7 @@
 		hr
 		.row
 			.col-md-2
-				h4
+				h4(style='float:left;')
 					strong Score
 			.col-md-10(style='margin-top:8px;')
 				span(class='{{star(call.rating, 1)}}' ng-click='rateCall(1)')
@@ -68,11 +68,14 @@
 				span(class='{{star(call.rating, 3)}}' ng-click='rateCall(3)')
 		hr
 		.row
-			.col-md-6
-				h4
-					strong Contact Info Collected
-			.col-md-6
-				input(type='checkbox' ng-model='show_contact_info')
+			.col-md-12
+				div.editable(ng-click='show_contact_info=!show_contact_info')
+					h4(style='float:left;')
+						strong Contact Info Collected
+					span.glyphicon.glyphicon-menu-down(style='color:black; margin-left:10px; margin-top:10px;' ng-show='!show_contact_info')
+					span.glyphicon.glyphicon-menu-up(style='color:black; margin-left:10px; margin-top:10px;' ng-show='show_contact_info')
+			//- .col-md-6
+				//- input(type='checkbox' ng-model='show_contact_info')
 		div(ng-show='show_contact_info')
 			.row
 				.col-md-3
@@ -139,16 +142,16 @@
 		.row
 			.col-md-3
 				a(href='' style='{{getPageStyle("info")}}' ng-click='changePage("info")')
-					strong Info
+					| Info
 			.col-md-3
 				a(href='' style='{{getPageStyle("script")}}' ng-click='changePage("script")')
-					strong Script
+					| Script
 			.col-md-3
 				a(href='' style='{{getPageStyle("faq")}}' ng-click='changePage("faq")')
-					strong FAQ
+					| FAQ
 			.col-md-3
-				a(href='' style='{{getPageStyle("info")}}' ng-click='changePage("updates")')
-					strong Campaign updates
+				a(href='' style='{{getPageStyle("updates")}}' ng-click='changePage("updates")')
+					| Campaign updates
 		hr
 		div.ng-cloak(ng-show='page=="info"')
 			.row

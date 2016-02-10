@@ -327,6 +327,7 @@ span.large{
 .results-bg {
   background-color: #ecf0f1;
   margin-top: -20px;
+  height: 90vh;
 }
 
 .row.results-top {
@@ -373,7 +374,7 @@ span.large{
   padding-bottom: 10px;
   margin-top: 10px;
   margin-bottom: 20px;
-  background: white;
+  /*background: white;*/
   max-width: 1000px;
 }
 

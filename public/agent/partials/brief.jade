@@ -1,0 +1,118 @@
+#sub-nav.navbar.navbar-default.navbar-static-top
+	.container
+		.navbar-collapse.collapse(collapse='isCollapsed')
+			ul.nav.navbar-nav.nav-text
+				li
+					p(style='color: grey; margin-top:15px;') {{campaign.name}}
+
+
+			ul.nav.navbar-nav.navbar-right.nav-text
+				li
+					a(ui-sref='home.campaigns') < Back to campaigns
+
+.container
+	.col-md-12
+		.row
+			.col-md-4
+				strong Dates
+			.col-md-4
+				p Start: {{campaign.start_date | formatDate}}
+			.col-md-4
+				p End: {{campaign.end_date | formatDate}}
+		.row
+			.col-md-4
+				strong Days
+			.col-md-8
+				p {{getDays()}}
+		.row
+			.col-md-4
+				strong Times
+			.col-md-4
+				p {{campaign.start_time}}:00
+			.col-md-4
+				p {{campaign.end_time}}:00
+		hr
+		.row
+			.col-md-3
+				a(href='' style='{{getPageStyle("info")}}' ng-click='changePage("info")')
+					|Info
+			.col-md-3
+				a(href='' style='{{getPageStyle("script")}}' ng-click='changePage("script")')
+					|Script
+			.col-md-3
+				a(href='' style='{{getPageStyle("faq")}}' ng-click='changePage("faq")')
+					|FAQ
+			.col-md-3
+				a(href='' style='{{getPageStyle("updates")}}' ng-click='changePage("updates")')
+					|Campaign updates
+		hr
+		div.ng-cloak(ng-show='page=="info"')
+			.row
+				.col-md-12
+					h4 Campaign objective
+					p(ng-bind='campaign.objective')
+			hr
+			.row
+				.col-md-12
+					h4 Description/instructions
+					p(ng-bind='campaign.description')
+			hr
+			.row
+				.col-md-12
+					h4 Objective
+					p(ng-bind='campaign.objective')
+			hr
+			.row
+				.col-md-12
+					h4 Score definition
+			.row
+				.col-md-4
+					span.glyphicon.glyphicon-star-empty
+				.col-md-8
+					p(ng-bind='campaign.score_definition.zero')
+			.row
+				.col-md-4
+					span.glyphicon.glyphicon-star
+				.col-md-8
+					p(ng-bind='campaign.score_definition.one')
+			.row
+				.col-md-4
+					span.glyphicon.glyphicon-star
+					span.glyphicon.glyphicon-star
+				.col-md-8
+					p(ng-bind='campaign.score_definition.two')
+			.row
+				.col-md-4
+					span.glyphicon.glyphicon-star
+					span.glyphicon.glyphicon-star
+					span.glyphicon.glyphicon-star
+				.col-md-8
+					p(ng-bind='campaign.score_definition.three')
+			.row
+				.col-md-12
+					h4 Contact info
+					p(ng-bind='campaign.contact_info.name + " - " + campaign.contact_info.role')
+					p(ng-bind='campaign.contact_info.phone')
+					p(ng-bind='campaign.contact_info.email')
+		div.ng-cloak(ng-show='page=="script"')
+			.row
+				.col-md-12
+					p(ng-bind-html='campaign.script')
+
+		div.ng-cloak(ng-show='page=="faq"')
+			.row(ng-repeat='faq in campaign.faqs')
+				.col-md-12
+					h3 {{faq.question}}
+					| {{faq.answer}}
+		div.ng-cloak(ng-show='page=="updates"')
+			.container
+				h3 Campaign updates
+				p Updates from the campaign owner since the start of the campaign
+				.row
+					.col-md-6
+						span(ng-repeat='message in messages')
+							.row
+								.col-xs-4
+									{{message.time | formatDate}}, {{message.time | formatTime}}
+								.col-xs-8
+									{{message.text}}

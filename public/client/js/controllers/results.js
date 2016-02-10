@@ -4,7 +4,7 @@
 * Description
 */
 
-app.controller('resultsCtrl', ['$scope','$state','Alert','Call','$sce','$location','$filter',function($scope,$state,Alert,Call,$sce,$location,$filter){
+app.controller('resultsCtrl', ['$scope','$state','Alert','Call','$sce','$location','$filter','$window',function($scope,$state,Alert,Call,$sce,$location,$filter,$window){
 	// $scope.time_filter = 'All time';
 	$scope.now = (new Date().valueOf());
 	$scope.hour = 3600000;
@@ -27,12 +27,16 @@ app.controller('resultsCtrl', ['$scope','$state','Alert','Call','$sce','$locatio
 	// time range for the calls in minutes. Date is the dat range in
 	// which the call was made.
 	$scope.filter = {
-	  save:true,
-	  page: 0,
-	  stars:[true,true,true,true],
+		save:true,
+		page: 0,
+		stars:[true,true,true,true],
 		outcome:'',
 		agent: '',
-		time: 'All time'
+		time: 'All time',
+		call_length: {
+			low: '',
+			high: ''
+		}
 	};
 	// Function that getsthe calls from the server and sets
 	// all the call created dates to Date objects.
@@ -53,10 +57,12 @@ app.controller('resultsCtrl', ['$scope','$state','Alert','Call','$sce','$locatio
 			$scope.filter.page = params.page-1;
 		if(params.outcome)
 			$scope.filter.outcome = params.outcome;
-		if(params.time_low)
-			$scope.filter.time.low = params.time_low;
-		if(params.time_high)
-			$scope.filter.time.high = params.time_high;
+		if(params.call_length_low)
+			$scope.filter.call_length.low = params.call_length_low;
+		if(params.call_length_high)
+			$scope.filter.call_length.high = params.call_length_high;
+		if(params.time)
+			$scope.filter.time = params.time;
 		if(params.stars){
 			for (var i = params.stars.length - 1; i >= 0; i--) {
 				if(params.stars[i] == 'false')
@@ -64,10 +70,6 @@ app.controller('resultsCtrl', ['$scope','$state','Alert','Call','$sce','$locatio
 			};
 			$scope.filter.stars = params.stars;
 		}
-		if(params.start)
-			$scope.filter.date.start = new Date(parseInt(params.start))
-		if(params.end)
-			$scope.filter.date.end = new Date(parseInt(params.end))
 		$scope.getCalls();
 	}
 	// When the outcome is changed, we update the url query string
@@ -85,12 +87,12 @@ app.controller('resultsCtrl', ['$scope','$state','Alert','Call','$sce','$locatio
 		oneFalse ? $location.search('stars',$scope.filter.stars) : $location.search('stars',null)
 	}
 	// When the time is changed, we update the url query string
-	$scope.changeTime = function(type){
-		$scope.filter.time[type] ? $location.search(type, $scope.filter.time[type]) : $location.search(type,null)
+	$scope.changeCallLength = function(type){
+		$scope.filter.call_length[type] ? $location.search(type, $scope.filter.time[type]) : $location.search(type,null)
 	}
-	// When the date is changed, we update the url query string
-	$scope.changeDate = function(type){
-		$scope.filter.date[type] ? $location.search(type, $scope.filter.date[type].valueOf()) : $location.search(type,null)
+	$scope.changeTime = function(key){
+		$scope.filter.time=key;
+		$location.search('time', key);
 	}
 	// When the page is changed, we update the url query string
 	$scope.changePage = function(value){
@@ -189,13 +191,13 @@ app.controller('resultsCtrl', ['$scope','$state','Alert','Call','$sce','$locatio
 			// If the date range is not defined, or the call is in the right range, this will pass through
 			// if((params.date.start&&params.date.end) && !(input[i].created.valueOf() >= params.date.start.valueOf() && input[i].created.valueOf() <= params.date.end.valueOf())){continue;}
 			// If time range is not defined, or the call has correct time range, this will pass through
-			// var low = params.time.low;
-			// var high = params.time.high;
-			// if(high===''){high=1000000000}
-			// if(low===''){low=0}
-			// low = parseFloat(low);
-			// high = parseFloat(high);
-			// if(low>high || !(input[i].duration >= low*60 && input[i].duration <= high*60)){continue;}
+			var low = params.call_length.low;
+			var high = params.call_length.high;
+			if(high===''){high=1000000000}
+			if(low===''){low=0}
+			low = parseFloat(low);
+			high = parseFloat(high);
+			if(low>high || !(input[i].duration >= low*60 && input[i].duration <= high*60)){continue;}
 			if(params.time!='All time'){
 				if(input[i].created.valueOf()<now-month) continue;
 				if(params.time=='This week'){
@@ -254,13 +256,17 @@ app.controller('resultsCtrl', ['$scope','$state','Alert','Call','$sce','$locatio
 				var hr  = Math.floor(secs / 3600);
 				var min = Math.floor((secs - (hr * 3600))/60);
 				var sec = Math.floor(secs - (hr * 3600) -  (min * 60));
-				if (min < 10){
-				min = "0" + min;
-				}
+				// if (min < 10){
+				// min = "0" + min;
+				// }
 				if (sec < 10){
 				sec  = "0" + sec;
 				}
-				return min + ':' + sec;
+				if(isNaN(hr)){
+					return '0:00';
+				}else{
+					return min + ':' + sec;
+				}
             }
         }
     };

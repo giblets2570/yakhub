@@ -12,7 +12,8 @@ app.controller('campaignsCtrl', ['$scope','$state','Campaign','Alert','Lead','Ag
 	}
 	$scope.getCampaigns = function(){
 		Campaign.get().then(function(data){
-			$scope.campaigns = data;
+			$scope.campaigns = data.campaigns;
+			$scope.other_campaigns = data.other_campaigns;
 			for (var i = $scope.campaigns.length - 1; i >= 0; i--) {
 				$scope.getNumLeads($scope.campaigns[i]);
 			};
@@ -21,8 +22,11 @@ app.controller('campaignsCtrl', ['$scope','$state','Campaign','Alert','Lead','Ag
 	$scope.now = (new Date()).valueOf();
 	$scope.day = 1000*60*60*24;
 	$scope.getCampaigns();
-	$scope.go = function(campaign_id){
+	$scope.go_campaign = function(campaign_id){
 		$state.go('home.dialer',{campaign_id: campaign_id})
+	}
+	$scope.go_other = function(campaign_id){
+		$state.go('home.brief',{campaign_id: campaign_id})
 	}
 	$scope.numDays = function(campaign){
 		var end = (new Date(campaign.end_date)).valueOf();

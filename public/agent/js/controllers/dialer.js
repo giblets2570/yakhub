@@ -5,6 +5,10 @@
 */
 
 app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','$location','Campaign','Lead','Call','Message',function($scope,$state,Agent,Alert,$stateParams,$location,Campaign,Lead,Call,Message){
+	window.onbeforeunload = function () {
+		// if($state.$current.self.name=='home.dialer')
+		// 	return 'Are you sure you want to leave the dialer page?';
+	};
 	$scope.campaign_id = $stateParams.campaign_id;
 	$scope.hour = 3600000;
 	$scope.three_minutes = 180000;
@@ -16,6 +20,9 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	$scope.showPrevious = false;
 	// True if the current lead has been called
 	$scope.called = false;
+	// True if the we are on the current previous call
+	$scope.on_previous=false;
+	console.log($state.$current)
 	var pusher = new Pusher('9d60e889329cae081239', {
       encrypted: true
     });
@@ -29,6 +36,7 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 		Call.previous().then(function(data){
 			$scope.lead = data.lead_info;
 			$scope.call = data;
+			$scope.on_previous=true;
 		});
 	}
 	// Function that skips the current lead
@@ -83,7 +91,7 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	}
 	// Turns the chosen page header blue
 	$scope.getPageStyle = function(page){
-		return $scope.page == page ? 'color:blue;': '';
+		return $scope.page == page ? 'color:black; font-weight: bold;': 'color:black; font-weight: normal;';
 	}
 	// Gets the campaign data.
 	$scope.getCampaign = function(c){
@@ -135,7 +143,10 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 		Call.addCallData($scope.call).then(function(data){
 			var call = data.call;
 			$scope.last_earning = call.duration*$scope.agent.pay/60;
-			$scope.earned+=$scope.last_earning;
+			if(!$scope.on_previous){
+				$scope.earned+=$scope.last_earning;
+				$scope.on_previous=false;
+			}
 			$scope.getNextLead();
 			$scope.showPrevious = true;
 			$scope.made_call_back = false;
@@ -267,6 +278,9 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
     Twilio.Device.disconnect(function (conn) {
     	console.log("Disconnected");
     	$scope.call_button_text = 'Call';
+    	Alert.warning('Call disconnected').then(function(loading){
+    		loading.show();
+    	})
     });
     $scope.init();
 }])
@@ -280,7 +294,8 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 
 .filter('formatDate', function(){
 	return function(input){
-		if(!input) return "";
+		if(!input) return "Not given";
+		input = new Date(input);
 		return input.getDate() + "/" + (input.getMonth()+ 1) + "/" + input.getFullYear()
 	}
 });
