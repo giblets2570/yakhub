@@ -30,7 +30,7 @@
 		div.row.card.card-1.dashboard-lead.ng-cloak(ng-repeat='call in calls | filter : filter | orderBy : "-created" | limitTo:pageEntries:pageEntries*filter.page')
 			div.row.card-top-row
 				.col-md-12
-					p.card-top-text {{call.agent_name}}
+					p.card-top-text {{call.agent_alias}}
 					p.card-top-text {{call.created.getDate()}} / {{call.created.getMonth()+1}} / {{call.created.getFullYear()}}
 					p.card-top-text {{call.created.getHours()}} : {{call.created.getMinutes() | minuteFormat}}
 					p.card-top-text Call length: {{call.duration/60 | number: 2}} minutes

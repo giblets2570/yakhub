@@ -6,7 +6,7 @@
 
 app.controller('agentsCtrl', ['$scope','$state','Agent','Alert','Payment','$stateParams',function($scope,$state,Agent,Alert,Payment,$stateParams){
 	$scope.getAgents = function(){
-		Agent.get({},'name earned paid').then(function(data){
+		Agent.get({},'name alias earned paid').then(function(data){
 			console.log(data);
 			$scope.agents = data;
 		})
@@ -15,17 +15,17 @@ app.controller('agentsCtrl', ['$scope','$state','Agent','Alert','Payment','$stat
 	$scope.getAgents();
 	$scope.saveAgent = function(agent){
 		agent.editing=!agent.editing;
-		Agent.update({name: agent.name},agent._id).then(function(data){
+		Agent.update({alias: agent.alias},agent._id).then(function(data){
 			console.log(data);
 		})
 	}
 	$scope.editAgent = function(agent){
 		agent.editing=!agent.editing;
-		$scope.old_names[agent._id] = JSON.parse(JSON.stringify(agent.name));
+		$scope.old_names[agent._id] = agent.alias;
 	}
 	$scope.cancelAgent = function(agent){
 		agent.editing=!agent.editing;
-		agent.name = $scope.old_names[agent._id];
+		agent.alias = $scope.old_names[agent._id];
 	}
 	$scope.payAgent = function(agent){
 		var amount = prompt("Pay the agent how much");

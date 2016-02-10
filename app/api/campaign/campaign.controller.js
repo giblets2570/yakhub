@@ -21,6 +21,9 @@ var Agent = require('../agent/agent.model');
 
 var days = ['sun','mon','tues','wed','thurs','fri','sat'];
 
+var Mailgun = require('mailgun').Mailgun;
+var mg = new Mailgun(process.env.MAILGUN_API_KEY);
+
 // Get list of campaigns
 exports.index = function(req, res) {
   if(!req.user){
@@ -111,6 +114,7 @@ exports.update = function(req, res) {
   Campaign.findById(req.params.id, function (err, campaign) {
     if (err) { return handleError(res, err); }
     if(!campaign) { return res.status(404).send('Not Found'); }
+    var was_live = campaign.live;
     var num_agents = campaign.agents.length;
     var updated = _.merge(campaign, req.body);
     if(req.body.questions)
@@ -120,6 +124,10 @@ exports.update = function(req, res) {
       if(num_agents<req.body.agents){
         notifyAgent(req.body.agents[req.body.agents.length-1]);
       }
+    }
+    if(req.body.live&&!was_live){
+      console.log("Campaign going live!");
+      notifyBackend(campaign);
     }
     if(req.body.faqs)
       updated.faqs = req.body.faqs;
@@ -149,9 +157,26 @@ exports.destroy = function(req, res) {
  * Non CRUD routes
  */
 
+function notifyBackend(campaign){
+  var text = '<h2>Campaign '+campaign.name+' has gone live</h2><br/><br/><p> The campaign '+campaign.name+' for client '+campaign.client_name+' has gone live.</p>.';
+  mg.sendRaw('admin@yakhub.io',
+  ['dan@yakhub.co.uk'],
+  'From: admin@yakhub.io' +
+    '\nTo: dan@yakhub.co.uk' +
+    '\nContent-Type: text/html; charset=utf-8' +
+    '\nSubject: Campaign has gone live' +
+    '\n\n' + text,
+    function(err) {
+      if(err){
+        console.log(err)
+      }
+      console.log('Message sent');
+    }
+  );
+}
 
 function notifyAgent(agent){
-  
+
 }
 function handleError(res, err) {
   return res.status(500).send(err);

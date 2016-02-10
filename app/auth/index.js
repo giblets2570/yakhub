@@ -12,6 +12,11 @@ var keen = new Keen({
   writeKey: keenDetails.writeKey,
   readKey: keenDetails.readKey
 });
+var names = ['Charlie','Addison','Ainsley','Ash','Aubrey','Bailey','Bobbie',
+            'Brett','Brook','Corey','Dakota','Daryl','Eli','Frankie','Gray',
+            'Harper','Hayden','Jamie','Jesse','Kennedy','Morgan','Peyton',
+            'River','Rudy','Stevie','Tanner','Taylor','Tyler','West','Winter'];
+
 
 var router = express.Router();
 
@@ -82,6 +87,9 @@ router.post('/agent/signup', function(req, res) {
       if(agent){return res.status(401).json({ message: 'Name already in use!' })}
       var agent = new Agent();
       agent.name = req.body.username.name;
+      var index = randomInt(0,names.length)
+      var alias = names[index];
+      agent.alias = alias;
       agent.company_name = req.body.username.company_name;
       agent.email = req.body.username.email;
       agent.url_name = agent.urlSafeName(req.body.username.name);
@@ -140,3 +148,7 @@ router.get('/logout', function(req, res){
 });
 
 module.exports = router;
+
+function randomInt (low, high) {
+  return Math.floor(Math.random() * (high - low) + low);
+}

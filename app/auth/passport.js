@@ -7,6 +7,10 @@ var LocalStrategy   = require('passport-local').Strategy;
 var Agent            = require('../api/agent/agent.model');
 var Client           = require('../api/client/client.model');
 var Admin            = require('../api/admin/admin.model');
+var names = ['Charlie','Addison','Ainsley','Ash','Aubrey','Bailey','Bobbie',
+            'Brett','Brook','Corey','Dakota','Daryl','Eli','Frankie','Gray',
+            'Harper','Hayden','Jamie','Jesse','Kennedy','Morgan','Peyton',
+            'River','Rudy','Stevie','Tanner','Taylor','Tyler','West','Winter'];
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
@@ -98,6 +102,10 @@ module.exports = function(passport) {
           return done(null, false, { message: 'Username already in use.' });
         var agent = new Agent();
         agent.name = username;
+        var index = randomInt(0,names.length)
+        var alias = names[index];
+        agent.alias = alias;
+        console.log(index, alias);
         agent.password = agent.generateHash(password);
         agent.url_name = agent.urlSafeName(username);
         agent.save(function(err){

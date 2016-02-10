@@ -38,7 +38,7 @@ app.controller('resultsCtrl', ['$scope','$state','Alert','Call','$sce','$locatio
 			high: ''
 		}
 	};
-	// Function that getsthe calls from the server and sets
+	// Function that gets the calls from the server and sets
 	// all the call created dates to Date objects.
 	$scope.getCalls = function(){
 		Call.get({campaign_id:$scope.campaign._id,sorted:true},'').then(function(data){

@@ -18,6 +18,7 @@ var callSchema = mongoose.Schema({
 		ref: 'Agent'
 	},
 	agent_name: {type: String, default: ''},
+	agent_alias: {type: String, default: ''},
 
 	// Info on campaign
 	campaign : {

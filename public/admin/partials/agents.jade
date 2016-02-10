@@ -6,6 +6,8 @@
 					td
 						strong Name
 					td
+						strong Alias
+					td
 						strong Earned
 					td
 						strong Paid
@@ -15,8 +17,10 @@
 						strong
 				tr(ng-repeat='agent in agents')
 					td
-						p(ng-show='!agent.editing') {{agent.name}}
-						input.form-control(ng-show='agent.editing' ng-model='agent.name')
+						p {{agent.name}}
+					td
+						p(ng-show='!agent.editing') {{agent.alias}}
+						input.form-control(ng-show='agent.editing' ng-model='agent.alias')
 					td
 						p £{{agent.earned/100|number:2}}
 					td
