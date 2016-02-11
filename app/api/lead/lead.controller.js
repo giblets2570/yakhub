@@ -12,6 +12,10 @@
 var _ = require('lodash');
 var Lead = require('./lead.model');
 var Agent = require('../agent/agent.model');
+var Campaign = require('../campaign/campaign.model');
+
+var Mailgun = require('mailgun').Mailgun;
+var mg = new Mailgun(process.env.MAILGUN_API_KEY);
 
 // Get list of leads
 exports.index = function(req, res) {
@@ -120,12 +124,24 @@ exports.next = function(req, res) {
     if(lead) { return res.status(200).json(lead)};
     Lead.findOne({campaign: req.query.campaign_id, called: false, agent: null},function(err,lead){
       if(err) { return handleError(res, err); }
-      if(!lead) { return res.status(200).send('0')};
-      lead.agent = req.user._id;
-      lead.save(function(err){
-        if(err) { return handleError(res, err); }
-        return res.status(200).json(lead);
-      })
+      if(!lead) {
+        Campaign.findById(req.query.campaign_id,function(err,campaign){
+          if(err) { return handleError(res, err); }
+          if(!campaign) { return handleError(res, err); }
+          campaign.live = false;
+          campaign.save(function (err) {
+            if(err) { return handleError(res, err); }
+            notifyClient(campaign);
+            return res.status(404).send({error: 'No more leads'});
+          })
+        })
+      }else{
+        lead.agent = req.user._id;
+        lead.save(function(err){
+          if(err) { return handleError(res, err); }
+          return res.status(200).json(lead);
+        })
+      }
     });
   })
 };
@@ -165,17 +181,16 @@ exports.call_back = function(req, res) {
 
 // Skips the current number
 exports.skip = function(req, res) {
-  Lead.findOne({campaign: req.session.campaign_id, called: false, agent: req.user._id},function(err,lead){
+  Lead.findOne({campaign: req.query.campaign_id, called: false, agent: req.user._id},function(err,lead){
     if(err) { return handleError(res, err); }
-    console.log("Lead",lead);
     if(lead) {
       lead.outcome = "Skipped";
       lead.called = true;
       lead.save(function(err){
         if(err) { return handleError(res, err); }
-        Lead.findOne({campaign: req.session.campaign_id, called: false, agent: null},function(err,lead){
+        Lead.findOne({campaign: req.query.campaign_id, called: false, agent: null},function(err,lead){
           if(err) { return handleError(res, err); }
-          if(!lead) { return res.status(200).send('0')};
+          return res.status(404).json({error: "No more leads"});
           lead.agent = req.user._id;
           lead.save(function(err){
             if(err) { return handleError(res, err); }
@@ -183,9 +198,38 @@ exports.skip = function(req, res) {
           })
         });
       })
-    };
+    }else{
+      return res.status(404).json({error: "No more leads"});
+    }
   })
 };
+
+function notifyClient(campaign){
+  Client.findById(campaign.client,function(err,client){
+    if(err || !client){
+      console.log("Error notifying the client")
+    }
+    var email = client.email;
+    if(email){
+      var text = '<h2>Campaign '+campaign.name+' is no longer live</h2><br/><br/><p> There are no more leads for '+campaign.name
+      +' in Yak Hub, so it is longer live. To make the campaign live again, log into <a href="https://app.yakhub.io/client" target="_blank">Yak Hub</a>, upload some new leads and launch your campaign.</p>.';
+      mg.sendRaw('admin@yakhub.io',
+      [email],
+      'From: admin@yakhub.io' +
+        '\nTo: '+ email +
+        '\nContent-Type: text/html; charset=utf-8' +
+        '\nSubject: Yak Hub campaign is no longer live' +
+        '\n\n' + text,
+        function(err) {
+          if(err){
+            console.log(err)
+          }
+          console.log('Message sent');
+        }
+      );
+    }
+  })
+}
 
 
 function handleError(res, err) {

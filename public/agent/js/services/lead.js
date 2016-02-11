@@ -70,11 +70,12 @@ app.factory('Lead', function($http,$q){
 			})
 			return defered.promise;
 		},
-		skip: function(){
+		skip: function(params){
 			var defered = $q.defer();
 			$http({
 				method:'GET',
 				url:'/api/leads/skip',
+				params:params,
 				cache: false
 			}).success(function(data){
 				defered.resolve(data);

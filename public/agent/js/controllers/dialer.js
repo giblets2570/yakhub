@@ -20,6 +20,7 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	$scope.showPrevious = false;
 	// True if the current lead has been called
 	$scope.called = false;
+	$scope.calling = false;
 	// True if the we are on the current previous call
 	$scope.on_previous=false;
 	console.log($state.$current)
@@ -41,11 +42,22 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	}
 	// Function that skips the current lead
 	$scope.skip = function(){
-		if($scope.called) return;
-		Lead.skip().then(function(data){
+		if($scope.called){
+			Alert.warning("You are unable to see the previous call when you haven't submitted the notes for this call","",3).then(function(loading){
+				loading.show();
+			})
+			return;
+		}
+		Lead.skip({campaign_id: $scope.campaign._id}).then(function(data){
+			console.log($scope.lead, data);
 			$scope.lead = data;
 			$scope.initialize_call();
-		})
+		},function(err) {
+			Alert.warning("There are no nore numbers in the system for this campaign!","",3).then(function(loading){
+				loading.show();
+				$state.go('home.campaigns');
+			})
+		});
 	}
 	// Initializes the custom number data.
 	$scope.initialize_custom = function(){
@@ -107,7 +119,12 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 		Lead.next({campaign_id: $scope.campaign_id}).then(function(data){
 			$scope.lead = data;
 			$scope.initialize_call();
-		})
+		},function(err) {
+			Alert.warning("There are no nore numbers in the system for this campaign!","",3).then(function(loading){
+				loading.show();
+				$state.go('home.campaigns');
+			})
+		});
 	};
 	$scope.getCalls = function(c){
 		Call.get({campaign: true, sorted: true},'created duration rating outcome').then(function(data){
@@ -127,8 +144,12 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	}
 	// Function that makes the phone call using twilio
 	$scope.makeCall = function(){
-		if(!$scope.lead||$scope.called||$scope.call_button_text!='Call') return;
+		if(!$scope.lead||$scope.called||$scope.call_button_text!='Call'){
+			Alert.warning()
+			return;
+		}
 		$scope.called = true;
+		$scope.calling = true;
 		$scope.call_button_text = 'Connecting...';
 		Twilio.Device.connect({
 			lead: $scope.lead,
@@ -138,9 +159,22 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	}
 	// Submits the call data and gets the next number.
 	$scope.submitThenNextNumber = function(){
-		console.log('Submitting number');
-		if(!$scope.called) return;
+		if(!$scope.called){
+			Alert.warning("Please call the current number before submitting the notes","",3).then(function(loading){
+				loading.show();
+			})
+			return;
+		}
+		if($scope.calling){
+			Alert.warning("Please finish the call before submitting the notes","",3).then(function(loading){
+				loading.show();
+			})
+			return;
+		}
 		Call.addCallData($scope.call).then(function(data){
+			Alert.success("Notes submitted successfully","",3).then(function(loading){
+				loading.show();
+			})
 			var call = data.call;
 			$scope.last_earning = call.duration*$scope.agent.pay/60;
 			if(!$scope.on_previous){
@@ -166,13 +200,16 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	});
 	$scope.changeOutcome = function(){
 		console.log($scope.call.outcome);
-		// if($scope.call.outcome == 'Call later')
-		// 	$scope.showCallBackModal();
 	}
 	// Function that creates the custom number to call and makes it the current lead
 	// for the agent. Need to do phone number regex.
 	$scope.useCustomNumber = function(){
-		if($scope.called) return;
+		if($scope.called){
+			Alert.warning("Please submit the notes for the current call before using a custom number","",3).then(function(loading){
+				loading.show();
+			})
+			return;
+		}
 		if($scope.custom.number.substring(0,4) != "0044")
 			$scope.custom.number = "0044"+$scope.custom.number.substring(1,15)
 		Lead.custom($scope.custom,{campaign_id: $scope.campaign_id}).then(function(data){
@@ -278,6 +315,7 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
     Twilio.Device.disconnect(function (conn) {
     	console.log("Disconnected");
     	$scope.call_button_text = 'Call';
+    	$scope.calling = false;
     	Alert.warning('Call disconnected').then(function(loading){
     		loading.show();
     	})
