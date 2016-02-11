@@ -259,6 +259,7 @@ exports.addCallData = function(req, res) {
                 Campaign.findById(call.campaign,function(err,campaign){
                   if(err) {return handleError(res, err); }
                   campaign.live = false;
+                  notifyClient(campaign);
                   campaign.save(function(err){
                     if(err){handleError(res,err);}
                     return res.status(200).json({'message':'Complete, with lead','call':call,'campaign':'Over'})
@@ -291,30 +292,30 @@ exports.addCallData = function(req, res) {
   });
 };
 
-
-function sendFollowUp(req){
-  Campaign.findById(req.session.campaign_id,function(err,campaign){
-    if(err){console.log(err)};
-    var data = {
-      from: campaign.from_email.email,
-      to: req.body.contact_info.email,
-      subject: campaign.client_name,
-      html: campaign.follow_up_email
-    };
-    var mail = mailcomposer(data);
-    mail.build(function(err, message){
-      mg.sendRaw(
-        campaign.from_email.email,
-        [req.body.contact_info.email],
-        message
-      , function (err) {
-        if (err) {
-          console.log(err);
-          return;
+function notifyClient(campaign){
+  Client.findById(campaign.client,function(err,client){
+    if(err || !client){
+      console.log("Error notifying the client")
+    }
+    var email = client.email;
+    if(email){
+      var text = '<h2>Campaign '+campaign.name
+      +' is no longer live</h2><br/><br/><p> Your campaigns have been stopped, as there is no more funds in your Yak Hub account.To start your campaigns live again, log into <a href="https://app.yakhub.io/client" target="_blank">Yak Hub</a>, add some more funds and launch your campaigns.</p>.';
+      mg.sendRaw('admin@yakhub.io',
+      [email],
+      'From: admin@yakhub.io' +
+        '\nTo: '+ email +
+        '\nContent-Type: text/html; charset=utf-8' +
+        '\nSubject: Yak Hub campaigns are no longer live' +
+        '\n\n' + text,
+        function(err) {
+          if(err){
+            console.log(err)
+          }
+          console.log('Message sent');
         }
-        console.log('Success');
-      });
-    });
+      );
+    }
   })
 }
 
