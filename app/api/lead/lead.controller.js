@@ -13,6 +13,7 @@ var _ = require('lodash');
 var Lead = require('./lead.model');
 var Agent = require('../agent/agent.model');
 var Campaign = require('../campaign/campaign.model');
+var Client = require('../client/client.model');
 
 var Mailgun = require('mailgun').Mailgun;
 var mg = new Mailgun(process.env.MAILGUN_API_KEY);

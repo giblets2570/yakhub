@@ -224,7 +224,7 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
     }
     // Function that is called when page loaded.
 	$scope.init = function(){
-		$scope.page = "info";
+		$scope.page = "updates";
 		Twilio.Device.disconnectAll();
 		var params = $location.search();
 		if(params.page)
