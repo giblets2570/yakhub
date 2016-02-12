@@ -6,8 +6,8 @@
 
 app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','$location','Campaign','Lead','Call','Message',function($scope,$state,Agent,Alert,$stateParams,$location,Campaign,Lead,Call,Message){
 	window.onbeforeunload = function () {
-		// if($state.$current.self.name=='home.dialer')
-		// 	return 'Are you sure you want to leave the dialer page?';
+		if($state.$current.self.name=='home.dialer')
+			return 'Are you sure you want to leave the dialer page?';
 	};
 	$scope.campaign_id = $stateParams.campaign_id;
 	$scope.hour = 3600000;
