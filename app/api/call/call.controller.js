@@ -299,8 +299,7 @@ function notifyClient(campaign){
     }
     var email = client.email;
     if(email){
-      var text = '<h2>Campaign '+campaign.name
-      +' is no longer live</h2><br/><br/><p> Your campaigns have been stopped, as there is no more funds in your Yak Hub account.To start your campaigns live again, log into <a href="https://app.yakhub.io/client" target="_blank">Yak Hub</a>, add some more funds and launch your campaigns.</p>.';
+      var text = '<h2>Your campaigns are no longer live</h2><br/><br/><p> Your campaigns have been stopped, as there is no more funds in your Yak Hub account.To start your campaigns live again, log into <a href="https://app.yakhub.io/client" target="_blank">Yak Hub</a>, add some more funds and launch your campaigns.</p>.';
       mg.sendRaw('admin@yakhub.io',
       [email],
       'From: admin@yakhub.io' +

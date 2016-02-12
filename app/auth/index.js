@@ -12,10 +12,10 @@ var keen = new Keen({
   writeKey: keenDetails.writeKey,
   readKey: keenDetails.readKey
 });
-var names = ['Charlie','Addison','Ainsley','Ash','Aubrey','Bailey','Bobbie',
-            'Brett','Brook','Corey','Dakota','Daryl','Eli','Frankie','Gray',
-            'Harper','Hayden','Jamie','Jesse','Kennedy','Morgan','Peyton',
-            'River','Rudy','Stevie','Tanner','Taylor','Tyler','West','Winter'];
+// var names = ['Charlie','Addison','Ainsley','Ash','Aubrey','Bailey','Bobbie',
+//             'Brett','Brook','Corey','Dakota','Daryl','Eli','Frankie','Gray',
+//             'Harper','Hayden','Jamie','Jesse','Kennedy','Morgan','Peyton',
+//             'River','Rudy','Stevie','Tanner','Taylor','Tyler','West','Winter'];
 
 
 var router = express.Router();
@@ -87,9 +87,14 @@ router.post('/agent/signup', function(req, res) {
       if(agent){return res.status(401).json({ message: 'Name already in use!' })}
       var agent = new Agent();
       agent.name = req.body.username.name;
-      var index = randomInt(0,names.length)
-      var alias = names[index];
-      agent.alias = alias;
+      var index = agent.name.indexOf(" ")
+      if(index<0){
+        agent.alias = agent.name;
+      }else{
+        agent.alias = agent.name.substring(0,index)
+      }
+      // var index = randomInt(0,names.length)
+      // var alias = names[index];
       agent.company_name = req.body.username.company_name;
       agent.email = req.body.username.email;
       agent.url_name = agent.urlSafeName(req.body.username.name);
