@@ -6,7 +6,7 @@
 				h2 £ {{earned/100|number:2}}
 				h4 this month
 		.col-md-8
-			.row
+			.row(ng-show='campaigns.length==0')
 				.col-md-12
 					h4
 						strong Live campaigns
@@ -25,7 +25,7 @@
 							.col-xs-4
 								p {{campaign.num_leads}} Contacts left to call
 								p Ending in {{numDays(campaign)}} days
-			.row
+			.row(ng-show='other_campaigns.length==0')
 				.col-md-12
 					h4
 						strong All campaigns
@@ -42,7 +42,7 @@
 								p {{campaign.client_name}}
 								p £0.40 min
 
-	.row(ng-show='campaigns.length==0')
-		.col-md-8
-			h3 We are currently processing your account
-			p Please come back later
+			.row(ng-show='campaigns.length==0 && other_campaigns.length==0')
+				.col-md-8
+					h3 We are currently processing your account
+					p Please come back later
