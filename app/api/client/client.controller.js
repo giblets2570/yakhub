@@ -89,19 +89,9 @@ exports.update = function(req, res) {
   Client.findById(req.params.id, function (err, client) {
     if (err) { return handleError(res, err); }
     if(!client) { return res.status(404).send('Not Found'); }
-    var last_check;
-    if(req.body.notifications){
-      for (var i = client.notifications.length - 1; i >= 0; i--) {
-        if(client.notifications[i].campaign.toString() == req.body.campaign.toString()){
-          client.notifications[i].seen_all = true;
-          last_check = new Date(client.notifications[i].last_check);
-          client.notifications[i].last_check = new Date();
-          break;
-        }
-      };
-      delete req.body.notifications;
-    }
     var updated = _.merge(client, req.body);
+    if(req.body.password)
+      updated.password = agent.generateHash(req.body.password);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
       if(last_check)

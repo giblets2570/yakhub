@@ -112,6 +112,8 @@ exports.update = function(req, res) {
     var updated = _.merge(agent, req.body);
     if(req.body.campaigns)
       updated.campaigns = req.body.campaigns;
+    if(req.body.password)
+      updated.password = agent.generateHash(req.body.password);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.status(200).json(updated);
