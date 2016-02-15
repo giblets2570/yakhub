@@ -21,9 +21,7 @@ module.exports = function(passport) {
       passReqToCallback: true
     },
     function(req, username, password, done) {
-      console.log("What the fuck");
       Admin.findOne({'name':username},function(err,admin){
-        console.log(admin);
         if(err)
           return done(null, false, { message: 'Error in request.' });
         if(!admin)
@@ -44,11 +42,21 @@ module.exports = function(passport) {
       Client.findOne({'name':username},function(err,client){
         if(err)
           return done(null, false, { message: 'Error in request.' });
-        if(!client)
-          return done(null, false, { message: 'Incorrect username.' });
-        if(!client.validPassword(password))
-          return done(null, false, { message: 'Incorrect password.' });
-        return done(null, client);
+        if(!client){
+          Client.findOne({'email':username},function(err,client){
+            if(err)
+              return done(null, false, { message: 'Error in request.' });
+            if(!client)
+              return done(null, false, { message: 'Incorrect username.' });
+            if(!client.validPassword(password))
+              return done(null, false, { message: 'Incorrect password.' });
+            return done(null, client);
+          })
+        }else{
+          if(!client.validPassword(password))
+            return done(null, false, { message: 'Incorrect password.' });
+          return done(null, client);
+        }
       })
     }
   ));
@@ -80,14 +88,23 @@ module.exports = function(passport) {
     },
     function(req, username, password, done) {
       Agent.findOne({'name':username},function(err,agent){
-        console.log(agent);
         if(err)
-          return done(null, false, { message: 'Error in request.' })
-        if(!agent)
-          return done(null, false, { message: 'Incorrect username.' })
-        if(!agent.validPassword(password))
-          return done(null, false, { message: 'Incorrect password.' })
-        return done(null, agent);
+          return done(null, false, { message: 'Error in request.' });
+        if(!agent){
+          Agent.findOne({'email':username},function(err,agent){
+            if(err)
+              return done(null, false, { message: 'Error in request.' });
+            if(!agent)
+              return done(null, false, { message: 'Incorrect username.' });
+            if(!agent.validPassword(password))
+              return done(null, false, { message: 'Incorrect password.' });
+            return done(null, agent);
+          })
+        }else{
+          if(!agent.validPassword(password))
+            return done(null, false, { message: 'Incorrect password.' });
+          return done(null, agent);
+        }
       })
     }
   ));
