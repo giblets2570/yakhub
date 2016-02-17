@@ -24,6 +24,9 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
 			activator: "#IntercomDefaultWidget"
 		}
 	});
+	Intercom('onHide', function() {
+		Intercom('update');
+	});
 	$scope.newCampaign = function(){
 		var name = prompt("Give your campaign a name");
 		if(name){
@@ -72,6 +75,7 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
 			  })
 			}
 		});
+		$scope.client_setup = true;
 	}
 	$scope.openHandler = function(amount){
 		$scope.amount = amount;
@@ -96,10 +100,6 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
 		}
 	}
 	$scope.current_tab = $state.current.name.substring(15,45);
-	$scope.showIntercom = function(){
-		console.log("Show intercom");
-		Intercom('show');
-	}
 	$scope.logout = function(){
 	    Client.logout().then(function(data){
 	    	$rootScope.user = null;
@@ -108,6 +108,10 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
 	    }, function (error) {
 	    });
 	};
+	$scope.$on('$stateChangeStart',
+		function(event, toState, toParams, fromState, fromParams){
+			Intercom('update');
+		})
 	window.onpageunload = function(){
 		Intercom("shutdown");
 	}

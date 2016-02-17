@@ -7,7 +7,7 @@
 			ul.nav.navbar-nav.navbar-right.nav-text
 				li
 					p(style='margin-top:20px; margin-right:20px;') Funds: £{{(client.funds-client.funds_used)/100|number:2}}
-				li
+				li(ng-show='client_setup')
 					button.nav-newcamp-custom#make-new-campaign.btn.btn-primary(href='' ng-click='addFunds()' style='margin-top:10px;') Add funds
 				li.divider-vertical
 				li
@@ -16,9 +16,3 @@
 					a.nav-logout-custom(href='' ng-click='logout()') Logout
 
 <div id='SubView' ui-view></div>
-
-
-a(href='' ng-click='showIntercom()')
-	div(style='position: fixed; z-index: 9999; bottom: 10px; right: 10px; height: 40px; width: 40px; border-radius: 30px; background: #8e44ad;')
-		span(style='margin-left: 10px; margin-top: 9px; color: white;').glyphicon.glyphicon-envelope
-
