@@ -100,7 +100,7 @@ button.help-button{
 }
 
 span.large{
-  font-size: 30px;
+  font-size: 23px;
 }
 
 .enter{
@@ -321,13 +321,39 @@ span.large{
   line-height: 25px;
 }
 
+.stats-bg-buffer {
+  background-color: #ecf0f1;
+  margin-top: -20px;
+  height: 90vh;
+  width: 100%;
+  position: fixed;
+  z-index: -1;
+  bottom: 0;
+}
+
+.stats-bg {
+  background-color: #ecf0f1;
+  margin-top: -20px;
+  height: 90vh;
+}
+
 
 /*----------------------- Results --------------------------*/
+
+.results-bg-buffer {
+  background-color: #ecf0f1;
+  margin-top: -20px;
+  height: 80vh;
+  width: 100%;
+  position: fixed;
+  z-index: -1;
+  bottom: 0;
+}
 
 .results-bg {
   background-color: #ecf0f1;
   margin-top: -20px;
-  height: 90vh;
+  height: 100%;
 }
 
 .row.results-top {

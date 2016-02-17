@@ -1,27 +1,30 @@
-.container
-  div.row
-    div.col-md-4.middle
-      p
-        span.large {{ dialed*100 / total | number : 0 }}% 
-        | Dialed
-      p {{ dialed }} out of {{ total }} dialed
-    div.col-md-4.middle
-      p
-        span.large {{ two_or_more*100 / dialed | number : 0 }}% 
-        | {{ two_or_more }}/{{ dialed }}
-      p {{ two_or_more }} stars or more
-    div.col-md-4.middle
-      p
-        span.large {{ one_or_less*100 / dialed | number : 0 }}% 
-        | {{ one_or_less }}/{{ dialed }}
-      p {{ one_or_less }} stars or more
-  div.row
-    div.col-md-6
-      p Started {{campaign.start_date | formatDate}}
-      p Ending in {{timeLeft()}} days
-      p {{numAgents()}} agents since start
-    div.col-md-6
-      h3 Call outcomes
-      p(ng-repeat='(outcome, number) in outcomes')
-        strong {{outcome}}: 
-        | {{number}}
+.stats-bg
+  .container
+    div.row.card.card-1.dashboard-lead.ng-cloak
+      div.col-xs-4
+        p
+          span.large {{ formatNumber(dialed*100 / total) | number : 0 }}% 
+          | Dialed
+        p {{ dialed }} out of {{ total }} dialed
+      div.col-xs-4
+        p
+          span.large {{ formatNumber(two_or_more*100 / dialed) | number : 0 }}% 
+          | {{ two_or_more }}/{{ dialed }}
+        p {{ two_or_more }} stars or more
+      div.col-xs-4
+        p
+          span.large {{ formatNumber(one_or_less*100 / dialed) | number : 0 }}% 
+          | {{ one_or_less }}/{{ dialed }}
+        p {{ one_or_less }} stars or more
+      div.col-md-12(style='border-top:solid 1px; margin: 20px; border-color:#FAFAFA;')
+      div.col-md-6
+        strong.card-header {{whenStarted()}}
+        br
+        strong.card-header {{timeLeft()}}
+        br
+        strong.card-header {{agents.length}} agents have worked on this campaign
+      div.col-md-2(ng-hide='objectLength(outcomes)==0')
+        strong.card-header Call outcomes
+      div.col-md-4(ng-hide='objectLength(outcomes)==0')
+        p(ng-repeat='(outcome, number) in outcomes')
+          {{outcome}}: {{number}}

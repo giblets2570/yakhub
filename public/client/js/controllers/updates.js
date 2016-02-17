@@ -58,7 +58,6 @@ app.controller('updatesCtrl', ['$scope','$state','Client','Alert','Message',func
 	}
 })
 
-
 .filter('formatDate', function(){
 	return function(input){
 		if(!input) return "";

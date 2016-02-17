@@ -28,7 +28,7 @@
 			.row(ng-hide='other_campaigns.length==0')
 				.col-md-12
 					h4
-						strong All campaigns
+						strong Inactive campaigns
 			.row(ng-repeat='campaign in other_campaigns')
 				.col-md-12
 					button.campaign(ng-click='go_other(campaign._id)')
