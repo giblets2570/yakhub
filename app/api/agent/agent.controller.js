@@ -126,7 +126,7 @@ exports.pay = function(req, res) {
     if (err) { return handleError(res, err); }
     if(!agent) { return res.status(404).send('Not Found'); }
     var paid = agent.paid;
-    stripe.transfers.create({
+    stripe.charges.create({
       amount: Math.floor(req.body.paid - paid),
       currency: "gbp",
       destination: agent.stripe.stripe_user_id,
