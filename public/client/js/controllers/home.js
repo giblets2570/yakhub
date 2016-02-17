@@ -79,7 +79,7 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
 	}
 	$scope.openHandler = function(amount){
 		$scope.amount = amount;
-		$scope.description = 'Deposit of £'+amount/100
+		$scope.description = 'Deposit of £'+amount/100+' (20% VAT Inclusive)';
 		$scope.handler.open({
 			name: 'Yak Hub',
 			description: $scope.description,
