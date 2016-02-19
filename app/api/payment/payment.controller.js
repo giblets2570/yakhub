@@ -10,6 +10,12 @@
 var _ = require('lodash');
 var Payment = require('./payment.model');
 
+var stripeSecretKey = require('../../config/stripe').secretKey;
+var stripePublishableKey = require('../../config/stripe').publishableKey;
+var stripe = require("stripe")(
+  stripeSecretKey
+);
+
 // Get list of leads
 exports.index = function(req, res) {
   Payment.find(function(err,payments){
@@ -35,6 +41,11 @@ exports.create = function(req, res) {
     if(err) { return handleError(res, err); }
     return res.status(201).json(updated);
   });
+};
+
+// Get a stripe
+exports.stripe = function(req, res) {
+  return res.json({stripe:stripePublishableKey});
 };
 
 function handleError(res, err) {

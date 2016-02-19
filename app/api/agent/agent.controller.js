@@ -23,14 +23,11 @@ var days = ['sun','mon','tues','wed','thurs','fri','sat'];
 var auth = require('../../auth/auth.service');
 
 var stripeSecretKey = require('../../config/stripe').secretKey;
+var stripePublishableKey = require('../../config/stripe').publishableKey;
 var stripe = require("stripe")(
   stripeSecretKey
 );
 // console.log(stripeSecretKey);
-
-stripe.balance.retrieve(function(err, balance) {
-  console.log(balance);
-});
 
 var Mailgun = require('mailgun').Mailgun;
 var mg = new Mailgun(process.env.MAILGUN_API_KEY);
@@ -125,18 +122,22 @@ exports.pay = function(req, res) {
   Agent.findById(req.params.id, function (err, agent) {
     if (err) { return handleError(res, err); }
     if(!agent) { return res.status(404).send('Not Found'); }
-    var paid = agent.paid;
+    // var paid = agent.paid;
+    var amount = req.body.amount;
+    var stripeToken = req.body.stripeToken.id;
     stripe.charges.create({
-      amount: Math.floor(req.body.paid - paid),
+      amount: amount,
       currency: "gbp",
       destination: agent.stripe.stripe_user_id,
+      source: stripeToken,
       description: "Payment for " + agent.name
     }, function(err, transfer) {
       // asynchronously called
       console.log(err);
       if(err){return res.json({error:err.message})}
-      agent.paid = req.body.paid;
+      agent.paid = agent.paid + req.body.amount;
       agent.save(function(err){
+        console.log(err);
         if(err){return res.json({error:'Error in the request'})}
         return res.status(200).json(transfer);
       })

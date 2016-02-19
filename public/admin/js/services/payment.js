@@ -28,5 +28,19 @@ app.factory('Payment', function($http,$q){
 			})
 			return defered.promise
 		},
+		stripe: function(data){
+			var defered = $q.defer();
+			$http({
+				method:'GET',
+				url:'/api/payments/stripe',
+				data: data,
+				cache: false
+			}).success(function(data){
+				defered.resolve(data);
+			}).error(function(error){
+				defered.reject(error);
+			})
+			return defered.promise
+		},
 	};
 });
