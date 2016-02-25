@@ -135,14 +135,18 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 			result.push(entry);
 		};
 		console.log(result);
-		$scope.leads = $scope.leads.concat(result);
-		Lead.add({
-			leads: result,
-			campaign: $scope.campaign._id
-		}).then(function(data){
-			console.log(data);
-			$scope.setCSV();
-			$scope.applyFilter($scope.called);
+		Alert.warning("Saving leads...","Don't leave the screen just yet").then(function(loading){
+			loading.show();
+			Lead.add({
+				leads: result,
+				campaign: $scope.campaign._id
+			}).then(function(data){
+				console.log(data);
+				loading.hide();
+				$scope.leads = $scope.leads.concat(result);
+				$scope.setCSV();
+				$scope.applyFilter($scope.called);
+			})
 		})
 	}
 	$scope.setScreen();
