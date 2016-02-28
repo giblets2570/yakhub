@@ -6,7 +6,7 @@
 
 app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead','$modal','$location','$filter','$window','$interval',function($scope,$state,Client,Alert,Campaign,Lead,$modal,$location,$filter,$window,$interval){
 	$scope.current_screen = 'brief';
-	$scope.pageEntries = 100;
+	$scope.pageEntries = 50;
 	$scope.leads_loaded = false;
 	$scope.end_time_period = "AM";
 	$scope.day_mapper = {
@@ -19,15 +19,6 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		'sun':'Sunday'
 	}
 	$scope.changesMade = false;
-	$scope.firstLoad = 2;
-	$scope.applyFilter = function(called){
-		$scope.filtered = $filter('callFilter')($scope.leads, called);
-		if($scope.filtered){
-			$scope.totalItems = $scope.filtered.length;
-			$scope.noOfPages = Math.ceil($scope.totalItems / $scope.pageEntries);
-			console.log($scope.noOfPages)
-		}
-	}
 	$scope.getDays = function(){
 		var result = '';
 		if(!$scope.campaign) return "";
@@ -230,9 +221,9 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	// This stuff is for the leads
 	$scope.filter = {
 		called: false,
-		uncalled: false,
-		page: 0
+		uncalled: false
 	};
+	$scope.page = 0
 	$scope.convert = {
 		'number':['number','phone','phone number'],
 		'company':['company','company name','business','business name'],
@@ -268,14 +259,14 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		console.log(value,$scope.noOfPages);
 		if(value < 0){return;}
 		if(value > $scope.noOfPages - 1){return;}
-		$scope.filter.page = value;
-		// $location.search("page",$scope.filter.page+1);
+		$scope.page = value;
+		// $location.search("page",$scope.page+1);
 	}
 	$scope.download = function(){
 		var oldPage;
-		if($scope.filter.page){
-			oldPage = $scope.filter.page;
-			$scope.filter.page = null;
+		if($scope.page){
+			oldPage = $scope.page;
+			$scope.page = null;
 			$scope.applyFilter($scope.filter);
 		}
 		var result = 'number\tcompany\tname\trole\toutcome\tcalled\n';
@@ -284,7 +275,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		};
 		result = result.replace(/\t/g,',');
 		if(oldPage){
-			$scope.filter.page = oldPage;
+			$scope.page = oldPage;
 			$scope.applyFilter($scope.filter);
 		}
     	$window.open("data:text/csv;charset=utf-8," + encodeURIComponent(result));
@@ -319,7 +310,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 			loading.show();
 			$scope.save(function(){
 				loading.hide();
-				Alert.success('Campaign saved!').then(function(loading){
+				Alert.success('Campaign saved!','',2).then(function(loading){
 					loading.show();
 				})
 			})
