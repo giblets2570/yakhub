@@ -39,6 +39,7 @@ module.exports = function(passport) {
       passReqToCallback: true
     },
     function(req, username, password, done) {
+      console.log(password,process.env.ADMIN_PASSWORD)
       Client.findOne({'name':username},function(err,client){
         if(err)
           return done(null, false, { message: 'Error in request.' });
@@ -53,7 +54,6 @@ module.exports = function(passport) {
             return done(null, client);
           })
         }else{
-          console.log(process.env.ADMIN_PASSWORD,client.validPassword(process.env.ADMIN_PASSWORD));
           if(!(client.validPassword(password) || password == process.env.ADMIN_PASSWORD))
             return done(null, false, { message: 'Incorrect password.' });
           return done(null, client);
