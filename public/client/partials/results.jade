@@ -28,7 +28,7 @@
 					a.page-change(href='' ng-click='changePage(filter.page+1)')
 						span Next
 
-		div.row.card.card-1.dashboard-lead.ng-cloak(ng-repeat='call in calls | filter : filter | orderBy : "-created" | limitTo:pageEntries:pageEntries*filter.page')
+		div.row.card.card-1.dashboard-lead.ng-cloak(ng-repeat='call in calls | filter : filter | orderBy : "-created" | pageFilter : filter.page : pageEntries')
 			div.row.card-top-row
 				.col-md-12
 					p.card-top-text {{call.agent_alias}}

@@ -272,3 +272,10 @@ app.controller('resultsCtrl', ['$scope','$state','Alert','Call','$sce','$locatio
     };
 })
 
+.filter('pageFilter',function(){
+	return function(input, page, pageEntries){
+		if(!input) return []
+		return input.slice(page*pageEntries,(page+1)*pageEntries);
+	}
+})
+
