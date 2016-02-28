@@ -241,12 +241,7 @@ exports.addCallData = function(req, res) {
       updated.answers = req.body.answers;
     updated.save(function(err){
       if(err) { return handleError(res, err); }
-      Lead.findOne({
-        number: call.lead_info.number,
-        company: call.lead_info.company,
-        'person.name': call.lead_info.person.name,
-        'person.role': call.lead_info.person.role,
-        agent: req.user._id},function(err, lead){
+      Lead.findById(req.params.lead_id, function(err, lead){
         if(err) { return handleError(res, err); }
         if(lead){
           lead.outcome = call.outcome;

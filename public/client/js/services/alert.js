@@ -6,14 +6,14 @@
 
 app.factory('Alert', ['$alert','$q',function($alert,$q){
 	return {
-		success: function(title,content){
+		success: function(title,content,duration){
 			var defered = $q.defer();
 	  		var alert = $alert({
 				title: title,
 				content: content,
 				placement: 'floater-top-left',
 				type: 'success',
-				duration: 3,
+				duration: duration,
 				show: false
 		  	});
 		  	alert.$promise.then(function(){
@@ -21,14 +21,14 @@ app.factory('Alert', ['$alert','$q',function($alert,$q){
 		  	})
 		  	return defered.promise;
 		},
-		warning: function(title,content){
+		warning: function(title,content,duration){
 	  		var defered = $q.defer();
 	  		var alert = $alert({
 				title: title,
 				content: content,
 				placement: 'floater-top-left',
 				type: 'warning',
-				duration: 3,
+				duration: duration,
 				show: false
 		  	});
 		  	alert.$promise.then(function(){

@@ -6,7 +6,7 @@
 
 app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead','$modal','$location','$filter','$window','$interval',function($scope,$state,Client,Alert,Campaign,Lead,$modal,$location,$filter,$window,$interval){
 	$scope.current_screen = 'brief';
-	$scope.pageEntries = 20;
+	$scope.pageEntries = 100;
 	$scope.leads_loaded = false;
 	$scope.end_time_period = "AM";
 	$scope.day_mapper = {
@@ -65,13 +65,20 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		if(confirm(q)) $scope.campaign.live = bool;
 	}
 	$scope.getLeads = function(){
-		Lead.get({campaign_id: $scope.campaign._id},'').then(function(data){
-			$scope.leads = data;
-			for (var i = $scope.leads.length - 1; i >= 0; i--) {
-				if($scope.leads[i].call_timestamp)
-					$scope.leads[i].call_timestamp = new Date($scope.leads[i].call_timestamp);
-			};
-			$scope.applyFilter();
+		Alert.warning('Loading leads...').then(function(loading){
+			loading.show();
+			Lead.get({campaign_id: $scope.campaign._id},'').then(function(data){
+				$scope.leads = data;
+				for (var i = $scope.leads.length - 1; i >= 0; i--) {
+					if($scope.leads[i].call_timestamp)
+						$scope.leads[i].call_timestamp = new Date($scope.leads[i].call_timestamp);
+				};
+				$scope.applyFilter();
+				loading.hide();
+				Alert.success('Leads loaded','',3).then(function(loading){
+					loading.show();
+				})
+			})
 		})
 	};
 	$scope.setScreen = function(){
@@ -109,43 +116,61 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		}
 	}
 	$scope.saveLeads = function(){
-		var result = []
-		console.log($scope.csv.result);
-		$scope.csv.result = JSON.parse($scope.csv.result);
-		console.log($scope.csv.result);
-		for (var i = $scope.csv.result.length - 1; i >= 0; i--) {
-			var entry = {'person':{}}
-			for(var key in $scope.csv.result[i]){
-				for(var type in $scope.convert){
-					if($scope.convert[type].indexOf(key.toLowerCase())>-1){
-						if(type == 'name' || type == 'role'){
-							entry.person[type] = $scope.csv.result[i][key]
-						}else if(type == 'called'){
-							if($scope.csv.result[i][key].toLowerCase() == 'false' || $scope.csv.result[i][key].toLowerCase() == 'n')
-								entry[type] = false;
-							else if($scope.csv.result[i][key].toLowerCase() == 'true' || $scope.csv.result[i][key].toLowerCase() == 'y')
-								entry[type] = true;
-						}else{
-							entry[type] = $scope.csv.result[i][key]
-						}
-						break
-					}
-				}
-			}
-			result.push(entry);
-		};
-		console.log(result);
+		// console.log(result);
 		Alert.warning("Saving leads...","Don't leave the screen just yet").then(function(loading){
 			loading.show();
-			Lead.add({
-				leads: result,
-				campaign: $scope.campaign._id
-			}).then(function(data){
-				console.log(data);
-				loading.hide();
-				$scope.leads = $scope.leads.concat(result);
+			var result = []
+			console.log($scope.csv.result);
+			$scope.csv.result = JSON.parse($scope.csv.result);
+			console.log($scope.csv.result);
+			for (var i = $scope.csv.result.length - 1; i >= 0; i--) {
+				var entry = {'person':{}}
+				for(var key in $scope.csv.result[i]){
+					for(var type in $scope.convert){
+						if($scope.convert[type].indexOf(key.toLowerCase())>-1){
+							if(type == 'name' || type == 'role'){
+								entry.person[type] = $scope.csv.result[i][key]
+							}else if(type == 'called'){
+								if($scope.csv.result[i][key].toLowerCase() == 'false' || $scope.csv.result[i][key].toLowerCase() == 'n')
+									entry[type] = false;
+								else if($scope.csv.result[i][key].toLowerCase() == 'true' || $scope.csv.result[i][key].toLowerCase() == 'y')
+									entry[type] = true;
+							}else{
+								entry[type] = $scope.csv.result[i][key]
+							}
+							break
+						}
+					}
+				}
+				result.push(entry);
+			};
+			var recursive = function(index, total_length, loading, data){
+				console.log("Adding ",index);
+				$scope.leads = $scope.leads.concat(result.slice(index-200,index));
 				$scope.setCSV();
 				$scope.applyFilter($scope.called);
+				if(index>total_length){
+					// console.log(data);
+					loading.hide();
+					Alert.success("Numbers added successfully",'',3).then(function(loading){
+						loading.show();
+					})
+				}else{
+					// console.log(data);
+					Lead.add({
+						leads: result.slice(index,index+200),
+						campaign: $scope.campaign._id
+					}).then(function(data){
+						recursive(index+200,total_length,loading);
+					})
+				}
+			}
+			Lead.add({
+				leads: result.slice(0,200),
+				campaign: $scope.campaign._id
+			}).then(function(data){
+				// console.log(data);
+				recursive(200,result.length,loading,data);
 			})
 		})
 	}
@@ -264,8 +289,8 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		}
     	$window.open("data:text/csv;charset=utf-8," + encodeURIComponent(result));
 	}
-	$scope.applyFilter = function(called){
-		$scope.filtered = $filter('callFilter')($scope.leads, called);
+	$scope.applyFilter = function(filter){
+		$scope.filtered = $filter('leadFilter')($scope.leads, filter);
 		if($scope.filtered){
 			$scope.totalItems = $scope.filtered.length;
 			$scope.noOfPages = Math.ceil($scope.totalItems / $scope.pageEntries);
@@ -285,7 +310,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		};
 		return r
 	}
-	var saving = $interval(function(){
+	$scope.saving = $interval(function(){
 		console.log("Checking if changes made");
 		if(!$scope.changesMade) return;
 		console.log("Changes were made");
@@ -323,14 +348,14 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	}
 })
 
-.filter('callFilter',function(){
-	return function(input, called, uncalled){
-		if((!uncalled && !called) || !input) return input;
+.filter('leadFilter',function(){
+	return function(input, filter){
+		if(!filter || (!filter.uncalled && !filter.called) || !input) return input;
 		var result = [];
 		for (var i = 0; i < input.length; i++) {
-			if(!input[i].called && uncalled)
+			if(!input[i].called && filter.uncalled)
 				result.push(input[i])
-			else if(input[i].called && called)
+			else if(input[i].called && filter.called)
 				result.push(input[i])
 		};
 		return result;

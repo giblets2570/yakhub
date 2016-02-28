@@ -34,7 +34,7 @@
 					p.card-top-text {{call.agent_alias}}
 					p.card-top-text {{call.created.getDate()}} / {{call.created.getMonth()+1}} / {{call.created.getFullYear()}}
 					p.card-top-text {{call.created.getHours()}} : {{call.created.getMinutes() | minuteFormat}}
-					p.card-top-text Call length: {{call.duration/60 | number: 2}} minutes
+					p.card-top-text Call length: {{call.duration/60 | number: 0}} minutes, {{call.duration%60 | number: 0}} seconds
 			div.row
 				div.col-md-3.dashboard-lead-left
 					.left-card-container

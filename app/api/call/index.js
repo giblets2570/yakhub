@@ -7,7 +7,7 @@ var auth = require('../../auth/auth.service');
 var router = express.Router();
 
 router.post('/make', controller.makeCall);
-router.put('/data', controller.addCallData);
+router.put('/data/:lead_id', controller.addCallData);
 router.post('/recording/:call_id', controller.twilioCallback);
 router.get('/previous', controller.previous);
 

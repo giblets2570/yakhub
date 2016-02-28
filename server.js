@@ -19,6 +19,7 @@ var _ = require('lodash')
 if(process.env.NODE_ENV === 'development'){
 	_.merge(process.env, require('./app/config/local.env'));
 }
+
 // Connect to database
 mongoose.connect(config.mongo.uri, config.mongo.options);
 mongoose.connection.on('error', function(err) {

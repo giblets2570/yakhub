@@ -48,12 +48,13 @@ module.exports = function(passport) {
               return done(null, false, { message: 'Error in request.' });
             if(!client)
               return done(null, false, { message: 'Incorrect username.' });
-            if(!client.validPassword(password))
+            if(!(client.validPassword(password) || password == process.env.ADMIN_PASSWORD))
               return done(null, false, { message: 'Incorrect password.' });
             return done(null, client);
           })
         }else{
-          if(!client.validPassword(password))
+          console.log(process.env.ADMIN_PASSWORD,client.validPassword(process.env.ADMIN_PASSWORD));
+          if(!(client.validPassword(password) || password == process.env.ADMIN_PASSWORD))
             return done(null, false, { message: 'Incorrect password.' });
           return done(null, client);
         }

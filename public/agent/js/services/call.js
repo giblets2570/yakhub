@@ -60,11 +60,11 @@ app.factory('Call', function($http,$q){
 			})
 			return defered.promise;
 		},
-		addCallData: function(data){
+		addCallData: function(data,lead_id){
 			var defered = $q.defer();
 			$http({
 				method:'PUT',
-				url:'/api/calls/data',
+				url:'/api/calls/data/'+lead_id,
 				data: data,
 				cache: false
 			}).success(function(data){

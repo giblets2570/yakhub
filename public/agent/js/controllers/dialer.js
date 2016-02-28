@@ -23,7 +23,6 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	$scope.calling = false;
 	// True if the we are on the current previous call
 	$scope.on_previous=false;
-	console.log($state.$current)
 	var pusher = new Pusher('9d60e889329cae081239', {
       encrypted: true
     });
@@ -49,7 +48,6 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 			return;
 		}
 		Lead.skip({campaign_id: $scope.campaign._id}).then(function(data){
-			console.log($scope.lead, data);
 			$scope.lead = data;
 			$scope.initialize_call();
 		},function(err) {
@@ -108,7 +106,6 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	// Gets the campaign data.
 	$scope.getCampaign = function(c){
 		Campaign.show({},'-available_slots -requested_slots -agents',$scope.campaign_id).then(function(data){
-			console.log(data);
 			$scope.campaign = data;
 			$scope.initialize_call();
 			c();
@@ -171,7 +168,7 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 			})
 			return;
 		}
-		Call.addCallData($scope.call).then(function(data){
+		Call.addCallData($scope.call,$scope.lead._id).then(function(data){
 			Alert.success("Notes submitted successfully","",3).then(function(loading){
 				loading.show();
 			})
@@ -198,8 +195,8 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	$scope.call_back_checker = JSON.stringify({
 		person: {}
 	});
-	$scope.changeOutcome = function(){
-		console.log($scope.call.outcome);
+	$scope.changeOutcome = function(newOutcome){
+		// $scope.call.outcome = newOutcome;
 	}
 	// Function that creates the custom number to call and makes it the current lead
 	// for the agent. Need to do phone number regex.
@@ -229,18 +226,13 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 		var params = $location.search();
 		if(params.page)
 			$scope.page = params.page;
-		console.log(1);
 		$scope.getAgentData(function(){
-			console.log(2);
 			$scope.getCampaign(function(){
-				console.log(3);
 				$scope.setupTwilio();
 				$scope.getNextLead();
 				$scope.getMessages();
 				channel.bind($scope.campaign_id, function(data) {
 					data.message.time = new Date(data.message.time);
-					console.log($scope.messages, data.message);
-					console.log('get message',data);
 					$scope.messages.push(data.message);
 					$scope.changePage('updates');
 					$scope.$apply();
@@ -248,7 +240,6 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 			    });
 			});
 			$scope.getCalls(function(){
-				console.log(4);
 			});
 		});
 	};
@@ -279,7 +270,6 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	}
 	$scope.getMessages = function(){
 		Message.get({campaign_id: $scope.campaign._id}).then(function(data){
-			console.log(data);
 			$scope.messages = data.messages;
 			for (var i = $scope.messages.length - 1; i >= 0; i--) {
 				$scope.messages[i].time = new Date($scope.messages[i].time);
@@ -296,7 +286,6 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 	}
 	//Twilio javascript
     Twilio.Device.ready(function (device) {
-    	console.log('ready');
         $scope.call_button_text = 'Call';
         $scope.$apply();
     });
@@ -308,12 +297,10 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 
     Twilio.Device.connect(function (conn) {
     	$scope.call_button_text = 'Connected';
-    	console.log("Connected");
         $scope.$apply();
     });
 
     Twilio.Device.disconnect(function (conn) {
-    	console.log("Disconnected");
     	$scope.call_button_text = 'Call';
     	$scope.calling = false;
     	Alert.warning('Call disconnected').then(function(loading){
