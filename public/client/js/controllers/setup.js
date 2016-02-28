@@ -315,10 +315,10 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	$scope.deleteQuestion = function(index){
 		$scope.campaign.questions.splice(index,1);
 	}
-	$scope.saving = $interval(function(){
-		console.log("Checking if changes made");
+	var saving = $interval(function(){
+		console.log("Checking changes")
 		if(!$scope.changesMade) return;
-		console.log("Changes were made");
+		console.log("Changes were made")
 		$scope.changesMade = false;
 		Alert.warning('Saving campaign...').then(function(loading){
 			loading.show();
@@ -329,7 +329,31 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 				})
 			})
 		})
-	}, 5000);
+	}, 3000);
+	$scope.$on('$stateChangeStart',
+		function(event, toState, toParams, fromState, fromParams){
+			console.log("Change route")
+			if(toState.name=='home.dashboard.setup'){
+				saving = $interval(function(){
+					console.log("Checking changes")
+					if(!$scope.changesMade) return;
+					console.log("Changes were made")
+					$scope.changesMade = false;
+					Alert.warning('Saving campaign...').then(function(loading){
+						loading.show();
+						$scope.save(function(){
+							loading.hide();
+							Alert.success('Campaign saved!','',2).then(function(loading){
+								loading.show();
+							})
+						})
+					})
+				}, 3000);
+			}else{
+				console.log("Canceling save")
+				$interval.cancel(saving);
+			}
+		})
 }])
 
 .filter('formatDate', function(){
