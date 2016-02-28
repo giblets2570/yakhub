@@ -22,7 +22,7 @@ app.controller('loginCtrl', ['$scope','$state','Client','Alert',function($scope,
 		        }
 		    }, function (error) {
 		    	loading.hide();
-		    	Alert.warning('Login credentials wrong!').then(function(alert){
+		    	Alert.warning('Login credentials wrong!','',3).then(function(alert){
 		    		alert.show();
 		    	});
 		    	$scope.user_login = {};
@@ -41,7 +41,7 @@ app.controller('loginCtrl', ['$scope','$state','Client','Alert',function($scope,
 	        }
 	    }, function (error) {
 	    	loading.hide();
-	    	Alert.warning('Login credentials wrong!').then(function(alert){
+	    	Alert.warning('Username or email already in use!','',3).then(function(alert){
 	    		alert.show();
 	    	});
 	    	$scope.user_signup = {
