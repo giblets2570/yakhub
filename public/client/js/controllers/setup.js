@@ -54,8 +54,13 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		$scope.applyFilter(newVal);
 	}, true);
 	$scope.$watch('campaign', function (newVal, oldVal) {
-		if($scope.campaign && $scope.campaign._id && $scope.current_screen == 'list'){
-			$scope.getLeads()
+		if($scope.campaign && $scope.campaign._id && $scope.campaign_loaded){
+			$scope.changesMade = true;
+		}else if($scope.campaign && $scope.campaign._id && !$scope.campaign_loaded){
+			$scope.campaign_loaded = true;
+		}
+		if($scope.campaign && $scope.campaign._id && $scope.current_screen == 'list' && !$scope.leads_loaded){
+			$scope.getLeads();
 		}
 	}, true);
 	$scope.isCalled = function(lead){
@@ -206,7 +211,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	$scope.changeLive = function(bool){
 		var q;
 		if(bool) {
-			if($scope.client.funds-$scope.client.funds_used<=0){
+			if($scope.client.funds - $scope.client.funds_used <= 0){
 				alert("You have insufficient funds to make this campaign live!");
 				return;
 			}
@@ -236,7 +241,6 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	}
 	$scope.$watch('campaign', function(c){
 		if(c && c._id){
-			console.log(c);
 			$scope.start_time = String(c.start_time);
 			$scope.end_time = String(c.end_time);
 		}
