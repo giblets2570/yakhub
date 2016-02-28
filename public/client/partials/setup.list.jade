@@ -39,7 +39,7 @@
 							strong Call Timestamp
 						th
 							strong Call Outcome
-				tr(ng-repeat='lead in leads | leadFilter : filter | limitTo:pageEntries:pageEntries*page')
+				tr(ng-repeat='lead in leads | leadFilter : filter | pageFilter : page : pageEntries')
 					td
 						| {{lead.company}}
 					td

@@ -238,7 +238,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	}
 	var CSVModal = $modal({scope: $scope, templateUrl: '../../../client/templates/add-numbers-modal.html', show: false});
 	$scope.showCSVModal = function() {
-		CSVModal.$promise.then(CSVModal.show);
+		CSVModal.$promise.then(CSVModal.show)
 	};
 	$scope.setCSV = function(){
 		$scope.csv={
@@ -250,7 +250,6 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	$scope.remove = function(){
 		if(confirm("Are you sure you wish to remove your list of contacts?")){
 			Lead.remove({campaign_id: $scope.campaign._id}).then(function(data){
-				console.log(data);
 				$scope.leads = [];
 			});
 		}
@@ -336,6 +335,13 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	return function(input){
 		if(!input) return "";
 		return input.getDate() + "/" + input.getMonth()+1 + "/" + input.getFullYear()
+	}
+})
+
+.filter('pageFilter',function(){
+	return function(input, page, pageEntries){
+		if(!input) return []
+		return input.slice(page*pageEntries,(page+1)*pageEntries);
 	}
 })
 
