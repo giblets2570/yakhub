@@ -3,9 +3,16 @@
 		.navbar-collapse.collapse(collapse='isCollapsed')
 			ul.nav.navbar-nav.nav-text
 				li
-					select#main-campaign-select.form-control(ng-model='current_campaign', ng-change='changeCampaign(current_campaign)')
-						option.main-campaign-select(ng-repeat='campaign in campaigns', value='{{campaign._id}}') {{campaign.name}}
-						//- span.glyphicon.glyphicon-menu-down
+					//- select#main-campaign-select.form-control(ng-model='current_campaign', ng-change='changeCampaign(current_campaign)')
+					//- 	option.main-campaign-select(ng-repeat='campaign in campaigns', value='{{campaign._id}}') {{campaign.name}}
+					//- 	//- span.glyphicon.glyphicon-menu-down
+					button#main-campaign-select.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true',style="float:left;")
+						strong
+							span.ng-cloak {{current_campaign_name}}
+								span.glyphicon.glyphicon-triangle-bottom(style='font-size:50%;')
+					ul.dropdown-menu(aria-labelledby='dateDropdown')
+						li(ng-repeat='campaign in campaigns')
+							a(href='' ng-click='changeCampaign(campaign._id)') {{campaign.name}}
 
 
 			ul.nav.navbar-nav.navbar-right.nav-text

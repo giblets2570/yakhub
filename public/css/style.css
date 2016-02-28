@@ -643,11 +643,15 @@ section.full_height{
   background-color: #1FCBA9 !important;
 }
 
+#main-campaign-select{
+  margin-top: 8px !important;
+}
+
 #main-campaign-select.form-control {
   background: #ECECEC;
   color: #2E2E2E;
   border-radius: 50px;
-  margin-top: 8px !important;
+  margin-top: 18px !important;
   padding-left: 30px !important;
   
 }

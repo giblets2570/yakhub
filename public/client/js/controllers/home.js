@@ -4,7 +4,7 @@
 * Description
 */
 
-app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client','$rootScope','$http','Deposit',function($scope,$state,$stateParams,Campaign,Client,$rootScope,$http,Deposit){
+app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client','$rootScope','$http','Deposit','Alert',function($scope,$state,$stateParams,Campaign,Client,$rootScope,$http,Deposit,Alert){
 	var format_date = function(date){
 		var day = String(date.getDate());
 		if(day.length<2){day='0'+day}
@@ -52,26 +52,31 @@ app.controller('homeCtrl', ['$scope','$state','$stateParams','Campaign','Client'
 			token: function(token) {
 			  // Use the token to create the charge with a server-side script.
 			  // You can access the token ID with `token.id`
-			  $http({
-			  	method: 'POST',
-			  	url:'/api/clients/charge',
-			  	data:{
-			  		stripeToken: token,
-			  		amount: $scope.amount,
-			  	}
-			  }).success(function(data){
-			  	console.log(data);
-			  	if(data.error||(data.status!='paid'&&data.status!='succeeded')){
-			  		alert('There was a problem with the payment!');
-			  	}else{
-			  		$scope.client.funds+=$scope.amount;
-			  		data.client = $scope.client._id;
-			  		data.client_name = $scope.client.name;
-			  		Deposit.save(data).then(function(data){
-			  			console.log("Deposit saved in backend");
-			  			alert('Funds successfully added!');
-			  		})
-			  	}
+			  Alert.warning("Adding funds to your account","Please stay on this page").then(function(loading){
+			  	loading.show();
+			  	$http({
+				  	method: 'POST',
+						url:'/api/clients/charge',
+						data:{
+							stripeToken: token,
+							amount: $scope.amount,
+						}
+					}).success(function(data){
+						console.log(data);
+						if(data.error||(data.status!='paid'&&data.status!='succeeded')){
+							loading.hide();
+							alert('There was a problem with the payment!');
+						}else{
+							$scope.client.funds+=$scope.amount;
+							data.client = $scope.client._id;
+							data.client_name = $scope.client.name;
+							Deposit.save(data).then(function(data){
+								console.log("Deposit saved in backend");
+								loading.hide();
+								alert('Funds successfully added!');
+							})
+						}
+					})
 			  })
 			}
 		});

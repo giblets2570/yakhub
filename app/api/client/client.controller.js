@@ -17,6 +17,8 @@ var stripe = require("stripe")(
   stripeSecretKey
 );
 
+var request = require('request')
+
 // Get list of clients
 exports.index = function(req, res) {
   Client.find(function (err, clients) {
@@ -59,7 +61,6 @@ exports.charge = function(req,res){
   var stripeToken = req.body.stripeToken.id;
   var amount = req.body.amount;
   var description = req.body.description;
-
   var charge = stripe.charges.create({
     amount: amount,
     currency: "gbp",
@@ -75,8 +76,14 @@ exports.charge = function(req,res){
       client.funds = client.funds + amount;
       client.save(function(err){
         if (err) { return handleError(res, err); }
+        // request.post({
+        //   url:'/api/payments',
+        //   form: charge
+        // }, function(err,httpResponse,body){
+        //   console.log(httpResponse,body);
+        // });
         return res.json(charge);
-      })
+      });
     })
   });
 }
