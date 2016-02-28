@@ -256,7 +256,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		}
 	}
 	$scope.changePage = function(value){
-		console.log(value,$scope.noOfPages);
+		console.log(value,$scope.noOfPages,$scope.page);
 		if(value < 0){return;}
 		if(value > $scope.noOfPages - 1){return;}
 		$scope.page = value;
@@ -315,7 +315,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 				})
 			})
 		})
-	},5000);
+	}, 5000);
 	$scope.$watch('filter', function (newVal, oldVal) {
 		$scope.applyFilter(newVal);
 	}, true);
