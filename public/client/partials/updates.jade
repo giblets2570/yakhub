@@ -1,15 +1,17 @@
-.container
-	h3 Updates
-	p Send updates to the agents on the campaign
-	.row
-		.col-md-6
-			span(ng-repeat='message in messages')
-				.row
-					.col-xs-4
-						{{message.time | formatDate}}, {{message.time | formatTime}}
-					.col-xs-8
-						{{message.text}}
+.stats-bg
+	.container
+		div.row.card.card-1.dashboard-lead.ng-cloak
+			h3 Updates
+			p Send updates to the agents on the campaign
+			.row
+				.col-md-6
+					span(ng-repeat='message in messages')
+						.row
+							.col-xs-4
+								{{message.time | formatDate}}, {{message.time | formatTime}}
+							.col-xs-8
+								{{message.text}}
 
-		.col-md-6
-			textarea.form-control(ng-model='message' rows='5')
-			button.btn.btn-success(ng-click='send()') Send
+				.col-md-6
+					textarea.form-control(ng-model='message' rows='5')
+					button.cust-button.btn(ng-click='send()') Send
