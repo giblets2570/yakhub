@@ -316,9 +316,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		$scope.campaign.questions.splice(index,1);
 	}
 	var saving = $interval(function(){
-		console.log("Checking changes")
 		if(!$scope.changesMade) return;
-		console.log("Changes were made")
 		$scope.changesMade = false;
 		Alert.warning('Saving campaign...').then(function(loading){
 			loading.show();
@@ -332,12 +330,9 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	}, 3000);
 	$scope.$on('$stateChangeStart',
 		function(event, toState, toParams, fromState, fromParams){
-			console.log("Change route")
 			if(toState.name=='home.dashboard.setup'){
 				saving = $interval(function(){
-					console.log("Checking changes")
 					if(!$scope.changesMade) return;
-					console.log("Changes were made")
 					$scope.changesMade = false;
 					Alert.warning('Saving campaign...').then(function(loading){
 						loading.show();
@@ -350,7 +345,6 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 					})
 				}, 3000);
 			}else{
-				console.log("Canceling save")
 				$interval.cancel(saving);
 			}
 		})

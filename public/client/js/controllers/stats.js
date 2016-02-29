@@ -36,6 +36,7 @@ app.controller('statsCtrl', ['$scope','$state','Client','Alert','Lead',function(
 				}
 			}
 		};
+		$scope.loaded = true;
 		console.log($scope.outcomes);
 	}
 	$scope.timeLeft = function(){

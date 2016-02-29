@@ -1,30 +1,35 @@
 .stats-bg
   .container
     div.row.card.card-1.dashboard-lead.ng-cloak
-      div.col-xs-4
-        p
-          span.large {{ formatNumber(dialed*100 / total) | number : 0 }}% 
-          | Dialed
-        p {{ dialed }} out of {{ total }} dialed
-      div.col-xs-4
-        p
-          span.large {{ formatNumber(two_or_more*100 / dialed) | number : 0 }}% 
-          | {{ two_or_more }}/{{ dialed }}
-        p {{ two_or_more }} stars or more
-      div.col-xs-4
-        p
-          span.large {{ formatNumber(one_or_less*100 / dialed) | number : 0 }}% 
-          | {{ one_or_less }}/{{ dialed }}
-        p {{ one_or_less }} stars or more
-      div.col-md-12(style='border-top:solid 1px; margin: 20px; border-color:#FAFAFA;')
-      div.col-md-6
-        strong.card-header {{whenStarted()}}
-        br
-        strong.card-header {{timeLeft()}}
-        br
-        strong.card-header {{agents.length}} agents have worked on this campaign
-      div.col-md-2(ng-hide='objectLength(outcomes)==0')
-        strong.card-header Call outcomes
-      div.col-md-4(ng-hide='objectLength(outcomes)==0')
-        p(ng-repeat='(outcome, number) in outcomes')
-          {{outcome}}: {{number}}
+      div(ng-hide='loaded')
+        div.col-xs-offset-4.col-xs-4
+          center
+            img(style='margin:40px;' src='/assets/images/ajax-loader.gif')
+      div.ng-cloak(ng-show='loaded')
+        div.col-xs-4
+          p
+            span.large {{ formatNumber(dialed*100 / total) | number : 0 }}% 
+            | Dialed
+          p {{ dialed }} out of {{ total }} dialed
+        div.col-xs-4
+          p
+            span.large {{ formatNumber(two_or_more*100 / dialed) | number : 0 }}% 
+            | {{ two_or_more }}/{{ dialed }}
+          p {{ two_or_more }} stars or more
+        div.col-xs-4
+          p
+            span.large {{ formatNumber(one_or_less*100 / dialed) | number : 0 }}% 
+            | {{ one_or_less }}/{{ dialed }}
+          p {{ one_or_less }} stars or less
+        div.col-md-12(style='border-top:solid 1px; margin: 20px; border-color:#FAFAFA;')
+        div.col-md-6
+          strong.card-header {{whenStarted()}}
+          br
+          strong.card-header {{timeLeft()}}
+          br
+          strong.card-header {{agents.length}} agents have worked on this campaign
+        div.col-md-2(ng-hide='objectLength(outcomes)==0')
+          strong.card-header Call outcomes
+        div.col-md-4(ng-hide='objectLength(outcomes)==0')
+          p(ng-repeat='(outcome, number) in outcomes')
+            {{outcome}}: {{number}}
