@@ -14,6 +14,8 @@
 		.navbar-collapse.collapse(collapse='isCollapsed')
 			ul.nav.navbar-nav.navbar-right.nav-text
 				li
+					a(class='{{chosenTab("clients")}}' href='' ng-click='changeTab("clients")') Clients
+				li
 					a(class='{{chosenTab("agents")}}' href='' ng-click='changeTab("agents")') Agents
 				li
 					a(class='{{chosenTab("campaigns")}}' href='' ng-click='changeTab("campaigns")') Campaigns

@@ -1,0 +1,10 @@
+.container
+	.row
+		.col-md-12
+			table.table.table-striped
+				tr
+					td
+						strong Name
+				tr(ng-repeat='client in clients')
+					td
+						p {{client.name}}

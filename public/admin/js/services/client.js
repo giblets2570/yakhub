@@ -19,6 +19,22 @@ app.factory('Client', ['$q','$http', function($q,$http){
 		    });
 		    return defered.promise;
 		},
+		get : function(query,fields){
+			if(query){
+				query.fields = fields;
+			}
+			var defered = $q.defer();
+			$http.get('/api/clients')
+		    .success(function(clients){
+		      // No error: authentication OK
+		      defered.resolve(clients);
+		    })
+		    .error(function(){
+		      // Error: authentication failed
+		      defered.reject('0');
+		    });
+		    return defered.promise;
+		},
 		update: function(data,id){
 			var defered = $q.defer();
 			$http({

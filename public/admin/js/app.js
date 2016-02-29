@@ -121,6 +121,12 @@ var app = angular.module('app', ['intercom','ui.router','ngAnimate','mgcrea.ngSt
         controller: 'campaignsCtrl',
       })
 
+      .state('home.clients', {
+        url: 'clients',
+        templateUrl: 'partials/clients',
+        controller: 'clientsCtrl',
+      })
+
       .state('home.agents', {
         url: 'agents',
         templateUrl: 'partials/agents',
