@@ -236,6 +236,7 @@ exports.twilioCallback = function(req, res) {
 exports.addCallData = function(req, res) {
   Call.findById(req.user.call_id,function(err, call){
     if(err) { return handleError(res, err); }
+    if(!call) { return res.status(500).send("Error"); }
     var updated = _.merge(call, req.body);
     if(req.body.answers)
       updated.answers = req.body.answers;
