@@ -11,4 +11,7 @@ app.controller('clientsCtrl', ['$scope','$state','Client','Alert','$stateParams'
 		})
 	}
 	$scope.getClients();
+	$scope.encodeURI = function(url){
+		return encodeURI(url)
+	}
 }]);

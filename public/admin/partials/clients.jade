@@ -7,4 +7,4 @@
 						strong Name
 				tr(ng-repeat='client in clients')
 					td
-						p {{client.name}}
+						a(ng-href='/client?client_name={{encodeURI(client.name)}}' target='_blank') {{client.name}}

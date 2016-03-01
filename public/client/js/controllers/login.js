@@ -4,11 +4,17 @@
 * Description
 */
 
-app.controller('loginCtrl', ['$scope','$state','Client','Alert',function($scope,$state,Client,Alert){
+app.controller('loginCtrl', ['$scope','$state','$location','Client','Alert',function($scope,$state,$location,Client,Alert){
 	$scope.user_login = {};
 	$scope.user_signup = {
 		username: {}
 	};
+	var params = $location.search();
+	if(params.client_name){
+		$scope.user_login.username = params.client_name;
+		$location.search({client_name: null});
+	}
+
 	$scope.login = function(){
 		Alert.success("Loading...").then(function(loading){
 			loading.show();
