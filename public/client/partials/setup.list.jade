@@ -1,13 +1,25 @@
 .container
 	.row.list-options-row
-		.col-md-4
+		.col-md-6
 			.list-called-container
 				label.list-called(for='called') Called
 				input(type='checkbox', value='called', name='called' ng-model='filter.called' ng-change='called()')
 			.list-called-container
 				label.list-called(for='called') Uncalled
 				input(type='checkbox', value='called', name='called' ng-model='filter.uncalled' ng-change='uncalled()')
-		.col-md-8
+			.list-called-container
+				label.list-called(for='called') Outcome
+			.list-called-container
+				select.form-control(ng-model='filter.outcome', ng-change='changeOutcome()' style='float:right; border-top: 20px;')
+					option(value='') All
+					option(value='No answer') No answer
+					option(value='Call later') Call later
+					option(value='Success') Success
+					option(value='Unsuccessful') Unsuccessful
+					option(value='Automated response') Automated response
+					option(value="Number didn't work") Number didn't work
+					option(value='Do not call') Do not call
+		.col-md-6
 			.list-pagination-container
 				a.page-change(href='' ng-click='changePage(page-1)')
 					span Prev

@@ -87,7 +87,8 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	// This stuff is for the leads
 	$scope.filter = {
 		called: false,
-		uncalled: false
+		uncalled: false,
+		outcome: ''
 	};
 	$scope.page = 0
 	$scope.convert = {
@@ -377,13 +378,19 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 
 .filter('leadFilter',function(){
 	return function(input, filter){
-		if(!filter || (!filter.uncalled && !filter.called) || !input) return input;
+		if(!filter || !input) return input;
 		var result = [];
 		for (var i = 0; i < input.length; i++) {
-			if(!input[i].called && filter.uncalled)
+			if(filter.outcome && filter.outcome != input[i].outcome)
+				continue;
+			if(!filter.uncalled && !filter.called){
 				result.push(input[i])
-			else if(input[i].called && filter.called)
-				result.push(input[i])
+			}else{
+				if(!input[i].called && filter.uncalled)
+					result.push(input[i])
+				else if(input[i].called && filter.called)
+					result.push(input[i])
+			}
 		};
 		return result;
 	}
