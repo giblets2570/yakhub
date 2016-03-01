@@ -46,6 +46,10 @@
 						th
 							strong Person
 						th
+							strong Role
+						th
+							strong Email
+						th
 							strong Called
 						th
 							strong Call Timestamp
@@ -57,7 +61,11 @@
 					td
 						| {{lead.number}}
 					td
-						| {{lead.person.name}} - {{lead.person.role}}
+						| {{lead.person.name}}
+					td
+						| {{lead.person.role}}
+					td
+						| {{lead.email}}
 					td
 						| {{isCalled(lead)}}
 					td

@@ -204,6 +204,9 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 			})
 		})
 	}
+	$scope.changeOutcome = function(){
+		$scope.page = 0;
+	}
 	$scope.getDays = function(){
 		var result = '';
 		if(!$scope.campaign) return "";
