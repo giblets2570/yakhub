@@ -94,26 +94,31 @@ exports.count = function(req, res) {
 exports.add = function(req, res) {
   var k = 0;
   var num_leads = req.body.leads.length;
+  var added_leads = [];
   for (var i = req.body.leads.length - 1; i >= 0; i--) {
     var lead = new Lead();
     var updated = _.merge(lead, req.body.leads[i])
     updated.client = req.user._id;
     updated.campaign = req.body.campaign;
     updated.created = new Date();
+    added_leads.push(updated);
     updated.save(function(err){
-      if (err) { return handleError(res, err); }
+      if (err) { return handleError(res, err) }
       k+=1;
       if(k == num_leads)
-        return res.send({'message':'Numbers added'});
+        return res.send({'message':'Leads added','leads':added_leads});
     })
   };
 };
 
 // Remove all in a campaign
 exports.remove = function(req, res) {
-  Lead.find({campaign: req.query.campaign_id}).remove(function(err){
+  Lead.find({campaign: req.query.campaign_id, _id: {$in: req.body._ids}}).remove(function(err){
     return res.status(200).json({'message':'Numbers deleted'});
-  })
+    // Lead.find({campaign: req.query.campaign_id}, function(err,leads){
+    //   return res.status(200).json({'message':'Numbers deleted', 'leads':leads});
+    // });
+  });
 };
 
 // Gets the next number
@@ -185,13 +190,14 @@ exports.skip = function(req, res) {
   Lead.findOne({campaign: req.query.campaign_id, called: false, agent: req.user._id},function(err,lead){
     if(err) { return handleError(res, err); }
     if(lead) {
+      console.log("Found lead")
       lead.outcome = "Skipped";
       lead.called = true;
       lead.save(function(err){
         if(err) { return handleError(res, err); }
         Lead.findOne({campaign: req.query.campaign_id, called: false, agent: null},function(err,lead){
           if(err) { return handleError(res, err); }
-          return res.status(404).json({error: "No more leads"});
+          if(!lead){ return res.status(404).json({error: "No more leads"}); }
           lead.agent = req.user._id;
           lead.save(function(err){
             if(err) { return handleError(res, err); }

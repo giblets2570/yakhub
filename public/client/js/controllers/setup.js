@@ -115,9 +115,18 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 	$scope.setCSV();
 	$scope.remove = function(){
 		if(confirm("Are you sure you wish to remove your list of contacts?")){
-			Lead.remove({campaign_id: $scope.campaign._id}).then(function(data){
-				$scope.leads = [];
-			});
+			Alert.warning("Removing leads...").then(function(loading){
+				loading.show();
+				var shown_leads = $filter('leadFilter')($scope.leads,$scope.filter);
+				var shown_leads_ids = []
+				for (var i = shown_leads.length - 1; i >= 0; i--) {
+					shown_leads_ids.push(shown_leads[i]._id);
+				};
+				Lead.remove({campaign_id: $scope.campaign._id},{_ids: shown_leads_ids}).then(function(data){
+					loading.hide();
+					$scope.getLeads();
+				});
+			})
 		}
 	}
 	$scope.changePage = function(value){
@@ -166,7 +175,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 			};
 			var recursive = function(index, total_length, loading, data){
 				console.log("Adding ",index);
-				$scope.leads = $scope.leads.concat(result.slice(index-200,index));
+				$scope.leads = $scope.leads.concat(data.leads);
 				$scope.setCSV();
 				$scope.applyFilter($scope.called);
 				if(index>total_length){
@@ -324,6 +333,8 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 				loading.hide();
 				Alert.success('Campaign saved!','',2).then(function(loading){
 					loading.show();
+				},function(err){
+					loading.hide();
 				})
 			})
 		})

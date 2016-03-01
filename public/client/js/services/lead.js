@@ -42,11 +42,12 @@ app.factory('Lead', function($http,$q){
 			})
 			return defered.promise;
 		},
-		remove: function(params){
+		remove: function(params,data){
 			var defered = $q.defer();
 			$http({
-				method:'DELETE',
-				url:'/api/leads',
+				method:'POST',
+				url:'/api/leads/remove',
+				data: data,
 				params: params,
 				cache: false
 			}).success(function(data){

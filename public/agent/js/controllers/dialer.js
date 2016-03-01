@@ -48,8 +48,11 @@ app.controller('dialerCtrl', ['$scope','$state','Agent','Alert','$stateParams','
 			return;
 		}
 		Lead.skip({campaign_id: $scope.campaign._id}).then(function(data){
-			$scope.lead = data;
-			$scope.initialize_call();
+			Alert.success("Skipped lead","",3).then(function(loading){
+				loading.show();
+				$scope.lead = data;
+				$scope.initialize_call();
+			})
 		},function(err) {
 			Alert.warning("There are no nore numbers in the system for this campaign!","",3).then(function(loading){
 				loading.show();
