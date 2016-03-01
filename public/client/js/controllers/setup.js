@@ -90,7 +90,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		uncalled: false,
 		outcome: ''
 	};
-	$scope.page = 0
+	$scope.page = 0;
 	$scope.convert = {
 		'number':['number','phone','phone number'],
 		'company':['company','company name','business','business name'],
@@ -102,7 +102,7 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 		'outcome':['outcome'],
 		'rating':['rating','score','star','stars'],
 		'called':['called','done']
-	}
+	};
 	var CSVModal = $modal({scope: $scope, templateUrl: '../../../client/templates/add-numbers-modal.html', show: false});
 	$scope.showCSVModal = function() {
 		CSVModal.$promise.then(CSVModal.show)

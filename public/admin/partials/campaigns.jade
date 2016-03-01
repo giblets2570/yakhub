@@ -1,6 +1,6 @@
 .container
 	.row(ng-repeat='campaign in campaigns')
-		h2 {{campaign.name}}
+		h2 {{campaign.client_name}} - {{campaign.name}}
 		p
 			span(ng-show='!campaign.editing_fee') £ {{campaign.fee/100|number:2}}
 			input(type='text' ng-model='campaign.fee' ng-show='campaign.editing_fee')
@@ -10,7 +10,7 @@
 			span     
 			a(href='' ng-show='campaign.editing_fee' ng-click='saveFee(campaign)') Save
 		button.btn.btn-primary(ng-click='chooseCampaign(campaign)' data-template-url='../../../admin/templates/add-agent.html', data-animation='am-flip-x', data-auto-close='1', bs-popover) Add agent
-		nutton.btn.btn-success(ng-click='loadCampaign(campaign)') Load campaign
+		nutton.btn.btn-success(ng-click='loadCampaign(campaign)') Load agent data
 		table.table.table-striped
 			tr
 				td
