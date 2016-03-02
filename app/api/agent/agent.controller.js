@@ -72,7 +72,18 @@ exports.show = function(req, res) {
         total_duration+=calls[i].duration;
         if(calls[i].created.valueOf()>last_dial.valueOf()) last_dial = calls[i].created;
       };
-      return res.json({total_duration: total_duration,total_dials:total_dials,last_dial:last_dial})
+      Campaign.findById(req.query.campaign_id,function(err,campaign){
+        if(err) { return handleError(res, err); }
+        if(!campaign) { return res.status(404).send('Not Found'); }
+        var pay = 0;
+        for (var i = campaign.agents.length - 1; i >= 0; i--) {
+          if(campaign.agents[i].agent.toString() == req.params.id.toString()){
+            pay = campaign.agents[i].pay;
+            break;
+          }
+        };
+        return res.json({total_duration: total_duration,total_dials:total_dials,last_dial:last_dial,pay:pay})
+      })
     })
   }else{
     Agent.findById(req.params.id, req.query.fields, function (err, agent) {

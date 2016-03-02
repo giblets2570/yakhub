@@ -21,7 +21,7 @@
 						.row
 							.col-xs-offset-2.col-xs-4
 								p {{campaign.client_name}}
-								p £0.40 min
+								p £{{getAgentPay(campaign) | number : 2}} min
 							.col-xs-4
 								p {{campaign.num_leads}} Contacts left to call
 								p Ending in {{numDays(campaign)}} days
@@ -40,7 +40,7 @@
 						.row
 							.col-xs-offset-2.col-xs-4
 								p {{campaign.client_name}}
-								p £0.40 min
+								p £{{getAgentPay(campaign) | number : 2}} min
 
 			.row(ng-show='campaigns.length==0 && other_campaigns.length==0')
 				.col-md-8

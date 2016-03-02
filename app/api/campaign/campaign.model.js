@@ -37,6 +37,7 @@ var campaignSchema = mongoose.Schema({
   agents: [{
     agent: {type: mongoose.Schema.ObjectId, ref: 'Agent' },
     agent_name: String,
+    pay: {type: Number, default: 40},
     active: {type: Boolean, default: true}
   }],
 

@@ -208,25 +208,39 @@ exports.twilioCallback = function(req, res) {
           resp.say('Error in the call');
           return res.send(resp.toString());
         }
-        agent.earned = agent.earned + call.duration*agent.pay/60;
-        agent.save(function(err){
+        Campaign.findById(call.campaign, function(err,campaign){
           if(err) { return handleError(res, err); }
-          Client.findById(call.client,function(err,client){
-            if(err) { return handleError(res, err); }
-            if(!client) {
-              resp.say('Could not find the client, '+call.client);
-              return res.send(resp.toString());
+          if(!campaign) {
+            resp.say('Error in the call');
+            return res.send(resp.toString());
+          }
+          var pay = agent.pay;
+          for (var i = campaign.agents.length - 1; i >= 0; i--) {
+            if(campaign.agents[i].agent.toString() == agent._id.toString()){
+              pay = campaign.agents[i].pay;
+              break;
             }
-            console.log(client.funds_used,call.duration,call.fee);
-            client.funds_used = client.funds_used + call.duration*call.fee/60;
-            console.log(client.funds_used);
-            client.markModified('funds_used');
-            client.save(function(err){
+          }
+          agent.earned = agent.earned + call.duration*pay/60;
+          agent.save(function(err){
+            if(err) { return handleError(res, err); }
+            Client.findById(call.client,function(err,client){
               if(err) { return handleError(res, err); }
-              resp.say('Thanks for calling!');
-              return res.send(resp.toString());
-            })
-          });
+              if(!client) {
+                resp.say('Could not find the client, '+call.client);
+                return res.send(resp.toString());
+              }
+              console.log(client.funds_used,call.duration,call.fee);
+              client.funds_used = client.funds_used + call.duration*call.fee/60;
+              console.log(client.funds_used);
+              client.markModified('funds_used');
+              client.save(function(err){
+                if(err) { return handleError(res, err); }
+                resp.say('Thanks for calling!');
+                return res.send(resp.toString());
+              })
+            });
+          })
         })
       });
     });

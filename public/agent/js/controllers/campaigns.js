@@ -39,5 +39,14 @@ app.controller('campaignsCtrl', ['$scope','$state','Campaign','Alert','Lead','Ag
 				c();
 		})
 	}
+	$scope.getAgentPay = function(campaign){
+		if(!$scope.user) return 0;
+		for (var i = campaign.agents.length - 1; i >= 0; i--) {
+			if(campaign.agents[i].agent.toString() == $scope.user._id.toString()){
+				return campaign.agents[i].pay/100;
+			};
+		};
+		return 0
+	}
 	$scope.getAgentData();
 }])

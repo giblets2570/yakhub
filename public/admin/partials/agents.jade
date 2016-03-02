@@ -8,6 +8,8 @@
 					td
 						strong Alias
 					td
+						strong Default pay / min
+					td
 						strong Earned
 					td
 						strong Paid
@@ -21,6 +23,8 @@
 					td
 						p(ng-show='!agent.editing') {{agent.alias}}
 						input.form-control(ng-show='agent.editing' ng-model='agent.alias')
+					td
+						p £{{agent.pay/100|number:2}}
 					td
 						p £{{agent.earned/100|number:2}}
 					td

@@ -6,7 +6,7 @@
 
 app.controller('agentsCtrl', ['$scope','$state','Agent','Alert','Payment','$stateParams',function($scope,$state,Agent,Alert,Payment,$stateParams){
 	$scope.getAgents = function(){
-		Agent.get({},'name alias earned paid').then(function(data){
+		Agent.get({},'name alias earned paid pay').then(function(data){
 			console.log(data);
 			$scope.agents = data;
 		})

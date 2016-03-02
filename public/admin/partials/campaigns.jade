@@ -1,13 +1,13 @@
 .container
 	.row(ng-repeat='campaign in campaigns')
-		h2 {{campaign.client_name}} - {{campaign.name}}
+		h3 {{campaign.client_name}} - {{campaign.name}}, {{isLaunched(campaign.live)}}
 		p
 			span(ng-show='!campaign.editing_fee') £ {{campaign.fee/100|number:2}}
 			input(type='text' ng-model='campaign.fee' ng-show='campaign.editing_fee')
-			span(ng-show='!campaign.editing_fee') /min fee 
+			span(ng-show='!campaign.editing_fee') /min fee
 			a(href='' ng-show='!campaign.editing_fee' ng-click='editFee(campaign)') Edit
 			a(href='' ng-show='campaign.editing_fee' ng-click='cancelFee(campaign)') Cancel
-			span     
+			span
 			a(href='' ng-show='campaign.editing_fee' ng-click='saveFee(campaign)') Save
 		button.btn.btn-primary(ng-click='chooseCampaign(campaign)' data-template-url='../../../admin/templates/add-agent.html', data-animation='am-flip-x', data-auto-close='1', bs-popover) Add agent
 		nutton.btn.btn-success(ng-click='loadCampaign(campaign)') Load agent data
@@ -15,6 +15,8 @@
 			tr
 				td
 					strong Name
+				td
+					strong Pay
 				td
 					strong Mins called
 				td
@@ -26,6 +28,11 @@
 			tr(ng-repeat='agent in campaign.agents')
 				td
 					p {{agent.agent_name}}
+				td(ng-show='!agent.editing_pay')
+					p {{getCampaignPay(agent)}}
+				td(ng-show='agent.editing_pay')
+					input(type='text' ng-model='agent.new_pay')
+					//- p {{getCampaignPay(agent)}}
 				td
 					p {{getMinsCalled(agent)}}
 				td
@@ -34,4 +41,7 @@
 					p {{getLastDial(agent)}}
 				td
 					button.btn.btn-danger(ng-click='removeAgent($index,campaign)') Remove
+					button.btn.btn-primary(ng-show='agent.loaded && !agent.editing_pay' ng-click='editPayAgent(agent,campaign)') Edit pay
+					button.btn.btn-success(ng-show='agent.loaded && agent.editing_pay' ng-click='changePayAgent(agent,campaign)') Save pay
+					button.btn.btn-primary(ng-show='agent.loaded && agent.editing_pay' ng-click='editPayAgent(agent,campaign)') Cancel
 					//- button.btn.btn-success(ng-click='loadAgent(agent,campaign)' ng-hide='agent.loaded') Load stats
