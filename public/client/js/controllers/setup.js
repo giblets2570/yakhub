@@ -130,6 +130,23 @@ app.controller('setupCtrl', ['$scope','$state','Client','Alert','Campaign','Lead
 			})
 		}
 	}
+	$scope.removeOne = function(lead){
+		if(confirm("Remove this lead?")){
+			Alert.warning("Removing leads...").then(function(loading){
+				loading.show();
+				for (var i = $scope.leads.length - 1; i >= 0; i--) {
+					if(lead._id.toString() == $scope.leads[i]._id.toString()){
+						$scope.leads.splice(i,1);
+						break;
+					}
+				};
+				Lead.remove({campaign_id: $scope.campaign._id},{_ids: [lead._id]}).then(function(data){
+					loading.hide();
+					// $scope.getLeads();
+				});
+			})
+		}
+	}
 	$scope.changePage = function(value){
 		console.log(value,$scope.noOfPages,$scope.page);
 		if(value < 0){return;}

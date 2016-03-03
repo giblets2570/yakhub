@@ -55,6 +55,8 @@
 							strong Call Timestamp
 						th
 							strong Call Outcome
+						th
+							strong Remove
 				tr(ng-repeat='lead in leads | leadFilter : filter | pageFilter : page : pageEntries')
 					td
 						| {{lead.company}}
@@ -72,6 +74,8 @@
 						| {{lead.call_timestamp | formatDate}}
 					td
 						| {{lead.outcome}}
+					td
+						button.btn.btn-danger(ng-click='removeOne(lead)') Remove
 	.row.list-buttons-row.ng-cloak
 		button.btn.btn-primary.button-add-qual.list-button.pull-left(ng-click='showCSVModal()') ADD NUMBERS
 		button.btn.btn-danger.button-add-qual.pull-left(ng-click='remove()') REMOVE NUMBERS
